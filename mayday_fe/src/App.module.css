@@ -1,0 +1,16 @@
+.appContainer {
+  width: 100%;
+  max-width: 390px;
+  min-height: 100vh;
+  margin: 0 auto;
+  background-color: var(--bg-app);
+  position: relative;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+}
+.contentArea {
+  flex: 1;
+  overflow-y: auto;
+  padding-bottom: 80px;
+}
