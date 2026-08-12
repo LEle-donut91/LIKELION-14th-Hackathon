@@ -1,0 +1,148 @@
+/* 화면 전체 어두운 배경 */
+.overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+/* 모달 카드 */
+.modalCard {
+  width: 342px;
+  padding: 28px 24px 24px;
+  box-shadow: 0px 20px 50px rgba(0, 0, 0, 0.2);
+  border-radius: 24px;
+  background-color: #ffffff;
+  box-sizing: border-box;
+  font-size: 13px;
+  color: #111111;
+  font-family: "42dot Sans", Arial, sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* 제목 및 인트로 섹션 */
+.titleSection {
+  width: 100%;
+  text-align: center;
+  margin-top: 16px;
+  margin-bottom: 16px;
+}
+
+.modalTitle {
+  margin: 0 0 12px 0;
+  font-size: 18px;
+  font-weight: bold;
+  line-height: 1.19;
+}
+
+.modalDescription {
+  margin: 0;
+  font-size: 13.5px;
+  line-height: 1.4;
+  color: #52525b;
+}
+
+.highlight {
+  font-weight: bold;
+  color: #111111;
+}
+
+/* 내보내기 안내 영역 */
+.noticeBox {
+  width: 100%;
+  border-radius: 14px;
+  background-color: #fafafa;
+  padding: 16.5px 16px;
+  box-sizing: border-box;
+  font-size: 12.5px;
+  color: #71717a;
+  margin-bottom: 16px;
+}
+
+.noticeText {
+  margin: 0;
+  line-height: 1.4;
+}
+
+.noticeHighlight {
+  font-weight: bold;
+  color: #52525b;
+}
+
+/* 체크박스 영역 */
+.checkboxContainer {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 16px;
+  cursor: pointer;
+  user-select: none;
+  color: #52525b;
+}
+
+/* 실제 input은 브라우저 기본 스타일을 숨기지만 키보드/스크린리더가 인식하게 유지 */
+.hiddenCheckbox {
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.checkboxLabel {
+  font-size: 13px;
+  line-height: 1.15;
+}
+
+/* 버튼 그룹 */
+.buttonGroup {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-size: 15px;
+}
+
+.submitButton {
+  width: 100%;
+  height: 50px;
+  border-radius: 13px;
+  background-color: #e4e4e7;
+  border: none;
+  color: #999999;
+  font-weight: bold;
+  cursor: not-allowed;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.submitButton.active {
+  background-color: #111111;
+  color: #ffffff;
+  cursor: pointer;
+}
+
+.cancelButton {
+  width: 100%;
+  height: 52px;
+  border-radius: 13px;
+  border: 1px solid #d4d4d8;
+  box-sizing: border-box;
+  background-color: transparent;
+  color: #111111;
+  font-weight: bold;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
