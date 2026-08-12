@@ -35,6 +35,9 @@ function Home() {
 
   const dDay = getDDayString(); // 동적 계산된 D-Day
 
+  // 직전년도 동적 계산 (예: 2026년 기준 -> 2025년)
+  const previousYear = new Date().getFullYear() - 1;
+
   // home-mock-data 사용
   const {
     yearlyExpense,
@@ -45,6 +48,15 @@ function Home() {
     recordedExpense,
     aiClassifiedRecords,
   } = HOME_MOCK_DATA;
+
+  // 내보내기 페이지 이동 함수
+  const handleNavigateToExport = () => {
+    navigate("/export", {
+      state: {
+        selectedYear: previousYear, // 직전년도 넘겨주기
+      },
+    });
+  };
 
   return (
     <div>
@@ -157,7 +169,7 @@ function Home() {
 
           <div
             className={styles.exportCard}
-            onClick={() => navigate("/export")}
+            onClick={handleNavigateToExport}
           >
             <img src={HomeDownloadIcon} className={styles.aiIcon} />
 

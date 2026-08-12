@@ -36,7 +36,10 @@ function Mypage() {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const dDay = getDDayString(); // 동적 계산된 D-Day
-  
+
+  // 직전년도 동적 계산 (예: 2026년 기준 -> 2025년)
+  const previousYear = new Date().getFullYear() - 1;
+
   // mypage-mock-data.js에서 불러오기
   const {
     email,
@@ -52,7 +55,11 @@ function Mypage() {
       alert("내보낼 기록이 없습니다.");
       return;
     }
-    navigate("/export");
+    navigate("/export", {
+      state: {
+        selectedYear: previousYear, // 직전년도 넘겨주기
+      },
+    });
   };
 
   // 2. 로그아웃 클릭 핸들러

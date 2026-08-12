@@ -139,6 +139,15 @@ function History() {
     else if (type === "income") navigate("/edit_income");
   };
 
+  // 내보내기 페이지로 이동하며 현재 활성화된 연도 전달
+  const handleExport = () => {
+    navigate("/export", {
+      state: {
+        selectedYear: Number(selectedYear),
+      },
+    });
+  };
+
   // 검색 아이콘 클릭 또는 엔터 입력 시
   const handleSearch = () => {
     if (!searchTerm.trim()) {
@@ -331,7 +340,7 @@ function History() {
       </main>
 
       <footer className={styles.footer}>
-        <Button text="내보내기" onClick={() => navigate("/export")} />
+        <Button text="내보내기" onClick={handleExport} />
       </footer>
 
       <HistoryQualModal
