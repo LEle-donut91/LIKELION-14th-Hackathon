@@ -118,7 +118,7 @@ const renderCategoryIcon = (category) => {
   return <img src={iconSrc} alt={category} />;
 };
 
-function RecordHistory() {
+function History() {
   const navigate = useNavigate();
 
   const [selectedYear, setSelectedYear] = useState(LATEST_YEAR);
@@ -372,4 +372,4 @@ function RecordHistory() {
   );
 }
 
-export default RecordHistory;
+export default History;
