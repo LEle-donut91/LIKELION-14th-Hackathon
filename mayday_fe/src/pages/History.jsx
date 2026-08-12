@@ -134,9 +134,14 @@ function History() {
 
   const closeBottomSheet = () => setActiveBottomSheet(null);
 
-  const handleItemClick = (type) => {
-    if (type === "expense") navigate("/edit_expense");
-    else if (type === "income") navigate("/edit_income");
+  const handleItemClick = (type, id) => {
+    const targetPath = type === "expense" ? "/edit_expense" : "/edit_income";
+    navigate(targetPath, {
+      state: {
+        id: id,
+        type: type,
+      },
+    });
   };
 
   // 내보내기 페이지로 이동하며 현재 활성화된 연도 전달
@@ -304,7 +309,7 @@ function History() {
           <article
             key={item.id}
             className={styles.recordItem}
-            onClick={() => handleItemClick(item.type)}
+            onClick={() => handleItemClick(item.type, item.id)}
             style={{ cursor: "pointer" }}
           >
             <div className={styles.recordIconWrapper}>
