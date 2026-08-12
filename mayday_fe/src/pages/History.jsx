@@ -6,6 +6,7 @@ import HistoryQualModal from "../components/HistoryQualModal";
 import HistoryProofModal from "../components/HistoryProofModal";
 import HistoryTypeModal from "../components/HistoryTypeModal";
 import Header from "../components/Header";
+import Button from "../components/Button"
 
 import HistoryAdIcon from "../assets/images/HistoryAdIcon.svg";
 import HistoryBusinessIcon from "../assets/images/HistoryBusinessIcon.svg";
@@ -421,16 +422,7 @@ function RecordHistory() {
       </main>
 
       <footer className={styles.footer}>
-        <button
-          type="button"
-          className={styles.exportButton}
-          onClick={() => navigate("/export")}
-        >
-          내보내기
-        </button>
-        <div className={styles.homeIndicatorWrapper}>
-          <div className={styles.homeIndicator} />
-        </div>
+        <Button text="내보내기" onClick={() => navigate("/export")} />
       </footer>
 
       <HistoryQualModal

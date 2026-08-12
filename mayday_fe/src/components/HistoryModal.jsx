@@ -1,5 +1,6 @@
 import React from "react";
 import styles from "./HistoryModal.module.css";
+import Button from "../components/Button"
 
 function HistoryModal({
   isOpen,
@@ -40,13 +41,7 @@ function HistoryModal({
         {/* 하단 CTA 버튼 & 홈 인디케이터 */}
         {(submitText || onSubmit) && (
           <div className={styles.footer}>
-            <button
-              type="button"
-              className={styles.submitButton}
-              onClick={onSubmit || onClose}
-            >
-              {submitText || "적용하기"}
-            </button>
+            <Button text={submitText} onClick={onSubmit || onClose} />
           </div>
         )}
 
