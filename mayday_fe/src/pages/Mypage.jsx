@@ -8,6 +8,7 @@ import MyPageDeleteIcon from "../assets/images/MyPageDeleteIcon.svg";
 import MyPageDownloadIcon from "../assets/images/MyPageDownloadIcon.svg";
 import MyPageFolderIcon from "../assets/images/MyPageFolderIcon.svg";
 import MyPageProfileIcon from "../assets/images/MyPageProfileIcon.svg";
+import { MY_PAGE_MOCK_DATA } from "../api/mypage-mock-data";
 
 // 내년 5월 31일까지 남은 일수 계산 함수
 function getDDayString() {
@@ -35,11 +36,14 @@ function Mypage() {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const dDay = getDDayString(); // 동적 계산된 D-Day
-
-  const email = "njob@mayday.kr";
-  const recordedCount = "156";
-  const qualifiedEvidenceCount = "132";
-  const recognizedExpense = "432";
+  
+  // mypage-mock-data.js에서 불러오기
+  const {
+    email,
+    recordedCount,
+    qualifiedEvidenceCount,
+    recognizedExpense,
+  } = MY_PAGE_MOCK_DATA;
 
   // 1. 내보내기 클릭 핸들러
   const handleExportClick = () => {
