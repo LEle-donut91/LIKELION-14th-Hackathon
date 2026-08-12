@@ -2,11 +2,11 @@
 [총 140건의 더미 데이터 생성]
 1. 구분(type):
    - 비용: EXPENSE (70건 - 적격 50건 / 부적격 20건)
-   - 수입: INCOME (70건 - 적격 50건 / 부적격 20건)
+   - 수입: INCOME (70건)
 
 2. ID 체계 (analysisId):
    - 비용: ana_001 ~ ana_070 (적격: ana_001~050, 부적격: ana_051~070)
-   - 수입: ana_071 ~ ana_140 (적격: ana_071~120, 부적격: ana_121~140)
+   - 수입: ana_071 ~ ana_140
 
 3. 속성 구조:
    1) analysisId: id
@@ -819,7 +819,7 @@ export const mockTransactions = [
   },
 
   // ==========================================
-  // [수입 - 적격 50건 (ana_071 ~ ana_120)]
+  // [수입 - 70건 (ana_071 ~ ana_140)]
   // ==========================================
   {
     analysisId: "ana_071",
@@ -829,8 +829,8 @@ export const mockTransactions = [
     itemName: "SW 개발 용역 대금",
     amount: 5500000,
     category: "SALES",
-    evidenceType: "TAX_INVOICE",
-    qualifiedEvidence: true,
+    evidenceType: null,
+    qualifiedEvidence: null,
   },
   {
     analysisId: "ana_072",
@@ -840,8 +840,8 @@ export const mockTransactions = [
     itemName: "온라인 쇼핑몰 정산 매출",
     amount: 1280000,
     category: "SALES",
-    evidenceType: "CARD_RECEIPT",
-    qualifiedEvidence: true,
+    evidenceType: null,
+    qualifiedEvidence: null,
   },
   {
     analysisId: "ana_073",
@@ -851,8 +851,8 @@ export const mockTransactions = [
     itemName: "마케팅 컨설팅 수수료",
     amount: 2200000,
     category: "SALES",
-    evidenceType: "TAX_INVOICE",
-    qualifiedEvidence: true,
+    evidenceType: null,
+    qualifiedEvidence: null,
   },
   {
     analysisId: "ana_074",
@@ -862,8 +862,8 @@ export const mockTransactions = [
     itemName: "입점 판매 정산금",
     amount: 890000,
     category: "SALES",
-    evidenceType: "TAX_INVOICE",
-    qualifiedEvidence: true,
+    evidenceType: null,
+    qualifiedEvidence: null,
   },
   {
     analysisId: "ana_075",
@@ -873,8 +873,8 @@ export const mockTransactions = [
     itemName: "예금 이자 수입",
     amount: 45000,
     category: "OTHER_INCOME",
-    evidenceType: "INVOICE",
-    qualifiedEvidence: true,
+    evidenceType: null,
+    qualifiedEvidence: null,
   },
   {
     analysisId: "ana_076",
@@ -884,8 +884,8 @@ export const mockTransactions = [
     itemName: "기업 강의료 입금",
     amount: 1500000,
     category: "SALES",
-    evidenceType: "TAX_INVOICE",
-    qualifiedEvidence: true,
+    evidenceType: null,
+    qualifiedEvidence: null,
   },
   {
     analysisId: "ana_077",
@@ -895,8 +895,8 @@ export const mockTransactions = [
     itemName: "청년창업 보조금",
     amount: 3000000,
     category: "OTHER_INCOME",
-    evidenceType: "INVOICE",
-    qualifiedEvidence: true,
+    evidenceType: null,
+    qualifiedEvidence: null,
   },
   {
     analysisId: "ana_078",
@@ -906,8 +906,8 @@ export const mockTransactions = [
     itemName: "가맹점 결제 정산금",
     amount: 670000,
     category: "SALES",
-    evidenceType: "CARD_RECEIPT",
-    qualifiedEvidence: true,
+    evidenceType: null,
+    qualifiedEvidence: null,
   },
   {
     analysisId: "ana_079",
@@ -917,8 +917,8 @@ export const mockTransactions = [
     itemName: "외주 디자인 외주비 수령",
     amount: 1800000,
     category: "SALES",
-    evidenceType: "TAX_INVOICE",
-    qualifiedEvidence: true,
+    evidenceType: null,
+    qualifiedEvidence: null,
   },
   {
     analysisId: "ana_080",
@@ -928,8 +928,8 @@ export const mockTransactions = [
     itemName: "카드 매출 정산 입금",
     amount: 3400000,
     category: "SALES",
-    evidenceType: "CARD_RECEIPT",
-    qualifiedEvidence: true,
+    evidenceType: null,
+    qualifiedEvidence: null,
   },
   {
     analysisId: "ana_081",
@@ -939,8 +939,8 @@ export const mockTransactions = [
     itemName: "현금영수증 발행 매출",
     amount: 150000,
     category: "SALES",
-    evidenceType: "CASH_RECEIPT",
-    qualifiedEvidence: true,
+    evidenceType: null,
+    qualifiedEvidence: null,
   },
   {
     analysisId: "ana_082",
@@ -950,8 +950,8 @@ export const mockTransactions = [
     itemName: "콘텐츠 저작권료",
     amount: 850000,
     category: "SALES",
-    evidenceType: "TAX_INVOICE",
-    qualifiedEvidence: true,
+    evidenceType: null,
+    qualifiedEvidence: null,
   },
   {
     analysisId: "ana_083",
@@ -961,8 +961,8 @@ export const mockTransactions = [
     itemName: "유가증권 배당금",
     amount: 120000,
     category: "OTHER_INCOME",
-    evidenceType: "INVOICE",
-    qualifiedEvidence: true,
+    evidenceType: null,
+    qualifiedEvidence: null,
   },
   {
     analysisId: "ana_084",
@@ -972,8 +972,8 @@ export const mockTransactions = [
     itemName: "솔루션 공급 계약금",
     amount: 4000000,
     category: "SALES",
-    evidenceType: "TAX_INVOICE",
-    qualifiedEvidence: true,
+    evidenceType: null,
+    qualifiedEvidence: null,
   },
   {
     analysisId: "ana_085",
@@ -983,8 +983,8 @@ export const mockTransactions = [
     itemName: "PG 결제 대출/정산",
     amount: 2100000,
     category: "SALES",
-    evidenceType: "CARD_RECEIPT",
-    qualifiedEvidence: true,
+    evidenceType: null,
+    qualifiedEvidence: null,
   },
   {
     analysisId: "ana_086",
@@ -994,8 +994,8 @@ export const mockTransactions = [
     itemName: "공유 오피스 전대 수입",
     amount: 500000,
     category: "OTHER_INCOME",
-    evidenceType: "TAX_INVOICE",
-    qualifiedEvidence: true,
+    evidenceType: null,
+    qualifiedEvidence: null,
   },
   {
     analysisId: "ana_087",
@@ -1005,8 +1005,8 @@ export const mockTransactions = [
     itemName: "카드 매출 정산 입금",
     amount: 1950000,
     category: "SALES",
-    evidenceType: "CARD_RECEIPT",
-    qualifiedEvidence: true,
+    evidenceType: null,
+    qualifiedEvidence: null,
   },
   {
     analysisId: "ana_088",
@@ -1016,8 +1016,8 @@ export const mockTransactions = [
     itemName: "소상공인 지원금",
     amount: 1000000,
     category: "OTHER_INCOME",
-    evidenceType: "INVOICE",
-    qualifiedEvidence: true,
+    evidenceType: null,
+    qualifiedEvidence: null,
   },
   {
     analysisId: "ana_089",
@@ -1027,8 +1027,8 @@ export const mockTransactions = [
     itemName: "데이터 분석 자문료",
     amount: 3300000,
     category: "SALES",
-    evidenceType: "TAX_INVOICE",
-    qualifiedEvidence: true,
+    evidenceType: null,
+    qualifiedEvidence: null,
   },
   {
     analysisId: "ana_090",
@@ -1038,8 +1038,8 @@ export const mockTransactions = [
     itemName: "상품 판매 현금영수증",
     amount: 280000,
     category: "SALES",
-    evidenceType: "CASH_RECEIPT",
-    qualifiedEvidence: true,
+    evidenceType: null,
+    qualifiedEvidence: null,
   },
   {
     analysisId: "ana_091",
@@ -1049,8 +1049,8 @@ export const mockTransactions = [
     itemName: "웹사이트 광고 수익",
     amount: 420000,
     category: "OTHER_INCOME",
-    evidenceType: "INVOICE",
-    qualifiedEvidence: true,
+    evidenceType: null,
+    qualifiedEvidence: null,
   },
   {
     analysisId: "ana_092",
@@ -1060,8 +1060,8 @@ export const mockTransactions = [
     itemName: "물류 시스템 구축 잔금",
     amount: 8000000,
     category: "SALES",
-    evidenceType: "TAX_INVOICE",
-    qualifiedEvidence: true,
+    evidenceType: null,
+    qualifiedEvidence: null,
   },
   {
     analysisId: "ana_093",
@@ -1071,8 +1071,8 @@ export const mockTransactions = [
     itemName: "카드 가맹점 정산금",
     amount: 2850000,
     category: "SALES",
-    evidenceType: "CARD_RECEIPT",
-    qualifiedEvidence: true,
+    evidenceType: null,
+    qualifiedEvidence: null,
   },
   {
     analysisId: "ana_094",
@@ -1082,8 +1082,8 @@ export const mockTransactions = [
     itemName: "헤드헌팅 추천 수수료",
     amount: 1200000,
     category: "SALES",
-    evidenceType: "TAX_INVOICE",
-    qualifiedEvidence: true,
+    evidenceType: null,
+    qualifiedEvidence: null,
   },
   {
     analysisId: "ana_095",
@@ -1093,8 +1093,8 @@ export const mockTransactions = [
     itemName: "불용 중고 집기 매각",
     amount: 350000,
     category: "OTHER_INCOME",
-    evidenceType: "CASH_RECEIPT",
-    qualifiedEvidence: true,
+    evidenceType: null,
+    qualifiedEvidence: null,
   },
   {
     analysisId: "ana_096",
@@ -1104,8 +1104,8 @@ export const mockTransactions = [
     itemName: "주간 정산 매출",
     amount: 1750000,
     category: "SALES",
-    evidenceType: "TAX_INVOICE",
-    qualifiedEvidence: true,
+    evidenceType: null,
+    qualifiedEvidence: null,
   },
   {
     analysisId: "ana_097",
@@ -1115,8 +1115,8 @@ export const mockTransactions = [
     itemName: "OEM 의류 납품 대금",
     amount: 6200000,
     category: "SALES",
-    evidenceType: "TAX_INVOICE",
-    qualifiedEvidence: true,
+    evidenceType: null,
+    qualifiedEvidence: null,
   },
   {
     analysisId: "ana_098",
@@ -1126,8 +1126,8 @@ export const mockTransactions = [
     itemName: "모바일 쿠폰 정산금",
     amount: 430000,
     category: "SALES",
-    evidenceType: "CARD_RECEIPT",
-    qualifiedEvidence: true,
+    evidenceType: null,
+    qualifiedEvidence: null,
   },
   {
     analysisId: "ana_099",
@@ -1137,8 +1137,8 @@ export const mockTransactions = [
     itemName: "부가가치세 환급금",
     amount: 1450000,
     category: "OTHER_INCOME",
-    evidenceType: "INVOICE",
-    qualifiedEvidence: true,
+    evidenceType: null,
+    qualifiedEvidence: null,
   },
   {
     analysisId: "ana_100",
@@ -1148,8 +1148,8 @@ export const mockTransactions = [
     itemName: "유지보수 월정액 매출",
     amount: 1100000,
     category: "SALES",
-    evidenceType: "TAX_INVOICE",
-    qualifiedEvidence: true,
+    evidenceType: null,
+    qualifiedEvidence: null,
   },
   {
     analysisId: "ana_101",
@@ -1159,8 +1159,8 @@ export const mockTransactions = [
     itemName: "맞춤 제작 상품 판매",
     amount: 450000,
     category: "SALES",
-    evidenceType: "CASH_RECEIPT",
-    qualifiedEvidence: true,
+    evidenceType: null,
+    qualifiedEvidence: null,
   },
   {
     analysisId: "ana_102",
@@ -1170,8 +1170,8 @@ export const mockTransactions = [
     itemName: "카드 매출 정산 입금",
     amount: 1620000,
     category: "SALES",
-    evidenceType: "CARD_RECEIPT",
-    qualifiedEvidence: true,
+    evidenceType: null,
+    qualifiedEvidence: null,
   },
   {
     analysisId: "ana_103",
@@ -1181,8 +1181,8 @@ export const mockTransactions = [
     itemName: "번역 및 통역 용역료",
     amount: 980000,
     category: "SALES",
-    evidenceType: "TAX_INVOICE",
-    qualifiedEvidence: true,
+    evidenceType: null,
+    qualifiedEvidence: null,
   },
   {
     analysisId: "ana_104",
@@ -1192,8 +1192,8 @@ export const mockTransactions = [
     itemName: "오픈마켓 정산 매출",
     amount: 740000,
     category: "SALES",
-    evidenceType: "TAX_INVOICE",
-    qualifiedEvidence: true,
+    evidenceType: null,
+    qualifiedEvidence: null,
   },
   {
     analysisId: "ana_105",
@@ -1203,8 +1203,8 @@ export const mockTransactions = [
     itemName: "시제품 제작 납품",
     amount: 4500000,
     category: "SALES",
-    evidenceType: "TAX_INVOICE",
-    qualifiedEvidence: true,
+    evidenceType: null,
+    qualifiedEvidence: null,
   },
   {
     analysisId: "ana_106",
@@ -1214,8 +1214,8 @@ export const mockTransactions = [
     itemName: "파생상품 이익금",
     amount: 230000,
     category: "OTHER_INCOME",
-    evidenceType: "INVOICE",
-    qualifiedEvidence: true,
+    evidenceType: null,
+    qualifiedEvidence: null,
   },
   {
     analysisId: "ana_107",
@@ -1225,8 +1225,8 @@ export const mockTransactions = [
     itemName: "카드 매출 정산 입금",
     amount: 1150000,
     category: "SALES",
-    evidenceType: "CARD_RECEIPT",
-    qualifiedEvidence: true,
+    evidenceType: null,
+    qualifiedEvidence: null,
   },
   {
     analysisId: "ana_108",
@@ -1236,8 +1236,8 @@ export const mockTransactions = [
     itemName: "앱 개발 외주 중도금",
     amount: 3000000,
     category: "SALES",
-    evidenceType: "TAX_INVOICE",
-    qualifiedEvidence: true,
+    evidenceType: null,
+    qualifiedEvidence: null,
   },
   {
     analysisId: "ana_109",
@@ -1247,8 +1247,8 @@ export const mockTransactions = [
     itemName: "핸드메이드 작품 판매",
     amount: 320000,
     category: "SALES",
-    evidenceType: "CARD_RECEIPT",
-    qualifiedEvidence: true,
+    evidenceType: null,
+    qualifiedEvidence: null,
   },
   {
     analysisId: "ana_110",
@@ -1258,8 +1258,8 @@ export const mockTransactions = [
     itemName: "임대료 환급금",
     amount: 180000,
     category: "OTHER_INCOME",
-    evidenceType: "TAX_INVOICE",
-    qualifiedEvidence: true,
+    evidenceType: null,
+    qualifiedEvidence: null,
   },
   {
     analysisId: "ana_111",
@@ -1269,8 +1269,8 @@ export const mockTransactions = [
     itemName: "해외 수출선적 대금",
     amount: 9500000,
     category: "SALES",
-    evidenceType: "INVOICE",
-    qualifiedEvidence: true,
+    evidenceType: null,
+    qualifiedEvidence: null,
   },
   {
     analysisId: "ana_112",
@@ -1280,8 +1280,8 @@ export const mockTransactions = [
     itemName: "카드 매출 정산금",
     amount: 880000,
     category: "SALES",
-    evidenceType: "CARD_RECEIPT",
-    qualifiedEvidence: true,
+    evidenceType: null,
+    qualifiedEvidence: null,
   },
   {
     analysisId: "ana_113",
@@ -1291,8 +1291,8 @@ export const mockTransactions = [
     itemName: "창고 대여 수수료",
     amount: 600000,
     category: "OTHER_INCOME",
-    evidenceType: "TAX_INVOICE",
-    qualifiedEvidence: true,
+    evidenceType: null,
+    qualifiedEvidence: null,
   },
   {
     analysisId: "ana_114",
@@ -1302,8 +1302,8 @@ export const mockTransactions = [
     itemName: "컨설팅 비용 현금영수증",
     amount: 300000,
     category: "SALES",
-    evidenceType: "CASH_RECEIPT",
-    qualifiedEvidence: true,
+    evidenceType: null,
+    qualifiedEvidence: null,
   },
   {
     analysisId: "ana_115",
@@ -1313,8 +1313,8 @@ export const mockTransactions = [
     itemName: "입점 브랜딩 매출 정산",
     amount: 2400000,
     category: "SALES",
-    evidenceType: "TAX_INVOICE",
-    qualifiedEvidence: true,
+    evidenceType: null,
+    qualifiedEvidence: null,
   },
   {
     analysisId: "ana_116",
@@ -1324,8 +1324,8 @@ export const mockTransactions = [
     itemName: "밀키트 메뉴 개발 용역",
     amount: 3500000,
     category: "SALES",
-    evidenceType: "TAX_INVOICE",
-    qualifiedEvidence: true,
+    evidenceType: null,
+    qualifiedEvidence: null,
   },
   {
     analysisId: "ana_117",
@@ -1335,8 +1335,8 @@ export const mockTransactions = [
     itemName: "카드 매출 정산 입금",
     amount: 1420000,
     category: "SALES",
-    evidenceType: "CARD_RECEIPT",
-    qualifiedEvidence: true,
+    evidenceType: null,
+    qualifiedEvidence: null,
   },
   {
     analysisId: "ana_118",
@@ -1346,8 +1346,8 @@ export const mockTransactions = [
     itemName: "사운드 외주 제작료",
     amount: 1600000,
     category: "SALES",
-    evidenceType: "TAX_INVOICE",
-    qualifiedEvidence: true,
+    evidenceType: null,
+    qualifiedEvidence: null,
   },
   {
     analysisId: "ana_119",
@@ -1357,8 +1357,8 @@ export const mockTransactions = [
     itemName: "해외 직구 판매 정산",
     amount: 920000,
     category: "SALES",
-    evidenceType: "INVOICE",
-    qualifiedEvidence: true,
+    evidenceType: null,
+    qualifiedEvidence: null,
   },
   {
     analysisId: "ana_120",
@@ -1368,13 +1368,9 @@ export const mockTransactions = [
     itemName: "사업장 화재 보험금 수령",
     amount: 800000,
     category: "OTHER_INCOME",
-    evidenceType: "INVOICE",
-    qualifiedEvidence: true,
+    evidenceType: null,
+    qualifiedEvidence: null,
   },
-
-  // ==========================================
-  // [수입 - 부적격 20건 (ana_121 ~ ana_140)]
-  // ==========================================
   {
     analysisId: "ana_121",
     type: "INCOME",
@@ -1383,8 +1379,8 @@ export const mockTransactions = [
     itemName: "출처 미상 계좌 이체",
     amount: 500000,
     category: "OTHER_INCOME",
-    evidenceType: "NON_QUALIFIED",
-    qualifiedEvidence: false,
+    evidenceType: null,
+    qualifiedEvidence: null,
   },
   {
     analysisId: "ana_122",
@@ -1394,8 +1390,8 @@ export const mockTransactions = [
     itemName: "중고 장비 개인 직거래 sales",
     amount: 250000,
     category: "OTHER_INCOME",
-    evidenceType: "NON_QUALIFIED",
-    qualifiedEvidence: false,
+    evidenceType: null,
+    qualifiedEvidence: null,
   },
   {
     analysisId: "ana_123",
@@ -1405,8 +1401,8 @@ export const mockTransactions = [
     itemName: "컨설팅 용역 대금 입금",
     amount: 1100000,
     category: "SALES",
-    evidenceType: "NON_QUALIFIED",
-    qualifiedEvidence: false,
+    evidenceType: null,
+    qualifiedEvidence: null,
   },
   {
     analysisId: "ana_124",
@@ -1416,8 +1412,8 @@ export const mockTransactions = [
     itemName: "대표자 가수금 입금",
     amount: 5000000,
     category: "OTHER_INCOME",
-    evidenceType: "NON_QUALIFIED",
-    qualifiedEvidence: false,
+    evidenceType: null,
+    qualifiedEvidence: null,
   },
   {
     analysisId: "ana_125",
@@ -1427,8 +1423,8 @@ export const mockTransactions = [
     itemName: "행사 부스 찬조금",
     amount: 300000,
     category: "OTHER_INCOME",
-    evidenceType: "NON_QUALIFIED",
-    qualifiedEvidence: false,
+    evidenceType: null,
+    qualifiedEvidence: null,
   },
   {
     analysisId: "ana_126",
@@ -1438,8 +1434,8 @@ export const mockTransactions = [
     itemName: "국제 우편 송금",
     amount: 180000,
     category: "SALES",
-    evidenceType: "NON_QUALIFIED",
-    qualifiedEvidence: false,
+    evidenceType: null,
+    qualifiedEvidence: null,
   },
   {
     analysisId: "ana_127",
@@ -1449,8 +1445,8 @@ export const mockTransactions = [
     itemName: "외상대금 현금 수령",
     amount: 700000,
     category: "SALES",
-    evidenceType: "NON_QUALIFIED",
-    qualifiedEvidence: false,
+    evidenceType: null,
+    qualifiedEvidence: null,
   },
   {
     analysisId: "ana_128",
@@ -1460,8 +1456,8 @@ export const mockTransactions = [
     itemName: "업무 보조 수수료 입금",
     amount: 150000,
     category: "OTHER_INCOME",
-    evidenceType: "NON_QUALIFIED",
-    qualifiedEvidence: false,
+    evidenceType: null,
+    qualifiedEvidence: null,
   },
   {
     analysisId: "ana_129",
@@ -1471,8 +1467,8 @@ export const mockTransactions = [
     itemName: "오프라인 행사 현금 매출",
     amount: 420000,
     category: "SALES",
-    evidenceType: "NON_QUALIFIED",
-    qualifiedEvidence: false,
+    evidenceType: null,
+    qualifiedEvidence: null,
   },
   {
     analysisId: "ana_130",
@@ -1482,8 +1478,8 @@ export const mockTransactions = [
     itemName: "사무실 폐가구 판매",
     amount: 80000,
     category: "OTHER_INCOME",
-    evidenceType: "NON_QUALIFIED",
-    qualifiedEvidence: false,
+    evidenceType: null,
+    qualifiedEvidence: null,
   },
   {
     analysisId: "ana_131",
@@ -1493,8 +1489,8 @@ export const mockTransactions = [
     itemName: "착오 송금 추정액",
     amount: 100000,
     category: "OTHER_INCOME",
-    evidenceType: "NON_QUALIFIED",
-    qualifiedEvidence: false,
+    evidenceType: null,
+    qualifiedEvidence: null,
   },
   {
     analysisId: "ana_132",
@@ -1504,8 +1500,8 @@ export const mockTransactions = [
     itemName: "디자인 외주 잔금 현금",
     amount: 350000,
     category: "SALES",
-    evidenceType: "NON_QUALIFIED",
-    qualifiedEvidence: false,
+    evidenceType: null,
+    qualifiedEvidence: null,
   },
   {
     analysisId: "ana_133",
@@ -1515,8 +1511,8 @@ export const mockTransactions = [
     itemName: "테스트 용역 수수료",
     amount: 650000,
     category: "SALES",
-    evidenceType: "NON_QUALIFIED",
-    qualifiedEvidence: false,
+    evidenceType: null,
+    qualifiedEvidence: null,
   },
   {
     analysisId: "ana_134",
@@ -1526,8 +1522,8 @@ export const mockTransactions = [
     itemName: "행사 대관료 수령",
     amount: 200000,
     category: "OTHER_INCOME",
-    evidenceType: "NON_QUALIFIED",
-    qualifiedEvidence: false,
+    evidenceType: null,
+    qualifiedEvidence: null,
   },
   {
     analysisId: "ana_135",
@@ -1537,8 +1533,8 @@ export const mockTransactions = [
     itemName: "중고 노트북 매각대금",
     amount: 600000,
     category: "OTHER_INCOME",
-    evidenceType: "NON_QUALIFIED",
-    qualifiedEvidence: false,
+    evidenceType: null,
+    qualifiedEvidence: null,
   },
   {
     analysisId: "ana_136",
@@ -1548,8 +1544,8 @@ export const mockTransactions = [
     itemName: "해외 서비스 후원금",
     amount: 50000,
     category: "OTHER_INCOME",
-    evidenceType: "NON_QUALIFIED",
-    qualifiedEvidence: false,
+    evidenceType: null,
+    qualifiedEvidence: null,
   },
   {
     analysisId: "ana_137",
@@ -1559,8 +1555,8 @@ export const mockTransactions = [
     itemName: "컨설팅 착수금 (무증빙)",
     amount: 1500000,
     category: "SALES",
-    evidenceType: "NON_QUALIFIED",
-    qualifiedEvidence: false,
+    evidenceType: null,
+    qualifiedEvidence: null,
   },
   {
     analysisId: "ana_138",
@@ -1570,8 +1566,8 @@ export const mockTransactions = [
     itemName: "원데이 클래스 수강료",
     amount: 90000,
     category: "SALES",
-    evidenceType: "NON_QUALIFIED",
-    qualifiedEvidence: false,
+    evidenceType: null,
+    qualifiedEvidence: null,
   },
   {
     analysisId: "ana_139",
@@ -1581,8 +1577,8 @@ export const mockTransactions = [
     itemName: "샘플 제작비 현금수령",
     amount: 120000,
     category: "SALES",
-    evidenceType: "NON_QUALIFIED",
-    qualifiedEvidence: false,
+    evidenceType: null,
+    qualifiedEvidence: null,
   },
   {
     analysisId: "ana_140",
@@ -1592,7 +1588,7 @@ export const mockTransactions = [
     itemName: "기타 수입 불명 금액",
     amount: 45000,
     category: "OTHER_INCOME",
-    evidenceType: "NON_QUALIFIED",
-    qualifiedEvidence: false,
+    evidenceType: null,
+    qualifiedEvidence: null,
   },
 ];

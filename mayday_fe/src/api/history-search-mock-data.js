@@ -131,8 +131,8 @@ export const mockSearchTransactions = [
     itemName: "8월 외주 개발 컨설팅 대금",
     amount: 2500000,
     category: "SALES",
-    evidenceType: "TAX_INVOICE",
-    qualifiedEvidence: true,
+    evidenceType: null,
+    qualifiedEvidence: null,
   },
   {
     analysisId: "ana_search_012",
@@ -142,8 +142,8 @@ export const mockSearchTransactions = [
     itemName: "사내 특강 강사료 수입",
     amount: 500000,
     category: "SALES",
-    evidenceType: "INVOICE",
-    qualifiedEvidence: true,
+    evidenceType: null,
+    qualifiedEvidence: null,
   },
   {
     analysisId: "ana_search_013",
@@ -153,8 +153,8 @@ export const mockSearchTransactions = [
     itemName: "정부 지원 사업비 입금",
     amount: 10000000,
     category: "OTHER_INCOME",
-    evidenceType: "TAX_INVOICE",
-    qualifiedEvidence: true,
+    evidenceType: null,
+    qualifiedEvidence: null,
   },
   {
     analysisId: "ana_search_014",
@@ -164,8 +164,8 @@ export const mockSearchTransactions = [
     itemName: "솔루션 라이선스 판매 매출",
     amount: 1800000,
     category: "SALES",
-    evidenceType: "CARD_RECEIPT",
-    qualifiedEvidence: true,
+    evidenceType: null,
+    qualifiedEvidence: null,
   },
   {
     analysisId: "ana_search_015",
@@ -175,7 +175,7 @@ export const mockSearchTransactions = [
     itemName: "중고 사무기기 매각 대금",
     amount: 150000,
     category: "OTHER_INCOME",
-    evidenceType: "NON_QUALIFIED",
-    qualifiedEvidence: false,
+    evidenceType: null,
+    qualifiedEvidence: null,
   },
 ];

@@ -18,7 +18,7 @@ export const mockExportPreviewData = [
     category: "SUPPLIES", // 계정과목
     evidenceType: "CARD_RECEIPT", // 증빙 유형
     qualifiedEvidence: true, // 적격 여부 (적격 or 부적격)
-    remark: "", // 비고
+    remark: null, // 비고
   },
   {
     analysisId: "ana_002",
@@ -52,8 +52,8 @@ export const mockExportPreviewData = [
     itemName: "디자인 용역",
     amount: 967000,
     category: "SALES",
-    evidenceType: "CASH_RECEIPT",
-    qualifiedEvidence: true,
-    remark: "",
+    evidenceType: null,
+    qualifiedEvidence: null,
+    remark: null,
   },
 ];
