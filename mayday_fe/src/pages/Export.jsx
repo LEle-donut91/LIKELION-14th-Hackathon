@@ -6,61 +6,34 @@ import headerIcon from "../assets/images/HeaderIcon.svg";
 import Header from "../components/Header";
 import HistoryChecked from "../components/HistoryChecked";
 import HistoryUnChecked from "../components/HistoryUnChecked";
-import Button from "../components/Button"; // Button 컴포넌트 사용
+import Button from "../components/Button";
 
-// 더미 데이터
-const EXPORT_YEAR = "2026년";
-const TOTAL_RECORDS_COUNT = 156;
-const TOTAL_INCOME = "21,340,000원";
-const TOTAL_EXPENSE = "4,326,400원";
+// mock 데이터 가져오기
+import { EXPORT_SUMMARY, mockExportPreviewData } from "../api/export-mock-data";
 
-const DUMMY_PREVIEW_DATA = {
-  rows: [
-    {
-      date: "8/4",
-      account: "소모품비",
-      content: "사무용품",
-      client: "쿠팡",
-      income: "",
-      expense: "34,900",
-      qualified: true,
-      evidence: "신용카드전표",
-      remark: "",
-    },
-    {
-      date: "8/3",
-      account: "기업업무추진비",
-      content: "미팅",
-      client: "한정식집",
-      income: "",
-      expense: "84,000",
-      qualified: false,
-      evidence: "간이영수증",
-      remark: "증빙불비(가산세 유의)",
-    },
-    {
-      date: "8/3",
-      account: "소모품비",
-      content: "맥북 프로 14",
-      client: "애플코리아",
-      income: "",
-      expense: "2,490,000",
-      qualified: true,
-      evidence: "신용카드전표",
-      remark: "감가상각 검토",
-    },
-    {
-      date: "8/2",
-      account: "매출",
-      content: "디자인 용역",
-      client: "크몽",
-      income: "967,000",
-      expense: "",
-      qualified: true,
-      evidence: "현금영수증",
-      remark: "",
-    },
-  ],
+// 1. 증빙 유형 한글 매핑 딕셔너리
+const EVIDENCE_TYPE_MAP = {
+  TAX_INVOICE: "세금계산서",
+  INVOICE: "계산서",
+  CARD_RECEIPT: "신용카드전표",
+  CASH_RECEIPT: "현금영수증",
+  NON_QUALIFIED: "간이영수증",
+};
+
+// 2. 경비/수입 계정과목 한글 매핑 딕셔너리
+const CATEGORY_MAP = {
+  TAXES_AND_DUES: "제세공과금",
+  RENT: "임차료",
+  BUSINESS_PROMOTION_EXPENSE: "기업업무추진비",
+  VEHICLE_MAINTENANCE: "차량유지비",
+  SERVICE_FEES: "지급수수료",
+  SUPPLIES: "소모품비",
+  DELIVERY_EXPENSE: "운반비",
+  ADVERTISING_EXPENSE: "광고선전비",
+  TRAVEL_AND_TRANSPORTATION: "여비교통비",
+  OTHER_EXPENSE: "기타(비용)",
+  SALES: "매출",
+  OTHER_INCOME: "기타(수입)",
 };
 
 // 사용자가 선택한 옵션에 맞춰 데이터 필터링
@@ -73,19 +46,49 @@ function getFilteredPreviewData(rawData, filterState) {
   if (isEvidenceChecked) headers.push("증빙 유형");
   if (isQualifiedGroupChecked && qualifiedOptions.remark) headers.push("비고");
 
-  const rawRows = rawData?.rows || [];
-  let filteredRows = rawRows;
+  let filteredRows = rawData || [];
 
+  // 적격/부적격 필터링 (qualifiedEvidence 기준)
   if (isQualifiedGroupChecked) {
     const { qualified, unqualified } = qualifiedOptions;
     if (qualified && !unqualified) {
-      filteredRows = rawRows.filter((row) => row.qualified === true);
+      filteredRows = rawData.filter((row) => row.qualifiedEvidence === true);
     } else if (!qualified && unqualified) {
-      filteredRows = rawRows.filter((row) => row.qualified === false);
+      filteredRows = rawData.filter((row) => row.qualifiedEvidence === false);
     }
   }
 
-  const totalCount = filteredRows.length;
+  // 데이터 매핑 및 매핑 딕셔너리 적용
+  const formattedRows = filteredRows.map((item) => {
+    const dateObj = new Date(item.date);
+    const formattedDate = `${dateObj.getMonth() + 1}/${dateObj.getDate()}`;
+
+    // 계정과목 매핑
+    const categoryKey =
+      item.type === "EXPENSE" ? item.expenseCategory : item.incomeCategory;
+    const account = CATEGORY_MAP[categoryKey] || "-";
+
+    // 수입 / 지출 금액 분리 및 콤마 포맷팅
+    const formattedAmount = item.amount
+      ? item.amount.toLocaleString("ko-KR")
+      : "";
+    const income = item.type === "INCOME" ? formattedAmount : "";
+    const expense = item.type === "EXPENSE" ? formattedAmount : "";
+
+    return {
+      ...item,
+      date: formattedDate,
+      account,
+      content: item.itemName,
+      client: item.merchantName,
+      income,
+      expense,
+      qualified: item.qualifiedEvidence,
+      evidence: EVIDENCE_TYPE_MAP[item.evidenceType] || item.evidenceType,
+    };
+  });
+
+  const totalCount = formattedRows.length;
   const topRecordsCount = totalCount < 4 ? totalCount : 4;
 
   const checkedLabels = [];
@@ -101,7 +104,7 @@ function getFilteredPreviewData(rawData, filterState) {
 
   return {
     headers,
-    filteredRows,
+    filteredRows: formattedRows,
     summary: {
       totalCount,
       topRecordsCount,
@@ -131,8 +134,8 @@ function Export() {
 
   // 2. 필터링 및 건수 재계산 함수 호출
   const { headers, filteredRows, summary, noticeText } = getFilteredPreviewData(
-    DUMMY_PREVIEW_DATA,
-    { isQualifiedGroupChecked, isEvidenceChecked, qualifiedOptions },
+    mockExportPreviewData,
+    { isQualifiedGroupChecked, isEvidenceChecked, qualifiedOptions }
   );
 
   const previewSummary = `${headers.length}개 열 · 상위 ${summary.topRecordsCount}건 · 전체 ${summary.totalCount}건`;
@@ -168,7 +171,7 @@ function Export() {
       ];
 
       if (isQualifiedGroupChecked) {
-        rowData.push(row.qualified ? "적격" : "부적격");
+        rowData.push(row.qualifiedEvidence ? "적격" : "부적격");
       }
       if (isEvidenceChecked) {
         rowData.push(row.evidence);
@@ -188,7 +191,7 @@ function Export() {
     const workbook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(workbook, worksheet, "내보내기_기록");
 
-    const fileName = `장부내보내기_${EXPORT_YEAR}.${fileFormat}`;
+    const fileName = `장부내보내기_${EXPORT_SUMMARY.exportYear}.${fileFormat}`;
 
     if (fileFormat === "xlsx") {
       // 엑셀 파일 다운로드
@@ -222,19 +225,19 @@ function Export() {
         <section className={styles.summaryCard}>
           <div className={styles.summaryRow}>
             <span>내보낼 기록</span>
-            <strong>{EXPORT_YEAR}</strong>
+            <strong>{EXPORT_SUMMARY.exportYear}</strong>
           </div>
           <div className={styles.summaryRow}>
             <span>기록 수</span>
-            <strong>{TOTAL_RECORDS_COUNT}건</strong>
+            <strong>{EXPORT_SUMMARY.totalRecordsCount}건</strong>
           </div>
           <div className={`${styles.summaryRow} ${styles.dividerRow}`}>
             <span>수입</span>
-            <strong>{TOTAL_INCOME}</strong>
+            <strong>{EXPORT_SUMMARY.totalIncome}</strong>
           </div>
           <div className={styles.summaryRow}>
             <span>지출</span>
-            <strong>{TOTAL_EXPENSE}</strong>
+            <strong>{EXPORT_SUMMARY.totalExpense}</strong>
           </div>
         </section>
 
