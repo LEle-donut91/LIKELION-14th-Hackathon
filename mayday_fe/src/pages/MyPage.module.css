@@ -1,0 +1,226 @@
+/* 상단 영역 */
+.header {
+  margin-top: 39px;
+  background-color: #ffffff;
+  width: 100%;
+  height: 68px;
+  flex-shrink: 0;
+  font-size: 19px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 24px;
+  box-sizing: border-box;
+}
+
+.headerTitle {
+  line-height: 118%;
+  display: flex;
+  gap: 4px;
+  align-items: baseline;
+  width: 188px;
+}
+
+/* 메인 콘텐츠 영역 */
+.mainContent {
+  flex: 1;
+  padding: 16px 20px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  background-color: #f7f7f8;
+}
+
+/* 프로필 카드 */
+.profileCard {
+  background-color: #ffffff;
+  border-radius: 22px;
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.profileAvatar {
+  width: 56px;
+  height: 51px;
+  object-fit: cover;
+  border-radius: 10px;
+  background-color: #f4f4f5;
+}
+
+.profileInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.userEmail {
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1.19;
+}
+
+.dDayNotice {
+  margin: 0;
+  font-size: 12.5px;
+  color: #71717a;
+  line-height: 1.16;
+}
+
+/* 통계 카드 */
+.statsCard {
+  background-color: #ffffff;
+  border-radius: 22px;
+  padding: 16px 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+}
+
+.statGroup {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  flex: 1;
+}
+
+.statNum {
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1.19;
+}
+
+.statLabel {
+  font-size: 11.5px;
+  color: #71717a;
+  line-height: 1.17;
+}
+
+.divider {
+  width: 1px;
+  height: 40.5px;
+  background-color: #f4f4f5;
+}
+
+/* 메뉴 섹션 공통 */
+.menuSection {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 6px;
+}
+
+.sectionTitle {
+  margin: 0;
+  padding-left: 4px;
+  font-size: 12px;
+  font-weight: 700;
+  color: #a1a1aa;
+  line-height: 1.17;
+}
+
+.menuCard {
+  background-color: #ffffff;
+  border-radius: 22px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.menuItem {
+  display: flex;
+  align-items: center;
+  padding: 15px 20px;
+  gap: 14px;
+  background: transparent;
+  border: none;
+  text-align: left;
+  cursor: pointer;
+  font-family: inherit;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.menuItem:not(:last-child) {
+  border-bottom: 1px solid #f4f4f5;
+}
+
+.menuIcon {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  object-fit: cover;
+  background-color: #f4f4f5;
+}
+
+.menuTextBox {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.menuTitle {
+  font-size: 14.5px;
+  font-weight: 700;
+  line-height: 1.17;
+  color: #111111;
+}
+
+.menuSubTitle {
+  font-size: 12px;
+  color: #a1a1aa;
+  line-height: 1.17;
+}
+
+.arrowIcon {
+  width: 8px;
+  height: 8px;
+  border-top: 2px solid #a1a1aa;
+  border-right: 2px solid #a1a1aa;
+  transform: rotate(45deg);
+}
+
+/* 계정 섹션 경고 아이콘 */
+.warningBox {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background-color: #f4f4f5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.warningCircle {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 2px solid #71717a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+}
+
+.warningMark {
+  font-size: 10px;
+  font-weight: 700;
+  color: #71717a;
+}
+
+/* 로그아웃 버튼 */
+.logoutButton {
+  margin-top: 12px;
+  align-self: center;
+  background: transparent;
+  border: none;
+  font-size: 13px;
+  color: #a1a1aa;
+  text-decoration: underline;
+  cursor: pointer;
+  font-family: inherit;
+  padding: 6px 12px;
+}
