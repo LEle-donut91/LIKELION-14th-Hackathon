@@ -1,0 +1,245 @@
+/* 헤더 */
+.header {
+  margin-top: 39px;
+  margin-left: 11px;
+}
+
+/* 연도 탭 navigation */
+.yearTabGroup {
+  display: flex;
+  height: 40.5px;
+  border-bottom: 1px solid #ececee;
+  padding-left: 24px;
+  gap: 18px;
+}
+
+.yearTab {
+  background: none;
+  border: none;
+  padding: 0;
+  font-family: inherit;
+  font-size: 15px;
+  color: #a1a1aa;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  height: 100%;
+}
+
+.activeYear {
+  color: #111111;
+  font-weight: bold;
+  border-bottom: 2.5px solid #111111;
+  margin-bottom: -1px;
+}
+
+/* 검색 및 필터 영역 */
+.filterSection {
+  padding: 14px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.searchBar {
+  display: flex;
+  align-items: center;
+  background-color: #f4f4f5;
+  border-radius: 12px;
+  height: 44px;
+  padding: 0 14px;
+  gap: 10px;
+}
+
+.searchIcon {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: 2px solid #a1a1aa;
+  position: relative;
+  flex-shrink: 0;
+}
+
+.searchIcon::after {
+  content: "";
+  position: absolute;
+  bottom: -3px;
+  right: -3px;
+  width: 5px;
+  height: 2px;
+  background-color: #a1a1aa;
+  transform: rotate(45deg);
+}
+
+.searchInput {
+  border: none;
+  background: transparent;
+  outline: none;
+  font-size: 13.5px;
+  color: #a1a1aa;
+  width: 100%;
+  font-family: inherit;
+}
+
+.chipGroup {
+  display: flex;
+  gap: 8px;
+}
+
+.chip {
+  background: transparent;
+  border: 1px solid #d4d4d8;
+  border-radius: 18px;
+  height: 32px;
+  padding: 0 13px;
+  font-size: 12.5px;
+  color: #52525b;
+  font-family: inherit;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+
+/* 필터 적용 시 스타일 */
+.activeChip {
+  background-color: #111111;
+  border: 1px solid #111111;
+  color: #ffffff;
+
+  position: relative;
+  line-height: 116%;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: bold;
+}
+
+/* 필터 결과 요약 */
+.resultSummary {
+  margin: 0 20px;
+  background-color: #fafafa;
+  border-radius: 14px;
+  height: 47px;
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+  font-size: 13px;
+  color: #71717a;
+}
+
+.resultCount {
+  color: #111111;
+  margin-left: 4px;
+}
+
+/* 리스트 영역 */
+.recordList {
+  padding: 10px 20px 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.recordItem {
+  display: flex;
+  align-items: center;
+  height: 67px;
+  border-bottom: 1px solid #f4f4f5;
+}
+
+.recordIconWrapper {
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  background-color: #f4f4f5;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.recordInfo {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-left: 12px;
+  flex: 1;
+}
+
+.recordTitle {
+  font-size: 14px;
+  line-height: 118%;
+}
+
+.recordDesc {
+  font-size: 12px;
+  color: #a1a1aa;
+  margin-top: 3px;
+  line-height: 117%;
+}
+
+.recordRight {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+.recordAmount {
+  font-size: 14px;
+  line-height: 118%;
+}
+
+.badge {
+  font-size: 10.5px;
+  border-radius: 10px;
+  padding: 2px 8px;
+  margin-top: 3px;
+  font-weight: bold;
+}
+
+.badgeQualified {
+  background-color: #111111;
+  color: #ffffff;
+}
+
+.badgeUnqualified {
+  background-color: #e4e4e7;
+  color: #52525b;
+}
+
+/* 하단 영역 */
+.footer {
+  margin-top: auto;
+  padding: 20px 20px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.exportButton {
+  width: 100%;
+  height: 54px;
+  background-color: #111111;
+  color: #ffffff;
+  border: none;
+  border-radius: 14px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.homeIndicatorWrapper {
+  width: 100%;
+  height: 21px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.homeIndicator {
+  width: 134px;
+  height: 5px;
+  background-color: #111111;
+  border-radius: 3px;
+}
