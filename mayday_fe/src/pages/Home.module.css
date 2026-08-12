@@ -1,0 +1,404 @@
+/* =========================
+   Header
+========================= */
+
+.header {
+  margin-top: 39px;
+  background-color: #ffffff;
+  width: 100%;
+  height: 68px;
+  flex-shrink: 0;
+  font-size: 19px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 24px;
+  box-sizing: border-box;
+}
+
+.logo {
+  line-height: 118%;
+  display: flex;
+  gap: 4px;
+  align-items: baseline;
+  width: 188px;
+}
+
+.logoText {
+  line-height: 118%;
+  white-space: pre-wrap;
+}
+
+.dDay {
+  font-size: 15px;
+  line-height: 118%;
+}
+
+.profileButton {
+  border-radius: 50px;
+  border: 1px solid #e4e4e7;
+  box-sizing: border-box;
+  width: 38px;
+  height: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.profileIcon {
+  border-radius: 6px;
+  border: 2px solid #52525b;
+  box-sizing: border-box;
+  width: 20px;
+  height: 20px;
+  overflow: hidden;
+}
+
+.profileImage {
+  width: 41px;
+  height: 37px;
+  object-fit: cover;
+  display: none; /* profileButton과 위치상 충돌 요소를 flex 레이아웃으로 정리 */
+}
+
+/* =========================
+   Main Content
+========================= */
+
+.content {
+  margin-top: 0;
+  width: 100%;
+  flex-shrink: 0;
+  font-size: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 20px;
+  box-sizing: border-box;
+  background-color: #f7f7f8;
+}
+
+/* 올해 기록한 비용 */
+
+.expenseSummary {
+  border-radius: 24px;
+  background-color: #ffffff;
+  width: 100%;
+  height: 145px;
+  font-size: 14px;
+  color: #71717a;
+  padding: 26px 24px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.summaryTitle {
+  line-height: 118%;
+  width: 100%;
+}
+
+.summaryAmount {
+  display: flex;
+  align-items: baseline;
+  font-size: 36px;
+  color: #111111;
+}
+
+.expenseAmount {
+  letter-spacing: -0.5px;
+  line-height: 118%;
+}
+
+.currency {
+  font-size: 18px;
+  line-height: 119%;
+  margin-left: 4px;
+}
+
+.summaryDescription {
+  font-size: 13.5px;
+  line-height: 119%;
+  color: #a1a1aa;
+  width: 100%;
+}
+
+/* 올해 수입과 비용 */
+
+.incomeExpense {
+  border-radius: 24px;
+  background-color: #ffffff;
+  width: 100%;
+  height: 211px;
+  padding: 24px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.sectionTitle {
+  line-height: 117%;
+  width: 100%;
+}
+
+.ratioBar {
+  border-radius: 22px;
+  background-color: #e4e4e7;
+  width: 100%;
+  height: 44px;
+  overflow: hidden;
+  font-size: 17px;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+/* 수입 영역 (좌측 바) */
+.incomeBar {
+  background-color: #3f3f46;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: width 0.3s ease; /* 비율 변경 시 부드러운 애니메이션 효과 */
+  min-width: 40px; /* 퍼센트 글자가 깨지지 않도록 최소 너비 보장 */
+}
+
+/* 비용 영역 (우측 잔여 바) */
+.expenseBar {
+  flex: 1;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.incomeRatio,
+.expenseRatio {
+  line-height: 118%;
+  white-space: nowrap;
+}
+
+.ratioLabels {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  color: #a1a1aa;
+}
+
+.incomeLabel,
+.expenseLabel {
+  line-height: 117%;
+}
+
+.amountList {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-size: 14px;
+}
+
+.incomeAmount,
+.expenseAmountRow {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.expenseAmountRow {
+  color: #a1a1aa;
+}
+
+.expenseDot {
+  line-height: 118%;
+}
+
+.expenseAmountRow > b:first-child span:last-child {
+  color: #111111;
+  line-height: 118%;
+}
+
+.amountValue {
+  line-height: 118%;
+  color: #111111;
+  text-align: right;
+}
+
+/* =========================
+   기록 카드
+========================= */
+
+.recordCards {
+  width: 100%;
+  height: 135px;
+  display: flex;
+  gap: 14px;
+}
+
+.recentRecords {
+  border-radius: 22px;
+  background-color: #ffffff;
+  flex: 1;
+  height: 100%;
+  padding: 20px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.arrowIcon {
+  border-radius: 11px;
+  border: 1.5px solid #d4d4d8;
+  box-sizing: border-box;
+  width: 41px;
+  height: 41px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.arrowIcon > div {
+  border-top: 2px solid #52525b;
+  border-right: 2px solid #52525b;
+  box-sizing: border-box;
+  width: 8px;
+  height: 8px;
+  transform: rotate(45deg);
+}
+
+.cardTitle {
+  line-height: 117%;
+}
+
+.cardDescription {
+  font-size: 12px;
+  line-height: 117%;
+  color: #a1a1aa;
+}
+
+.aiRecords {
+  border-radius: 22px;
+  background-color: #111111;
+  flex: 1.1;
+  height: 100%;
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.7);
+  padding: 20px 17px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.aiIcon {
+  border-radius: 11px;
+  width: 41px;
+  height: 41px;
+  object-fit: cover;
+}
+
+.aiCount {
+  font-size: 15px;
+  line-height: 118%;
+  color: #ffffff;
+}
+
+.aiDescription {
+  line-height: 115%;
+}
+
+/* =========================
+   액션 카드
+========================= */
+
+.actionCards {
+  width: 100%;
+  height: 135px;
+  color: #ffffff;
+  display: flex;
+  gap: 14px;
+}
+
+.expenseRecordCard {
+  border-radius: 22px;
+  background-color: #111111;
+  flex: 1.1;
+  height: 100%;
+  padding: 20px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.cameraIcon {
+  border-radius: 11px;
+  border: 1.5px solid rgba(255, 255, 255, 0.5);
+  box-sizing: border-box;
+  width: 41px;
+  height: 41px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.cameraIcon > div {
+  border-radius: 2px;
+  border: 1.5px solid #ffffff;
+  box-sizing: border-box;
+  width: 18px;
+  height: 15px;
+  position: relative;
+}
+
+.cameraIcon > div::before {
+  content: "";
+  position: absolute;
+  top: 3.5px;
+  left: 3.5px;
+  background-color: #ffffff;
+  width: 11px;
+  height: 1.5px;
+}
+
+.actionTitle {
+  line-height: 117%;
+}
+
+.actionDescription {
+  font-size: 12px;
+  line-height: 117%;
+  color: rgba(255, 255, 255, 0.65);
+}
+
+.exportCard {
+  border-radius: 22px;
+  background-color: #ffffff;
+  flex: 1;
+  height: 100%;
+  color: #111111;
+  padding: 20px 17px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.exportIcon {
+  border-radius: 11px;
+  width: 41px;
+  height: 41px;
+  object-fit: cover;
+}
+
+.exportCard .actionDescription {
+  color: #a1a1aa;
+}
