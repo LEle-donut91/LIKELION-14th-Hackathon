@@ -2,6 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 import styles from "./ExportModal.module.css";
 import ExportModalCancelIcon from "../assets/images/ExportModalCancelIcon.svg";
+import Button from "./Button";
 
 function ExportModal({
   isOpen,
@@ -86,10 +87,7 @@ function ExportModal({
 
         {/* 하단 안내 및 확인 버튼 */}
         <p className={styles.noticeText}>{noticeText}</p>
-
-        <button type="button" className={styles.confirmBtn} onClick={onClose}>
-          확인
-        </button>
+        <Button text="확인" onClick={onClose} />
       </div>
     </div>,
     document.body,
