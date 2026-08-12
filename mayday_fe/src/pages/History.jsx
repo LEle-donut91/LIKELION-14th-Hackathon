@@ -82,8 +82,8 @@ const transformMockData = (rawList) => {
 
     const category =
       item.type === "EXPENSE"
-        ? EXPENSE_CATEGORY_MAP[item.expenseCategory] || ""
-        : INCOME_CATEGORY_MAP[item.incomeCategory] || "";
+        ? EXPENSE_CATEGORY_MAP[item.category] || ""
+        : INCOME_CATEGORY_MAP[item.category] || "";
 
     return {
       id: item.analysisId,

@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useLocation } from "react-router-dom";
 import * as XLSX from "xlsx";
 import styles from "./Export.module.css";
 import ExportModal from "../components/ExportModal";
@@ -64,9 +65,7 @@ function getFilteredPreviewData(rawData, filterState) {
     const formattedDate = `${dateObj.getMonth() + 1}/${dateObj.getDate()}`;
 
     // 계정과목 매핑
-    const categoryKey =
-      item.type === "EXPENSE" ? item.expenseCategory : item.incomeCategory;
-    const account = CATEGORY_MAP[categoryKey] || "-";
+    const account = CATEGORY_MAP[item.category] || "-";
 
     // 수입 / 지출 금액 분리 및 콤마 포맷팅
     const formattedAmount = item.amount
@@ -114,6 +113,10 @@ function getFilteredPreviewData(rawData, filterState) {
 }
 
 function Export() {
+  // 2. location에서 state 추출
+  const location = useLocation();
+  const selectedYear = location.state?.selectedYear;
+
   // 1. 상태 정의
   // (1) 상위 항목 체크 상태
   const [isQualifiedGroupChecked, setIsQualifiedGroupChecked] = useState(false);
