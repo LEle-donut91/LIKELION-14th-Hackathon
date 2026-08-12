@@ -1,24 +1,24 @@
 // 내보내기 요약 정보
 export const EXPORT_SUMMARY = {
-  exportYear: "2026년",
-  totalRecordsCount: 156,
-  totalIncome: "21,340,000원",
-  totalExpense: "4,326,400원",
+  exportYear: "2026년", // 내보낼 기록 (사용자가 선택한 연도)
+  totalRecordsCount: 156, // 기록 수 (156건)
+  totalIncome: "21,340,000원", // 수입 (21,340,000원)
+  totalExpense: "4,326,400원", // 지출 (4,326,400원)
 };
 
-// 2번 형식(history-mock-data.js)을 참고한 미리보기용 더미 데이터
+// 사용자가 선택한 연도에 해당하는 모든 데이터를 불러옴
 export const mockExportPreviewData = [
   {
-    analysisId: "ana_001",
-    type: "EXPENSE",
-    date: "2026-08-04",
-    merchantName: "쿠팡",
-    itemName: "사무용품",
-    amount: 34900,
-    category: "SUPPLIES",
-    evidenceType: "CARD_RECEIPT",
-    qualifiedEvidence: true,
-    remark: "",
+    analysisId: "ana_001", // 데이터 ID
+    type: "EXPENSE", // 수입(INCOME)인지 지출(EXPENSE)인지
+    date: "2026-08-04", // 일자
+    merchantName: "쿠팡", // 거래처
+    itemName: "사무용품", // 거래내용
+    amount: 34900, // 금액
+    category: "SUPPLIES", // 계정과목
+    evidenceType: "CARD_RECEIPT", // 증빙 유형
+    qualifiedEvidence: true, // 적격 여부 (적격 or 부적격)
+    remark: "", // 비고
   },
   {
     analysisId: "ana_002",

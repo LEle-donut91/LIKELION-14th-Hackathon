@@ -15,7 +15,7 @@
    4) merchantName: 거래처
    5) itemName: 거래내용
    6) amount: 금액
-   7) category: 카테고리 항목
+   7) category: 계정과목
       - 비용(EXPENSE):
         * 제세공과금: TAXES_AND_DUES
         * 임차료: RENT
@@ -44,15 +44,15 @@ export const mockTransactions = [
   // [비용 - 적격 50건 (ana_001 ~ ana_050)]
   // ==========================================
   {
-    analysisId: "ana_001",
-    type: "EXPENSE",
-    date: "2026-08-01",
-    merchantName: "스타벅스",
-    itemName: "거래처 미팅 음료",
-    amount: 12000,
-    category: "BUSINESS_PROMOTION_EXPENSE",
-    evidenceType: "CARD_RECEIPT",
-    qualifiedEvidence: true,
+    analysisId: "ana_001", // 데이터 ID
+    type: "EXPENSE", // 수입(INCOME)인지 지출(EXPENSE)인지
+    date: "2026-08-01", // 날짜
+    merchantName: "스타벅스", // 거래처
+    itemName: "거래처 미팅 음료", // 거래내용
+    amount: 12000, // 금액
+    category: "BUSINESS_PROMOTION_EXPENSE", // 계정과목
+    evidenceType: "CARD_RECEIPT", // 증빙 유형
+    qualifiedEvidence: true, // 적격 여부 (적격 or 부적격)
   },
   {
     analysisId: "ana_002",

@@ -1,6 +1,6 @@
 /*
 [검색 테스트용 더미 데이터 - 총 15건]
-- 비용(EXPENSE): 10건 (적격 7건 / 부적격 3건)
+- 지출(EXPENSE): 10건 (적격 7건 / 부적격 3건)
 - 수입(INCOME): 5건 (적격 4건 / 부적격 1건)
 - ID 체계: ana_search_001 ~ ana_search_015
 */
@@ -10,15 +10,15 @@ export const mockSearchTransactions = [
   // [비용 - EXPENSE (10건)]
   // ==========================================
   {
-    analysisId: "ana_search_001",
-    type: "EXPENSE",
-    date: "2026-08-10",
-    merchantName: "알파문구",
-    itemName: "사무용품 및 필기구 구매",
-    amount: 15000,
-    category: "SUPPLIES",
-    evidenceType: "CARD_RECEIPT",
-    qualifiedEvidence: true,
+    analysisId: "ana_search_001", // 데이터 ID
+    type: "EXPENSE", // 수입(INCOME)인지 지출(EXPENSE)인지
+    date: "2026-08-10", // 날짜
+    merchantName: "알파문구", // 거래처
+    itemName: "사무용품 및 필기구 구매", // 거래내용
+    amount: 15000, // 금액
+    category: "SUPPLIES", // 계정과목
+    evidenceType: "CARD_RECEIPT", // 증빙 유형
+    qualifiedEvidence: true, // 적격 여부 (적격 or 부적격)
   },
   {
     analysisId: "ana_search_002",
