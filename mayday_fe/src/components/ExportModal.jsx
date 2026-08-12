@@ -4,6 +4,12 @@ import styles from "./ExportModal.module.css";
 import ExportModalCancelIcon from "../assets/images/ExportModalCancelIcon.svg";
 import Button from "./Button";
 
+// null, undefined, 빈 문자열("")일 경우 '—' 반환
+const formatValue = (val) => {
+  if (val === null || val === undefined || val === "") return "—";
+  return val;
+};
+
 function ExportModal({
   isOpen,
   onClose,
@@ -73,11 +79,17 @@ function ExportModal({
                   <td className={styles.alignRight}>{row.expense || ""}</td>
 
                   {isQualifiedGroupChecked && (
-                    <td>{row.qualified ? "적격" : "부적격"}</td>
+                    <td>
+                      {row.qualified === null || row.qualified === undefined
+                        ? "—"
+                        : row.qualified
+                        ? "적격"
+                        : "부적격"}
+                    </td>
                   )}
-                  {isEvidenceChecked && <td>{row.evidence}</td>}
+                  {isEvidenceChecked && <td>{formatValue(row.evidence)}</td>}
                   {isQualifiedGroupChecked && hasRemark && (
-                    <td>{row.remark || ""}</td>
+                    <td>{formatValue(row.remark)}</td>
                   )}
                 </tr>
               ))}
