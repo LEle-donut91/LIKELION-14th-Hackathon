@@ -1,0 +1,190 @@
+/* 화면 전체 어두운 배경 */
+.overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+/* 흰색 모달 카드 */
+.modalCard {
+  width: 370px;
+  padding: 20px 16px;
+  background-color: #ffffff;
+  border-radius: 22px;
+  box-shadow: 0px 20px 50px rgba(0, 0, 0, 0.2);
+  box-sizing: border-box;
+  font-size: 13px;
+  color: #111111;
+  font-family: Pretendard, Arial, sans-serif;
+  display: flex;
+  flex-direction: column;
+}
+
+/* 상단 타이틀 영역 */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.title {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.closeBtn {
+  border: transparent;
+  background: transparent;
+  cursor: pointer;
+}
+
+/* 서브 헤더 (건수 정보 & 안내) */
+.subHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 12px;
+  margin-bottom: 12px;
+}
+
+.recordSummary {
+  color: #a1a1aa;
+}
+
+.scrollHint {
+  font-size: 11.5px;
+  color: #52525b;
+}
+
+/* 표(Table) 스크롤 영역 */
+.tableScrollArea {
+  width: 100%;
+  max-height: 198px;
+  border-radius: 12px;
+  border: 1px solid #ececee;
+  box-sizing: border-box;
+  overflow: auto;
+}
+
+.previewTable {
+  border-collapse: collapse;
+  table-layout: fixed;
+  font-size: 11px;
+}
+
+.previewTable thead {
+  background-color: #fafafa;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+.previewTable th {
+  height: 33px;
+  border-bottom: 1px solid #ececee;
+  border-right: 1px solid #eee;
+  padding: 0 8px;
+  font-weight: 700;
+  color: #52525b;
+  box-sizing: border-box;
+}
+
+.previewTable td {
+  height: 33px;
+  border-bottom: 1px solid #f0f0f0;
+  border-right: 1px solid #eee;
+  padding: 0 8px;
+  box-sizing: border-box;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.previewTable tr:last-child td {
+  border-bottom: none;
+}
+
+.previewTable th:last-child,
+.previewTable td:last-child {
+  border-right: none;
+}
+
+/* 각 열 너비 지정 */
+.previewTable th:nth-child(1),
+.previewTable td:nth-child(1) {
+  min-width: 61px;
+}
+.previewTable th:nth-child(2),
+.previewTable td:nth-child(2) {
+  min-width: 113px;
+}
+.previewTable th:nth-child(3),
+.previewTable td:nth-child(3) {
+  min-width: 121px;
+}
+.previewTable th:nth-child(4),
+.previewTable td:nth-child(4) {
+  min-width: 101px;
+}
+.previewTable th:nth-child(5),
+.previewTable td:nth-child(5) {
+  min-width: 93px;
+}
+.previewTable th:nth-child(6),
+.previewTable td:nth-child(6) {
+  min-width: 93px;
+}
+.previewTable th:nth-child(7),
+.previewTable td:nth-child(7) {
+  min-width: 93px;
+}
+.previewTable th:nth-child(8),
+.previewTable td:nth-child(8) {
+  min-width: 121px;
+}
+.previewTable th:nth-child(9),
+.previewTable td:nth-child(9) {
+  min-width: 166px;
+}
+
+/* 정렬 */
+.alignLeft {
+  text-align: left;
+}
+.alignRight {
+  text-align: right;
+}
+.dateCol {
+  color: #777;
+}
+
+/* 하단 문구 및 확인 버튼 */
+.noticeText {
+  margin: 12px 0 0 0;
+  font-size: 12px;
+  color: #52525b;
+  line-height: 1.4;
+}
+
+.confirmBtn {
+  margin-top: auto;
+  width: 100%;
+  height: 48px;
+  background-color: #111111;
+  color: #ffffff;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
