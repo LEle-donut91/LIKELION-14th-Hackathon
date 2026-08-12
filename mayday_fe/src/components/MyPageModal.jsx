@@ -5,6 +5,7 @@ import styles from "./MyPageModal.module.css";
 import MyPageModalIcon from "../assets/images/MyPageModalIcon.svg";
 import HistoryChecked from "./HistoryChecked";
 import HistoryUnChecked from "./HistoryUnChecked";
+import Button from "./Button"; // Button 공통 컴포넌트 import
 
 function MyPageModal({ isOpen, onClose, onWithdraw }) {
   const [isChecked, setIsChecked] = useState(false);
@@ -82,15 +83,16 @@ function MyPageModal({ isOpen, onClose, onWithdraw }) {
 
         {/* 액션 버튼 */}
         <div className={styles.buttonGroup}>
-          <button
-            type="button"
-            className={`${styles.submitButton} ${isChecked ? styles.active : ""}`}
-            disabled={!isChecked}
-            onClick={handleWithdraw}
-          >
-            탈퇴하기
-          </button>
+          {/* 1 & 2. 탈퇴하기 버튼 (비활성화 / 활성화) */}
+          <div className={styles.submitButtonWrapper}>
+            <Button
+              text="탈퇴하기"
+              disabled={!isChecked}
+              onClick={handleWithdraw}
+            />
+          </div>
 
+          {/* 3. 돌아가기 버튼 (Button 컴포넌트 사용 X) */}
           <button
             type="button"
             className={styles.cancelButton}
