@@ -1,0 +1,11 @@
+.box {
+  width: 26px;
+  height: 26px;
+  border: 2px solid #d4d4d8;
+  border-radius: 6px;
+  background-color: #ffffff;
+  box-sizing: border-box;
+  display: inline-block;
+  flex-shrink: 0;
+  transition: border-color 0.2s ease;
+}

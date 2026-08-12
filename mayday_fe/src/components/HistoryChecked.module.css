@@ -1,0 +1,49 @@
+/* ==========================================
+   원형 체크박스 (CircleCheckbox)
+   ========================================== */
+.checkCircle {
+  width: 20px;
+  height: 20px;
+  position: relative;
+  border-radius: 50%;
+  background-color: #111111;
+  flex-shrink: 0;
+}
+
+.circleCheckMark {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 9px;
+  height: 5px;
+  border-bottom: 2px solid #ffffff;
+  border-left: 2px solid #ffffff;
+  box-sizing: border-box;
+  transform: translate(-50%, -60%) rotate(-45deg);
+  transform-origin: center;
+}
+
+/* ==========================================
+   사각 체크박스 (SquareCheckbox)
+   ========================================== */
+.checkSquare {
+  width: 26px;
+  height: 26px;
+  position: relative;
+  border-radius: 8.27px;
+  background-color: #111111;
+  border: 2px solid #111111;
+}
+
+.squareCheckMark {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 13px;
+  height: 8.3px;
+  border-bottom: 2px solid #ffffff;
+  border-left: 2px solid #ffffff;
+  box-sizing: border-box;
+  transform: translate(-50%, -60%) rotate(-45deg);
+  transform-origin: center;
+}
