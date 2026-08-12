@@ -6,6 +6,7 @@ import headerIcon from "../assets/images/HeaderIcon.svg";
 import Header from "../components/Header";
 import HistoryChecked from "../components/HistoryChecked";
 import HistoryUnChecked from "../components/HistoryUnChecked";
+import Button from "../components/Button"; // Button 컴포넌트 사용
 
 // 더미 데이터
 const EXPORT_YEAR = "2026년";
@@ -394,9 +395,7 @@ function Export() {
             <br />
             홈택스 자동 제출은 제공하지 않아요
           </p>
-          <button className={styles.downloadButton} onClick={handleDownload}>
-            파일 다운로드
-          </button>
+          <Button text="파일 다운로드" onClick={handleDownload} />
         </footer>
       </main>
 
