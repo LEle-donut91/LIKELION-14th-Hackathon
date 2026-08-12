@@ -7,6 +7,7 @@ import HomeArrowIcon from "../assets/images/HomeArrowIcon.svg";
 import HomeDownloadIcon from "../assets/images/HomeDownloadIcon.svg";
 import HomeProfileIcon from "../assets/images/HomeProfileIcon.svg";
 import HomeRecordIcon from "../assets/images/HomeRecordIcon.svg";
+import { HOME_MOCK_DATA } from "../api/home-mock-data";
 
 // 내년 5월 31일까지 남은 일수 계산 함수
 function getDDayString() {
@@ -34,17 +35,16 @@ function Home() {
 
   const dDay = getDDayString(); // 동적 계산된 D-Day
 
-  // API 연동 시 서버에서 받아올 데이터
-  const yearlyExpense = "1,284,000";
-  const aiFoundExpense = "512,000";
-
-  const recordedIncomeRatio = "39";
-  const recordedExpenseRatio = "61";
-
-  const recordedIncome = "11,240,000";
-  const recordedExpense = "31,000,000";
-
-  const aiClassifiedRecords = "24";
+  // home-mock-data 사용
+  const {
+    yearlyExpense,
+    aiFoundExpense,
+    recordedIncomeRatio,
+    recordedExpenseRatio,
+    recordedIncome,
+    recordedExpense,
+    aiClassifiedRecords,
+  } = HOME_MOCK_DATA;
 
   return (
     <div>
@@ -72,7 +72,7 @@ function Home() {
           </div>
 
           <div className={styles.summaryDescription}>
-            이번 달 AI가 {aiFoundExpense}원을 꼼꼼히 찾아냈어요
+            이번 달 AI가 {aiFoundExpense}원이 기록됐어요
           </div>
         </section>
 
