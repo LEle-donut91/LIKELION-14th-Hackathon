@@ -2,11 +2,14 @@ import { useState, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "./History.module.css";
 
+// mockTransactions 데이터 불러오기
+import { mockTransactions } from "../api/history-mock-data.js";
+
 import HistoryQualModal from "../components/HistoryQualModal";
 import HistoryProofModal from "../components/HistoryProofModal";
 import HistoryTypeModal from "../components/HistoryTypeModal";
 import Header from "../components/Header";
-import Button from "../components/Button"
+import Button from "../components/Button";
 
 import HistoryAdIcon from "../assets/images/HistoryAdIcon.svg";
 import HistoryBusinessIcon from "../assets/images/HistoryBusinessIcon.svg";
@@ -33,132 +36,85 @@ const CATEGORY_ICONS = {
   기업업무추진비: HistoryBusinessIcon,
   제세공과금: HistoryTaxIcon,
   차량유지비: HistoryVehicleIcon,
-  "기타 (비용)": HistoryEtcExpenseIcon,
+  "기타(비용)": HistoryEtcExpenseIcon,
 
   // 수입 카테고리 (2개)
   매출: HistorySalesIcon,
   "기타(수입)": HistoryEtcIncomeIcon,
 };
 
+// Enum 매핑 객체
+const EXPENSE_CATEGORY_MAP = {
+  TAXES_AND_DUES: "제세공과금",
+  RENT: "임차료",
+  BUSINESS_PROMOTION_EXPENSE: "기업업무추진비",
+  VEHICLE_MAINTENANCE: "차량유지비",
+  SERVICE_FEES: "지급수수료",
+  SUPPLIES: "소모품비",
+  DELIVERY_EXPENSE: "운반비",
+  ADVERTISING_EXPENSE: "광고선전비",
+  TRAVEL_AND_TRANSPORTATION: "여비교통비",
+  OTHER_EXPENSE: "기타(비용)",
+};
+
+const INCOME_CATEGORY_MAP = {
+  SALES: "매출",
+  OTHER_INCOME: "기타(수입)",
+};
+
+const EVIDENCE_TYPE_MAP = {
+  TAX_INVOICE: "세금계산서",
+  INVOICE: "계산서",
+  CARD_RECEIPT: "신용카드 매출전표",
+  CASH_RECEIPT: "현금영수증",
+  NON_QUALIFIED: "해당 없음",
+};
+
+// mockTransactions 데이터를 기존 뷰 포맷으로 변환하는 함수
+const transformMockData = (rawList) => {
+  return rawList.map((item) => {
+    const dateObj = new Date(item.date);
+    const year = String(dateObj.getFullYear() || "2026");
+    const month = dateObj.getMonth() + 1;
+    const day = dateObj.getDate();
+    const formattedDate = `${month}월 ${day}일`;
+
+    const category =
+      item.type === "EXPENSE"
+        ? EXPENSE_CATEGORY_MAP[item.expenseCategory] || ""
+        : INCOME_CATEGORY_MAP[item.incomeCategory] || "";
+
+    return {
+      id: item.analysisId,
+      year: year,
+      title: `${item.merchantName} (${item.itemName})`,
+      merchantName: item.merchantName,
+      itemName: item.itemName,
+      date: formattedDate,
+      amount: item.amount ? item.amount.toLocaleString() : "0",
+      type: item.type === "EXPENSE" ? "expense" : "income",
+      isQualified: item.qualifiedEvidence,
+      evidenceType: EVIDENCE_TYPE_MAP[item.evidenceType] || "",
+      category: category,
+    };
+  });
+};
+
+const RECORD_LIST = transformMockData(mockTransactions);
+
+// 데이터에 존재하는 연도 목록 자동 추출 (내림차순 정렬: ["2026", "2025", "2024", ...])
+const AVAILABLE_YEARS = Array.from(
+  new Set(RECORD_LIST.map((item) => item.year)),
+).sort((a, b) => Number(b) - Number(a));
+
+// 최신 연도 설정 (데이터가 없을 경우 대비)
+const LATEST_YEAR = AVAILABLE_YEARS[0] || "기록 없음";
+
 const renderCategoryIcon = (category) => {
   const iconSrc = CATEGORY_ICONS[category];
   if (!iconSrc) return null;
   return <img src={iconSrc} alt={category} />;
 };
-
-// 더미 데이터 (추후 서버 응답으로 가져올 데이터)
-const RECORD_LIST = [
-  {
-    id: 1,
-    year: "2026",
-    title: "쿠팡 (사무용품)",
-    date: "8월 4일",
-    amount: "34,900",
-    type: "expense",
-    isQualified: true,
-    evidenceType: "신용카드 매출전표",
-    category: "소모품비",
-  },
-  {
-    id: 2,
-    year: "2026",
-    title: "스타벅스 (미팅)",
-    date: "8월 3일",
-    amount: "12,000",
-    type: "expense",
-    isQualified: true,
-    evidenceType: "신용카드 매출전표",
-    category: "기업업무추진비",
-  },
-  {
-    id: 3,
-    year: "2026",
-    title: "한진택배 (발송비)",
-    date: "8월 2일",
-    amount: "4,500",
-    type: "expense",
-    isQualified: true,
-    evidenceType: "세금계산서",
-    category: "운반비",
-  },
-  {
-    id: 4,
-    year: "2026",
-    title: "OO학원 (강사료)",
-    date: "8월 2일",
-    amount: "4,500",
-    type: "income",
-    isQualified: false,
-    evidenceType: "세금계산서",
-    category: "매출",
-  },
-  {
-    id: 5,
-    year: "2026",
-    title: "다이소 (포장재)",
-    date: "7월 30일",
-    amount: "8,000",
-    type: "expense",
-    isQualified: false,
-    evidenceType: "현금영수증",
-    category: "소모품비",
-  },
-  {
-    id: 6,
-    year: "2025",
-    title: "쿠팡 (사무용품)",
-    date: "8월 4일",
-    amount: "34,900",
-    type: "expense",
-    isQualified: true,
-    evidenceType: "신용카드 매출전표",
-    category: "소모품비",
-  },
-  {
-    id: 7,
-    year: "2025",
-    title: "스타벅스 (미팅)",
-    date: "8월 3일",
-    amount: "12,000",
-    type: "expense",
-    isQualified: true,
-    evidenceType: "신용카드 매출전표",
-    category: "기업업무추진비",
-  },
-  {
-    id: 8,
-    year: "2025",
-    title: "한진택배 (발송비)",
-    date: "8월 2일",
-    amount: "4,500",
-    type: "expense",
-    isQualified: true,
-    evidenceType: "계산서",
-    category: "운반비",
-  },
-  {
-    id: 9,
-    year: "2025",
-    title: "OO학원 (강사료)",
-    date: "8월 2일",
-    amount: "4,500",
-    type: "income",
-    isQualified: false,
-    evidenceType: "세금계산서",
-    category: "매출",
-  },
-  {
-    id: 10,
-    year: "2025",
-    title: "다이소 (포장재)",
-    date: "7월 30일",
-    amount: "8,000",
-    type: "expense",
-    isQualified: false,
-    evidenceType: "현금영수증",
-    category: "소모품비",
-  },
-];
 
 // 검색 시 반환될 더미 데이터 (서버 연동 전 임시 데이터)
 const SEARCH_DUMMY_RESULTS = [
@@ -196,10 +152,6 @@ const SEARCH_DUMMY_RESULTS = [
     category: "여비교통비",
   },
 ];
-
-const LATEST_YEAR = String(
-  Math.max(...RECORD_LIST.map((item) => Number(item.year))),
-);
 
 function RecordHistory() {
   const navigate = useNavigate();
@@ -304,28 +256,20 @@ function RecordHistory() {
       </div>
 
       <nav className={styles.yearTabGroup}>
-        <button
-          type="button"
-          className={`${styles.yearTab} ${selectedYear === "2026" ? styles.activeYear : ""}`}
-          onClick={() => {
-            setSelectedYear("2026");
-            setIsSearched(false); // 연도 변경 시 검색 상태 초기화
-            setSearchTerm("");
-          }}
-        >
-          2026년
-        </button>
-        <button
-          type="button"
-          className={`${styles.yearTab} ${selectedYear === "2025" ? styles.activeYear : ""}`}
-          onClick={() => {
-            setSelectedYear("2025");
-            setIsSearched(false); // 연도 변경 시 검색 상태 초기화
-            setSearchTerm("");
-          }}
-        >
-          2025년
-        </button>
+        {AVAILABLE_YEARS.map((year) => (
+          <button
+            key={year}
+            type="button"
+            className={`${styles.yearTab} ${selectedYear === year ? styles.activeYear : ""}`}
+            onClick={() => {
+              setSelectedYear(year);
+              setIsSearched(false);
+              setSearchTerm("");
+            }}
+          >
+            {year}년
+          </button>
+        ))}
       </nav>
 
       <section className={styles.filterSection}>
