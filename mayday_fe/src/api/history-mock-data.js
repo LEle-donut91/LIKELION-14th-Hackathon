@@ -30,13 +30,13 @@
       - 수입(INCOME):
         * 매출: SALES
         * 기타(수입): OTHER_INCOME
-   8) evidenceType: 증빙유형
+   8) evidenceType: 증빙유형 => 수입(INCOME)일 경우 null
       - 세금계산서: TAX_INVOICE
       - 계산서: INVOICE
       - 신용카드 매출전표: CARD_RECEIPT
       - 현금영수증: CASH_RECEIPT
       - 해당 없음: NON_QUALIFIED (부적격 건)
-   9) qualifiedEvidence: 적격여부 (true | false)
+   9) qualifiedEvidence: 적격여부 (true | false) => 수입(INCOME)일 경우 null
 */
 
 export const mockTransactions = [
@@ -51,8 +51,8 @@ export const mockTransactions = [
     itemName: "거래처 미팅 음료", // 거래내용
     amount: 12000, // 금액
     category: "BUSINESS_PROMOTION_EXPENSE", // 계정과목
-    evidenceType: "CARD_RECEIPT", // 증빙 유형
-    qualifiedEvidence: true, // 적격 여부 (적격 or 부적격)
+    evidenceType: "CARD_RECEIPT", // 증빙 유형 => 수입(INCOME)일 경우 null
+    qualifiedEvidence: true, // 적격 여부 (적격 or 부적격) => 수입(INCOME)일 경우 null
   },
   {
     analysisId: "ana_002",

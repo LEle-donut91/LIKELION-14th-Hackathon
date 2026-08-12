@@ -16,8 +16,8 @@ export const mockExportPreviewData = [
     itemName: "사무용품", // 거래내용
     amount: 34900, // 금액
     category: "SUPPLIES", // 계정과목
-    evidenceType: "CARD_RECEIPT", // 증빙 유형
-    qualifiedEvidence: true, // 적격 여부 (적격 or 부적격)
+    evidenceType: "CARD_RECEIPT", // 증빙 유형 => 수입(INCOME)일 경우 null
+    qualifiedEvidence: true, // 적격 여부 (적격 or 부적격) => 수입(INCOME)일 경우 null
     remark: null, // 비고
   },
   {
