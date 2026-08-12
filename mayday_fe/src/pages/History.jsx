@@ -2,8 +2,9 @@ import { useState, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "./History.module.css";
 
-// mockTransactions 데이터 불러오기
+// mock 데이터 파일 불러오기
 import { mockTransactions } from "../api/history-mock-data.js";
+import { mockSearchTransactions } from "../api/history-search-mock-data.js";
 
 import HistoryQualModal from "../components/HistoryQualModal";
 import HistoryProofModal from "../components/HistoryProofModal";
@@ -101,6 +102,7 @@ const transformMockData = (rawList) => {
 };
 
 const RECORD_LIST = transformMockData(mockTransactions);
+const SEARCH_RESULTS = transformMockData(mockSearchTransactions);
 
 // 데이터에 존재하는 연도 목록 자동 추출 (내림차순 정렬: ["2026", "2025", "2024", ...])
 const AVAILABLE_YEARS = Array.from(
@@ -115,43 +117,6 @@ const renderCategoryIcon = (category) => {
   if (!iconSrc) return null;
   return <img src={iconSrc} alt={category} />;
 };
-
-// 검색 시 반환될 더미 데이터 (서버 연동 전 임시 데이터)
-const SEARCH_DUMMY_RESULTS = [
-  {
-    id: 101,
-    year: "2026",
-    title: "알파문구",
-    date: "8월 10일",
-    amount: "15,000",
-    type: "expense",
-    isQualified: true,
-    evidenceType: "신용카드 매출전표",
-    category: "소모품비",
-  },
-  {
-    id: 102,
-    year: "2026",
-    title: "이디야커피",
-    date: "8월 8일",
-    amount: "8,500",
-    type: "expense",
-    isQualified: true,
-    evidenceType: "현금영수증",
-    category: "기업업무추진비",
-  },
-  {
-    id: 103,
-    year: "2026",
-    title: "카카오T 택시",
-    date: "8월 5일",
-    amount: "14,200",
-    type: "expense",
-    isQualified: false,
-    evidenceType: "신용카드 매출전표",
-    category: "여비교통비",
-  },
-];
 
 function RecordHistory() {
   const navigate = useNavigate();
@@ -182,7 +147,7 @@ function RecordHistory() {
     }
 
     setIsSearched(true);
-    alert(`${SEARCH_DUMMY_RESULTS.length}건이 검색되었습니다.`);
+    alert(`${SEARCH_RESULTS.length}건이 검색되었습니다.`);
   };
 
   // 검색어 입력 변경 시 (검색어가 비면 다시 전체 데이터 모드로 복귀)
@@ -196,9 +161,9 @@ function RecordHistory() {
 
   // 검색 실행 여부에 따라 표시할 대상 데이터셋 결정
   const targetRecords = useMemo(() => {
-    if (isSearched) return SEARCH_DUMMY_RESULTS;
+    if (isSearched) return SEARCH_RESULTS;
     return RECORD_LIST.filter((item) => item.year === selectedYear);
-  }, [isSearched, selectedYear]);
+  }, [isSearched, SEARCH_RESULTS, selectedYear]);
 
   // 필터링 적용
   const filteredRecords = targetRecords.filter((item) => {
