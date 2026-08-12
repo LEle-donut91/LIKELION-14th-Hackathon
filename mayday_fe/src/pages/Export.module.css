@@ -1,0 +1,257 @@
+/* 상단 영역 */
+.header {
+  margin-top: 39px;
+  margin-left: 11px;
+}
+
+.title {
+  font-size: 17px;
+  font-weight: bold;
+  margin: 0;
+  line-height: 1.18;
+}
+
+/* 메인 컨텐츠 리프 */
+.content {
+  padding: 8px 20px 0 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* 요약 카드 */
+.summaryCard {
+  border-radius: 16px;
+  border: 1px solid #ececee;
+  padding: 17px 19px;
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  font-size: 13.5px;
+  color: #71717a;
+}
+
+.summaryRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  line-height: 1.19;
+}
+
+.summaryRow strong {
+  color: #111111;
+  font-weight: bold;
+}
+
+.dividerRow {
+  border-top: 1px solid #f4f4f5;
+  padding-top: 9px;
+}
+
+/* 섹션 공통 스타일 */
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.sectionTitle {
+  font-size: 14px;
+  font-weight: bold;
+  margin: 0;
+  line-height: 1.18;
+}
+
+/* 내보낼 항목 박스 */
+.optionsBox {
+  border-radius: 16px;
+  border: 1px solid #ececee;
+  padding: 12px 19px;
+  font-size: 14.5px;
+  color: #52525b;
+}
+
+.optionHeader {
+  display: flex;
+  align-items: center;
+  min-height: 48px;
+  gap: 12px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.dividerTop {
+  border-top: 1px solid #f4f4f5;
+}
+
+.optionTitle {
+  color: #111111;
+  font-weight: bold;
+  line-height: 1.17;
+}
+
+.optionSubtext {
+  font-size: 11.5px;
+  color: #a1a1aa;
+  margin-left: auto;
+  line-height: 1.17;
+}
+
+/* 하위 선택 리스트 */
+.subOptionList {
+  list-style: none;
+  padding: 0 0 0 11px;
+  margin: 0;
+  border-left: 2px solid #f4f4f5;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.subOptionItem {
+  display: flex;
+  align-items: center;
+  height: 40px;
+  gap: 12px;
+  font-size: 13.5px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.itemLabel {
+  color: #52525b;
+}
+
+.itemDescription {
+  font-size: 11px;
+  color: #a1a1aa;
+  margin-left: auto;
+  line-height: 1.18;
+}
+
+/* 접근성을 위한 시맨틱 input 숨김 */
+.visuallyHidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* 안내 텍스트 */
+.noticeText {
+  margin: 0;
+  padding-left: 4px;
+  font-size: 11.5px;
+  color: #a1a1aa;
+  line-height: 1.17;
+}
+
+/* 미리보기 버튼 */
+.previewButton {
+  width: 100%;
+  border-radius: 16px;
+  border: 1px solid #ececee;
+  background: none;
+  padding: 17px 19px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  text-align: left;
+}
+
+.previewTitle {
+  font-size: 15px;
+  color: #111111;
+  display: block;
+  line-height: 1.17;
+}
+
+.previewSummary {
+  font-size: 12.5px;
+  color: #a1a1aa;
+  margin-top: 5px;
+  line-height: 1.16;
+}
+
+.arrowIcon {
+  width: 8px;
+  height: 8px;
+  border-top: 2px solid #a1a1aa;
+  border-right: 2px solid #a1a1aa;
+  transform: rotate(45deg);
+  display: inline-block;
+}
+
+/* 파일 형식 선택 그룹 */
+.formatGroup {
+  display: flex;
+  gap: 10px;
+}
+
+.formatCard {
+  flex: 1;
+  height: 70.5px;
+  border-radius: 14px;
+  border: 1px solid #d4d4d8;
+  background: none;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 4px;
+  cursor: pointer;
+  font-size: 15px;
+  color: #71717a;
+  transition: all 0.15s ease;
+}
+
+.formatCard.activeFormat {
+  border: 2px solid #111111;
+  color: #111111;
+  font-weight: bold;
+}
+
+.formatCard span {
+  font-size: 11.5px;
+  color: #71717a;
+  line-height: 1.17;
+}
+
+.formatCard .subText {
+  color: #a1a1aa;
+}
+
+/* 하단 버튼 및 안내 */
+.footer {
+  margin-top: 18px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  text-align: center;
+}
+
+.footerNotice {
+  margin: 0;
+  font-size: 11.5px;
+  color: #a1a1aa;
+  line-height: 1.6;
+}
+
+.downloadButton {
+  width: 100%;
+  height: 54px;
+  border-radius: 16px;
+  background-color: #111111;
+  color: #ffffff;
+  border: none;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+}
