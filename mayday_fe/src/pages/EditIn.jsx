@@ -8,70 +8,102 @@ const INITIAL_DATA = {
   merchant: "크몽",
   date: "2026-08-02",
   isWithholding: "3.3% 공제",
-  netAmount: "967,000",
+  netAmount: "967000",
   category: "매출",
+};
+
+// 금액 자동 계산 함수
+const calculateAmounts = (netAmountStr, isWithholding) => {
+  const cleanNet = Number(netAmountStr.toString().replace(/[^0-9]/g, "")) || 0;
+
+  if (cleanNet === 0) {
+    return {
+      netFormatted: "",
+      grossAmount: "0",
+      taxAmount: "0",
+    };
+  }
+
+  if (isWithholding === "3.3% 공제") {
+    const gross = Math.round(cleanNet / 0.967);
+    const tax = gross - cleanNet;
+    return {
+      netFormatted: cleanNet.toLocaleString(),
+      grossAmount: gross.toLocaleString(),
+      taxAmount: tax.toLocaleString(),
+    };
+  } else {
+    return {
+      netFormatted: cleanNet.toLocaleString(),
+      grossAmount: cleanNet.toLocaleString(),
+      taxAmount: "0",
+    };
+  }
 };
 
 function EditIn() {
   const navigate = useNavigate();
-  const [formData, setFormData] = useState(INITIAL_DATA);
 
+  // 2) 초기 상태 설정 시 초기 자동 계산 실행
+  const [formData, setFormData] = useState(() => {
+    const calculated = calculateAmounts(
+      INITIAL_DATA.netAmount,
+      INITIAL_DATA.isWithholding
+    );
+    return {
+      ...INITIAL_DATA,
+      netAmount: calculated.netFormatted, // 사용자에게는 쉼표 포맷으로 표시
+      grossAmount: calculated.grossAmount,
+      taxAmount: calculated.taxAmount,
+    };
+  });
+
+  // 일반 입력 변경 (실수령액 입력 시 다른 금액 자동 계산)
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  };
 
-  const handleWithholdingChange = (e) => {
-    const value = e.target.value;
-    const cleanNet =
-      Number(
-        formData.netAmount
-          .toString()
-          .replace(/,/g, "")
-          .replace("원", "")
-          .trim(),
-      ) || 0;
-
-    if (value === "3.3% 공제") {
-      const gross = Math.round(cleanNet / 0.967);
-      const tax = gross - cleanNet;
-
+    if (name === "netAmount") {
+      const calculated = calculateAmounts(value, formData.isWithholding);
       setFormData((prev) => ({
         ...prev,
-        isWithholding: value,
-        grossAmount: gross.toLocaleString(),
-        taxAmount: tax.toLocaleString(),
+        netAmount: calculated.netFormatted,
+        grossAmount: calculated.grossAmount,
+        taxAmount: calculated.taxAmount,
       }));
     } else {
       setFormData((prev) => ({
         ...prev,
-        isWithholding: value,
-        grossAmount: cleanNet.toLocaleString(),
-        taxAmount: "0",
+        [name]: value,
       }));
     }
+  };
+
+  // 3.3% 공제 여부 변경 시 금액 자동 재계산
+  const handleWithholdingChange = (e) => {
+    const value = e.target.value;
+    const calculated = calculateAmounts(formData.netAmount, value);
+
+    setFormData((prev) => ({
+      ...prev,
+      isWithholding: value,
+      netAmount: calculated.netFormatted,
+      grossAmount: calculated.grossAmount,
+      taxAmount: calculated.taxAmount,
+    }));
   };
 
   const handleSave = () => {
     if (
       !formData.merchant.trim() ||
       !formData.date.trim() ||
-      !formData.netAmount.toString().trim()
+      !formData.netAmount.trim()
     ) {
       alert("값을 입력해주세요");
       return;
     }
 
     const dateRegex = /^\d{4}[.-]\d{2}[.-]\d{2}$/;
-    const cleanNet = formData.netAmount
-      .toString()
-      .replace(/,/g, "")
-      .replace("원", "")
-      .trim();
-
+    const cleanNet = formData.netAmount.replace(/,/g, "").trim();
     const amountRegex = /^\d+$/;
 
     if (!dateRegex.test(formData.date) || !amountRegex.test(cleanNet)) {
@@ -79,7 +111,10 @@ function EditIn() {
       return;
     }
 
-    console.log(formData);
+    console.log({
+      ...formData,
+      netAmount: cleanNet,
+    });
     alert("수정되었습니다!");
     navigate(-1);
   };
@@ -177,12 +212,12 @@ function EditIn() {
               name="netAmount"
               className={`${styles.input} ${styles.boldInput}`}
               value={formData.netAmount}
-              placeholder={INITIAL_DATA.netAmount}
+              placeholder="0"
               onChange={handleChange}
             />
           </div>
 
-          {/* 공제 전 금액 & 원천징수 세액 */}
+          {/* 공제 전 금액 & 원천징수 세액 (자동 계산되어 표시됨) */}
           <div className={styles.row}>
             <div className={styles.col}>
               <label className={styles.label}>공제 전 금액</label>
@@ -191,8 +226,7 @@ function EditIn() {
                 name="grossAmount"
                 className={styles.input}
                 value={formData.grossAmount}
-                placeholder={INITIAL_DATA.grossAmount}
-                onChange={handleChange}
+                readOnly
               />
             </div>
 
@@ -203,8 +237,7 @@ function EditIn() {
                 name="taxAmount"
                 className={styles.input}
                 value={formData.taxAmount}
-                placeholder={INITIAL_DATA.taxAmount}
-                onChange={handleChange}
+                readOnly
               />
             </div>
           </div>
@@ -218,15 +251,17 @@ function EditIn() {
           {/* 항목 선택 */}
           <div className={styles.field}>
             <label className={styles.label}>항목</label>
-            <select
-              name="category"
-              className={styles.select}
-              value={formData.category}
-              onChange={handleChange}
-            >
-              <option value="매출">매출</option>
-              <option value="기타(수입)">기타(수입)</option>
-            </select>
+            <div className={styles.selectBox}>
+              <select
+                name="category"
+                className={styles.select}
+                value={formData.category}
+                onChange={handleChange}
+              >
+                <option value="매출">매출</option>
+                <option value="기타(수입)">기타(수입)</option>
+              </select>
+            </div>
             <span className={styles.helperText}>매출 · 기타(수입) 중 선택</span>
           </div>
         </section>
