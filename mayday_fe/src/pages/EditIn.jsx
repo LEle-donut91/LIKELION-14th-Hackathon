@@ -67,6 +67,15 @@ function EditIn() {
     };
   });
 
+  // 클릭(포커스) 시 해당 값 초기화하여 placeholder 노출
+  const handleFocus = (e) => {
+    const { name } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: "",
+    }));
+  };
+
   // 일반 입력 변경 (실수령액 입력 시 다른 금액 자동 계산)
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -141,6 +150,9 @@ function EditIn() {
     navigate(-1);
   };
 
+  // 금액 Placeholder용 더미 데이터 쉼표+원 포맷팅
+  const defaultAmountPlaceholder = `${Number(incomeEditData.amount).toLocaleString()}원`;
+
   return (
     <div className={styles.container}>
       {/* 헤더 영역 */}
@@ -166,6 +178,7 @@ function EditIn() {
                 className={styles.input}
                 value={formData.merchant}
                 placeholder={incomeEditData.merchantName}
+                onFocus={handleFocus}
                 onChange={handleChange}
               />
             </div>
@@ -178,6 +191,7 @@ function EditIn() {
                 className={styles.input}
                 value={formData.date}
                 placeholder={incomeEditData.date}
+                onFocus={handleFocus}
                 onChange={handleChange}
               />
             </div>
@@ -227,6 +241,8 @@ function EditIn() {
               name="netAmount"
               className={`${styles.input} ${styles.boldInput}`}
               value={formData.netAmount}
+              placeholder={defaultAmountPlaceholder}
+              onFocus={handleFocus}
               onChange={handleChange}
             />
           </div>

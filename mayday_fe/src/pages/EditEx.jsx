@@ -56,6 +56,15 @@ function EditEx() {
     qualifiedEvidence: expenseEditData.qualifiedEvidence ?? false, // Boolean (true/false)
   }));
 
+  // 클릭(포커스) 시 해당 값 초기화하여 placeholder 노출
+  const handleFocus = (e) => {
+    const { name } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: "",
+    }));
+  };
+
   const handleChange = (e) => {
     const { name, value } = e.target;
 
@@ -128,6 +137,9 @@ function EditEx() {
     navigate(-1);
   };
 
+  // 금액 Placeholder용 더미 데이터 쉼표+원 포맷팅
+  const defaultAmountPlaceholder = formatAmount(expenseEditData.amount);
+
   return (
     <div className={styles.container}>
     {/* 헤더 영역 */}
@@ -153,6 +165,7 @@ function EditEx() {
                 className={styles.input}
                 value={formData.merchant}
                 placeholder={expenseEditData.merchantName}
+                onFocus={handleFocus}
                 onChange={handleChange}
               />
             </div>
@@ -169,6 +182,7 @@ function EditEx() {
                   className={styles.input}
                   value={formData.date}
                   placeholder={expenseEditData.date}
+                  onFocus={handleFocus}
                   onChange={handleChange}
                 />
               </div>
@@ -181,7 +195,8 @@ function EditEx() {
                   name="amount"
                   className={`${styles.input} ${styles.boldText}`}
                   value={formData.amount}
-                  placeholder={formatAmount(expenseEditData.amount)}
+                  placeholder={defaultAmountPlaceholder}
+                  onFocus={handleFocus}
                   onChange={handleChange}
                 />
               </div>
@@ -198,6 +213,7 @@ function EditEx() {
                 className={styles.input}
                 value={formData.item}
                 placeholder={expenseEditData.itemName}
+                onFocus={handleFocus}
                 onChange={handleChange}
               />
             </div>
