@@ -138,7 +138,7 @@ function Export() {
   // 2. 필터링 및 건수 재계산 함수 호출
   const { headers, filteredRows, summary, noticeText } = getFilteredPreviewData(
     mockExportPreviewData,
-    { isQualifiedGroupChecked, isEvidenceChecked, qualifiedOptions }
+    { isQualifiedGroupChecked, isEvidenceChecked, qualifiedOptions },
   );
 
   const previewSummary = `${headers.length}개 열 · 상위 ${summary.topRecordsCount}건 · 전체 ${summary.totalCount}건`;
@@ -278,11 +278,13 @@ function Export() {
                       checked={qualifiedOptions.qualified}
                       onChange={() => handleToggleSubOption("qualified")}
                     />
-                    {qualifiedOptions.qualified ? (
-                      <HistoryChecked type="square" />
-                    ) : (
-                      <HistoryUnChecked />
-                    )}
+                    <span className={styles.subCheckboxWrapper}>
+                      {qualifiedOptions.qualified ? (
+                        <HistoryChecked type="square" />
+                      ) : (
+                        <HistoryUnChecked />
+                      )}
+                    </span>
                     <span>적격</span>
                   </label>
                 </li>
@@ -295,11 +297,13 @@ function Export() {
                       checked={qualifiedOptions.unqualified}
                       onChange={() => handleToggleSubOption("unqualified")}
                     />
-                    {qualifiedOptions.unqualified ? (
-                      <HistoryChecked type="square" />
-                    ) : (
-                      <HistoryUnChecked />
-                    )}
+                    <span className={styles.subCheckboxWrapper}>
+                      {qualifiedOptions.unqualified ? (
+                        <HistoryChecked type="square" />
+                      ) : (
+                        <HistoryUnChecked />
+                      )}
+                    </span>
                     <span>부적격</span>
                   </label>
                 </li>
@@ -312,11 +316,13 @@ function Export() {
                       checked={qualifiedOptions.remark}
                       onChange={() => handleToggleSubOption("remark")}
                     />
-                    {qualifiedOptions.remark ? (
-                      <HistoryChecked type="square" />
-                    ) : (
-                      <HistoryUnChecked />
-                    )}
+                    <span className={styles.subCheckboxWrapper}>
+                      {qualifiedOptions.remark ? (
+                        <HistoryChecked type="square" />
+                      ) : (
+                        <HistoryUnChecked />
+                      )}
+                    </span>
                     <span className={styles.itemLabel}>비고</span>
                     <span className={styles.itemDescription}>
                       증빙불비 · 감가상각 검토 분류
@@ -379,16 +385,26 @@ function Export() {
               }`}
               onClick={() => setFileFormat("xlsx")}
             >
-              <strong>엑셀 (.xlsx)</strong>
-              <span>신고 준비에 추천</span>
+              {fileFormat === "xlsx" ? (
+                <strong>엑셀 (.xlsx)</strong>
+              ) : (
+                <span className={styles.formatTitle}>엑셀 (.xlsx)</span>
+              )}
+              <span className={styles.subText}>신고 준비에 추천</span>
             </button>
+
+            {/* CSV 카드 */}
             <button
               className={`${styles.formatCard} ${
                 fileFormat === "csv" ? styles.activeFormat : ""
               }`}
               onClick={() => setFileFormat("csv")}
             >
-              <strong>CSV (.csv)</strong>
+              {fileFormat === "csv" ? (
+                <strong>CSV (.csv)</strong>
+              ) : (
+                <span className={styles.formatTitle}>CSV (.csv)</span>
+              )}
               <span className={styles.subText}>범용 형식</span>
             </button>
           </div>
