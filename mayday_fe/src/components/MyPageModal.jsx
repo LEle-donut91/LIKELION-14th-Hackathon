@@ -48,13 +48,13 @@ function MyPageModal({ isOpen, onClose, onWithdraw }) {
           <h3 className={styles.modalTitle}>정말 탈퇴하시겠어요?</h3>
           <p className={styles.modalDescription}>
             탈퇴하면{" "}
-            <strong className={styles.highlight}>
+            <b className={styles.highlight}>
               계정의 개인정보와 모든 기록 정보
-            </strong>
+            </b>
             (지출·수입 기록, 영수증 증빙, 온보딩 설정)가{" "}
-            <strong className={styles.highlight}>
+            <b className={styles.highlight}>
               즉시 삭제되며 복구할 수 없어요.
-            </strong>
+            </b>
           </p>
         </div>
 
