@@ -9,6 +9,8 @@ import Header from './components/Header';
 import Login from './pages/Login';
 import Join from './pages/Join';
 import Home from './pages/Home';
+import Loading from './pages/Loading';
+import AnalysisResult from './pages/AnalysisResult';
 import Record from './pages/Record';
 import Mypage from './pages/Mypage';
 
@@ -21,6 +23,8 @@ function App() {
             <Route path="/" element={<Login />} />
             <Route path="/join" element={<Join />} />
             <Route path="/home" element={<Home />} />
+            <Route path="/loading" element={<Loading />} />
+            <Route path="/analysis-result" element={<AnalysisResult />} />
             <Route path="/record" element={<Record />} />
             <Route path="/mypage" element={<Mypage />} />
           </Routes>

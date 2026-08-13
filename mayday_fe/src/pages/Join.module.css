@@ -11,7 +11,7 @@
 }
 .text {
   font-size: 15px;
-  color: #667085;
+  color: var(--text-1);
   line-height: 1.5;
   margin: 0 0 32px 0;
 }
@@ -21,7 +21,7 @@
 .input {
   width: 100%;
   padding: 16px;
-  border: 1px solid var(--border, #E5E5EA);
+  border: 1px solid var(--border);
   border-radius: 12px;
   font-size: 15px;
   outline: none;
@@ -42,7 +42,7 @@
   padding-left: 4px;
 }
 .check {
-  background-color: #F9FAFB;
+  background-color: #FAFAFA;
   border-radius: 16px;
   padding: 20px;
   margin-top: 40px;
@@ -54,7 +54,7 @@
   margin-bottom: 16px;
   cursor: pointer;
   font-size: 14px;
-  color: #344054;
+  color: var(--text-3);
 }
 .Item:last-child {
   margin-bottom: 0;
@@ -63,9 +63,9 @@
   font-weight: bold;
   border-bottom: 1px solid #E5E5EA;
   padding-bottom: 16px;
-  margin-bottom: 16px;
+  font-size: 16px;
+  color: var(--primary-0);
 }
 .btn {
   padding: 20px;
-  background-color: var(--bg-app, #ffffff);
 }

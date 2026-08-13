@@ -1,0 +1,171 @@
+.container { 
+  display: flex; 
+  flex-direction: column; 
+  height: 100%; 
+  padding-top: 20px;
+}
+.content { flex: 1; 
+  padding: 20px; 
+  overflow-y: auto; 
+  padding-bottom: 40px; 
+}
+.tabContainer {
+  display: flex; 
+  background: #F2F4F7; 
+  border-radius: 12px; 
+  padding: 4px; 
+  margin-bottom: 24px;
+}
+.tab {
+  flex: 1; 
+  text-align: center; 
+  padding: 12px 0; 
+  font-size: 15px; 
+  font-weight: bold; 
+  color: #667085; 
+  border-radius: 8px; 
+  cursor: pointer; 
+  transition: 0.2s;
+}
+.activeTab {
+  background: #101828; 
+  color: #fff; 
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+.taxSection { 
+  margin-bottom: 24px; 
+}
+.taxTitle { 
+  font-size: 14px; 
+  font-weight: bold; 
+  margin-bottom: 12px; 
+  color: #101828; 
+}
+.taxDesc { 
+  font-size: 11px; 
+  color: #99A1AF; 
+  margin-top: -16px; 
+  margin-bottom: 8px; 
+}
+.uploadBox {
+  border: 1.5px dashed #D0D5DD; 
+  border-radius: 16px; 
+  padding: 32px 20px; 
+  text-align: center; 
+  cursor: pointer; 
+  margin-bottom: 24px;
+}
+.uploadIcon { 
+  width: 32px; 
+  margin-bottom: 12px; 
+}
+.uploadTitle { 
+  font-size: 16px; 
+  font-weight: bold; 
+  color: #101828; 
+  margin-bottom: 8px; 
+}
+.uploadDesc { 
+  font-size: 12px; 
+  color: #99A1AF; 
+}
+.textBox {
+  background: #F9FAFB; 
+  border-radius: 16px; 
+  padding: 20px; 
+  margin-bottom: 40px;
+}
+.textTitle { 
+  font-size: 14px; 
+  font-weight: bold; 
+  margin-bottom: 12px; 
+  color: #101828; 
+}
+.textarea {
+  width: 100%; 
+  min-height: 80px; 
+  background: transparent; 
+  border: none; 
+  resize: none; 
+  outline: none; 
+  font-size: 14px;
+}
+.textarea::placeholder { 
+  color: #99A1AF; 
+}
+.listHeader {
+  display: flex; 
+  justify-content: space-between; 
+  align-items: center; 
+  font-size: 14px; 
+  font-weight: bold; 
+  margin-bottom: 16px; 
+  color: #101828;
+}
+.listStatus { 
+  font-size: 12px; 
+  font-weight: normal;
+  color: #99A1AF; 
+}
+.emptyBox {
+  border: 1px dashed #E5E5EA; 
+  border-radius: 12px; 
+  padding: 32px 20px; 
+  text-align: center; 
+  font-size: 13px; 
+  color: #99A1AF; 
+  line-height: 1.5;
+}
+.itemList { 
+  display: flex; 
+  flex-direction: column; 
+  gap: 12px; 
+}
+.itemCard {
+  display: flex; 
+  align-items: center; 
+  padding: 16px; 
+  border: 1px solid #E5E5EA; 
+  border-radius: 12px;
+}
+.itemThumb {
+  width: 40px; 
+  height: 40px; 
+  background: #F2F4F7; 
+  border-radius: 8px; 
+  display: flex; 
+  justify-content: center; 
+  align-items: center; 
+  font-size: 11px; 
+  font-weight: bold; 
+  color: #99A1AF; 
+  margin-right: 12px;
+}
+.itemInfo { 
+  flex: 1; 
+}
+.itemName { 
+  font-size: 14px; 
+  color: #101828; 
+  margin-bottom: 4px; 
+}
+.itemSub { 
+  font-size: 12px; 
+  color: #99A1AF; 
+}
+.deleteBtn {
+  background: none; 
+  border: 1px solid #E5E5EA; 
+  border-radius: 50%; 
+  width: 28px; 
+  height: 28px; 
+  display: flex; 
+  justify-content: center; 
+  align-items: center; 
+  color: #99A1AF; 
+  cursor: pointer;
+}
+.btn { 
+  padding: 20px; 
+  background: var(--bg-app); 
+}
