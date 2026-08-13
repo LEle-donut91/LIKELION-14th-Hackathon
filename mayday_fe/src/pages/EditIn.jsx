@@ -12,15 +12,15 @@ const INITIAL_DATA = {
   category: "매출",
 };
 
-// 금액 자동 계산 함수
+// 금액 자동 계산 함수 (뒤에 "원" 붙이기)
 const calculateAmounts = (netAmountStr, isWithholding) => {
   const cleanNet = Number(netAmountStr.toString().replace(/[^0-9]/g, "")) || 0;
 
   if (cleanNet === 0) {
     return {
-      netFormatted: 0,
-      grossAmount: 0,
-      taxAmount: 0,
+      netFormatted: "0원",
+      grossAmount: "0원",
+      taxAmount: "0원",
     };
   }
 
@@ -28,15 +28,15 @@ const calculateAmounts = (netAmountStr, isWithholding) => {
     const gross = Math.round(cleanNet / 0.967);
     const tax = gross - cleanNet;
     return {
-      netFormatted: cleanNet.toLocaleString(),
-      grossAmount: gross.toLocaleString(),
-      taxAmount: tax.toLocaleString(),
+      netFormatted: `${cleanNet.toLocaleString()}원`,
+      grossAmount: `${gross.toLocaleString()}원`,
+      taxAmount: `${tax.toLocaleString()}원`,
     };
   } else {
     return {
-      netFormatted: cleanNet.toLocaleString(),
-      grossAmount: cleanNet.toLocaleString(),
-      taxAmount: "0",
+      netFormatted: `${cleanNet.toLocaleString()}원`,
+      grossAmount: `${cleanNet.toLocaleString()}원`,
+      taxAmount: "0원",
     };
   }
 };
@@ -52,7 +52,7 @@ function EditIn() {
     );
     return {
       ...INITIAL_DATA,
-      netAmount: calculated.netFormatted, // 사용자에게는 쉼표 포맷으로 표시
+      netAmount: calculated.netFormatted, // 사용자에게는 쉼표 포맷 + "원"으로 표시
       grossAmount: calculated.grossAmount,
       taxAmount: calculated.taxAmount,
     };
@@ -103,7 +103,8 @@ function EditIn() {
     }
 
     const dateRegex = /^\d{4}[.-]\d{2}[.-]\d{2}$/;
-    const cleanNet = formData.netAmount.replace(/,/g, "").trim();
+    // 검증 시 "원"과 쉼표(,)를 제거하고 숫자만 추출
+    const cleanNet = formData.netAmount.replace(/[^0-9]/g, "").trim();
     const amountRegex = /^\d+$/;
 
     if (!dateRegex.test(formData.date) || !amountRegex.test(cleanNet)) {

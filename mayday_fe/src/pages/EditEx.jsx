@@ -15,16 +15,39 @@ const INITIAL_DATA = {
   isValid: "부적격",
 };
 
+// 금액 포맷팅 함수 (숫자를 1,000원 형태로 변환)
+const formatAmount = (val) => {
+  if (val === undefined || val === null || val === "") return "";
+  const cleanNumber = Number(val.toString().replace(/[^0-9]/g, "")) || 0;
+  if (cleanNumber === 0) return "0원";
+  return `${cleanNumber.toLocaleString()}원`;
+};
+
 function EditEx() {
-    const navigate = useNavigate();
-  const [formData, setFormData] = useState(INITIAL_DATA);
+  const navigate = useNavigate();
+
+  // 초기 상태 설정 시 초기 금액 뒤에 "원" 붙여 포맷팅
+  const [formData, setFormData] = useState(() => ({
+    ...INITIAL_DATA,
+    amount: formatAmount(INITIAL_DATA.amount),
+  }));
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
+
+    if (name === "amount") {
+      // 숫자 이외의 문자 제거 후 포맷팅
+      const formatted = formatAmount(value);
+      setFormData((prev) => ({
+        ...prev,
+        amount: formatted,
+      }));
+    } else {
+      setFormData((prev) => ({
+        ...prev,
+        [name]: value,
+      }));
+    }
   };
 
   // 수정 저장하기 버튼 클릭 시 검증 및 처리
@@ -33,7 +56,7 @@ function EditEx() {
     if (
       !formData.merchant.trim() ||
       !formData.date.trim() ||
-      !formData.amount.trim() ||
+      !String(formData.amount).trim() ||
       !formData.item.trim()
     ) {
       alert("값을 입력해주세요");
@@ -42,7 +65,7 @@ function EditEx() {
 
     // 날짜 형식(YYYY-MM-DD) 및 금액 형식(숫자) 검증
     const dateRegex = /^\d{4}-\d{2}-\d{2}$/;
-    const cleanAmount = formData.amount.replace(/,/g, "").replace("원", "").trim();
+    const cleanAmount = String(formData.amount).replace(/[^0-9]/g, "").trim();
     const amountRegex = /^\d+$/;
 
     if (!dateRegex.test(formData.date) || !amountRegex.test(cleanAmount)) {
@@ -51,7 +74,10 @@ function EditEx() {
     }
 
     // 사용자가 입력/선택한 값 log 출력 및 alert 표시
-    console.log(formData);
+    console.log({
+      ...formData,
+      amount: cleanAmount,
+    });
     alert("수정되었습니다!");
     navigate(-1)
   };
@@ -115,7 +141,7 @@ function EditEx() {
                   name="amount"
                   className={`${styles.input} ${styles.boldText}`}
                   value={formData.amount}
-                  placeholder={INITIAL_DATA.amount}
+                  placeholder={formatAmount(INITIAL_DATA.amount)}
                   onChange={handleChange}
                 />
               </div>
