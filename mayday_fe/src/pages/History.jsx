@@ -97,6 +97,9 @@ const transformMockData = (rawList) => {
       isQualified: item.qualifiedEvidence,
       evidenceType: EVIDENCE_TYPE_MAP[item.evidenceType] || "",
       category: category,
+
+      // 원천 데이터 전체
+      raw: item,
     };
   });
 };
@@ -302,7 +305,9 @@ function History() {
             onClick={() => {
               const targetPath =
                 item.type === "expense" ? "/edit_expense" : "/edit_income";
-              navigate(targetPath, { state: { item } });
+
+              // 상세 페이지로 "원천 데이터"를 전달
+              navigate(targetPath, { state: { rawItem: item.raw } });
             }}
           >
             <div className={styles.recordIconWrapper}>
