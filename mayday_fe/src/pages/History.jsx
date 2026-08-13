@@ -299,15 +299,22 @@ function History() {
 
       <main className={styles.recordList}>
         {filteredRecords.map((item) => (
+          // 리스트의 각각의 항목 클릭 시, 상세페이지(EditEx, EditIn)로 이동
           <article
             key={item.id}
             className={styles.recordItem}
             onClick={() => {
-              const targetPath =
-                item.type === "expense" ? "/edit_expense" : "/edit_income";
+              // targetPath는 클릭 후 이동할 경로
+              // 현재 클릭한 항목의 ID를 경로 뒤에 붙임 (예: /edit_expense/ana_001)
 
-              // 상세 페이지로 "원천 데이터"를 전달
-              navigate(targetPath, { state: { rawItem: item.raw } });
+              // 1) 지출(expense)일 경우, EditEx.jsx로 이동 (예: /edit_expense/ana_001)
+              // 2) 수입(income)일 경우, EditIn.jsx로 이동 (예: /edit_income/ana_010)
+              const targetPath =
+                item.type === "expense"
+                  ? `/edit_expense/${item.id}`
+                  : `/edit_income/${item.id}`;
+
+              navigate(targetPath);
             }}
           >
             <div className={styles.recordIconWrapper}>
