@@ -4,12 +4,17 @@ import styles from "./EditIn.module.css";
 import Header from "../components/Header";
 import Button from "../components/Button";
 
-const INITIAL_DATA = {
-  merchant: "크몽",
-  date: "2026-08-02",
-  isWithholding: "3.3% 공제",
-  netAmount: "967000",
-  category: "매출",
+// 더미 데이터 불러오기
+import { incomeEditData } from "../api/edit-mock-data";
+
+// 카테고리 Enum <-> 한글 매핑
+const CATEGORY_MAP = {
+  SALES: "매출",
+  OTHER_INCOME: "기타(수입)",
+};
+
+const getKeyByValue = (object, value) => {
+  return Object.keys(object).find((key) => object[key] === value);
 };
 
 // 금액 자동 계산 함수 (뒤에 "원" 붙이기)
@@ -24,7 +29,7 @@ const calculateAmounts = (netAmountStr, isWithholding) => {
     };
   }
 
-  if (isWithholding === "3.3% 공제") {
+  if (isWithholding) {
     const gross = Math.round(cleanNet / 0.967);
     const tax = gross - cleanNet;
     return {
@@ -46,15 +51,19 @@ function EditIn() {
 
   // 초기 상태 설정 시 초기 자동 계산 실행
   const [formData, setFormData] = useState(() => {
-    const calculated = calculateAmounts(
-      INITIAL_DATA.netAmount,
-      INITIAL_DATA.isWithholding
-    );
+    const isWithholding = incomeEditData.withholding ?? true;
+    const calculated = calculateAmounts(incomeEditData.amount, isWithholding);
+
     return {
-      ...INITIAL_DATA,
-      netAmount: calculated.netFormatted, // 사용자에게는 쉼표 포맷 + "원"으로 표시
+      analysisId: incomeEditData.analysisId,
+      merchant: incomeEditData.merchantName,
+      date: incomeEditData.date,
+      itemName: incomeEditData.itemName,
+      isWithholding: isWithholding,
+      netAmount: calculated.netFormatted,
       grossAmount: calculated.grossAmount,
       taxAmount: calculated.taxAmount,
+      category: CATEGORY_MAP[incomeEditData.category],
     };
   });
 
@@ -79,8 +88,8 @@ function EditIn() {
   };
 
   // 3.3% 공제 여부 변경 시 금액 자동 재계산
-  const handleWithholdingChange = (e) => {
-    const value = e.target.value;
+  const handleWithholdingChange = (value) => {
+    // value: boolean (true / false)
     const calculated = calculateAmounts(formData.netAmount, value);
 
     setFormData((prev) => ({
@@ -103,19 +112,26 @@ function EditIn() {
     }
 
     const dateRegex = /^\d{4}[.-]\d{2}[.-]\d{2}$/;
-    // 검증 시 "원"과 쉼표(,)를 제거하고 숫자만 추출
-    const cleanNet = formData.netAmount.replace(/[^0-9]/g, "").trim();
-    const amountRegex = /^\d+$/;
+    const cleanNet = Number(formData.netAmount.replace(/[^0-9]/g, "").trim());
 
-    if (!dateRegex.test(formData.date) || !amountRegex.test(cleanNet)) {
+    if (!dateRegex.test(formData.date) || isNaN(cleanNet)) {
       alert("형식에 맞춰 내용을 입력해주세요");
       return;
     }
 
-    console.log({
-      ...formData,
-      netAmount: cleanNet,
-    });
+    // 서버 / 더미 데이터 규격에 맞춘 최종 객체
+    const saveData = {
+      analysisId: formData.analysisId,
+      type: "INCOME",
+      date: formData.date,
+      merchantName: formData.merchant,
+      itemName: formData.itemName,
+      amount: cleanNet,
+      category: getKeyByValue(CATEGORY_MAP, formData.category),
+      withholding: formData.isWithholding,
+    };
+
+    console.log("저장 데이터:", saveData);
     alert("수정되었습니다!");
     navigate(-1);
   };
@@ -149,7 +165,7 @@ function EditIn() {
                 name="merchant"
                 className={styles.input}
                 value={formData.merchant}
-                placeholder={INITIAL_DATA.merchant}
+                placeholder={incomeEditData.merchantName}
                 onChange={handleChange}
               />
             </div>
@@ -161,7 +177,7 @@ function EditIn() {
                 name="date"
                 className={styles.input}
                 value={formData.date}
-                placeholder={INITIAL_DATA.date}
+                placeholder={incomeEditData.date}
                 onChange={handleChange}
               />
             </div>
@@ -173,15 +189,14 @@ function EditIn() {
             <div className={styles.radioGroup}>
               <label
                 className={`${styles.radioBtn} ${
-                  formData.isWithholding === "3.3% 공제" ? styles.selected : ""
+                  formData.isWithholding === true ? styles.selected : ""
                 }`}
               >
                 <input
                   type="radio"
                   name="isWithholding"
-                  value="3.3% 공제"
-                  checked={formData.isWithholding === "3.3% 공제"}
-                  onChange={handleWithholdingChange}
+                  checked={formData.isWithholding === true}
+                  onChange={() => handleWithholdingChange(true)}
                   className={styles.hiddenRadio}
                 />
                 <span>3.3% 공제</span>
@@ -189,15 +204,14 @@ function EditIn() {
 
               <label
                 className={`${styles.radioBtn} ${
-                  formData.isWithholding === "공제 없음" ? styles.selected : ""
+                  formData.isWithholding === false ? styles.selected : ""
                 }`}
               >
                 <input
                   type="radio"
                   name="isWithholding"
-                  value="공제 없음"
-                  checked={formData.isWithholding === "공제 없음"}
-                  onChange={handleWithholdingChange}
+                  checked={formData.isWithholding === false}
+                  onChange={() => handleWithholdingChange(false)}
                   className={styles.hiddenRadio}
                 />
                 <span>공제 없음</span>

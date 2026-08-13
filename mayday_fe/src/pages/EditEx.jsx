@@ -4,18 +4,36 @@ import styles from "./EditEx.module.css";
 import Header from "../components/Header";
 import Button from "../components/Button";
 
-// 더미 데이터
-const INITIAL_DATA = {
-  merchant: "쿠팡",
-  date: "2026-08-04",
-  amount: 34900,
-  item: "A4 용지 외 2건",
-  proofType: "해당 없음",
-  category: "소모품비",
-  isValid: "부적격",
+// 더미 데이터 불러오기
+import { expenseEditData } from "../api/edit-mock-data";
+
+// 증빙 유형 Enum <-> 한글 매핑
+const EVIDENCE_TYPE_MAP = {
+  TAX_INVOICE: "세금계산서",
+  INVOICE: "계산서",
+  CREDIT_CARD: "신용카드 매출전표",
+  CASH_RECEIPT: "현금영수증",
+  NON_QUALIFIED: "해당 없음",
 };
 
-// 금액 포맷팅 함수 (숫자를 1,000원 형태로 변환)
+// 지출 카테고리 Enum <-> 한글 매핑
+const CATEGORY_MAP = {
+  TAXES: "제세공과금",
+  RENT: "임차료",
+  ENTERTAINMENT: "기업업무추진비",
+  VEHICLE: "차량유지비",
+  COMMISSION: "지급수수료",
+  SUPPLIES: "소모품비",
+  TRANSPORT: "운반비",
+  ADVERTISING: "광고선전비",
+  TRAVEL: "여비교통비",
+  OTHER_EXPENSE: "기타(비용)",
+};
+
+const getKeyByValue = (object, value) => {
+  return Object.keys(object).find((key) => object[key] === value);
+};
+
 const formatAmount = (val) => {
   if (val === undefined || val === null || val === "") return "";
   const cleanNumber = Number(val.toString().replace(/[^0-9]/g, "")) || 0;
@@ -26,10 +44,16 @@ const formatAmount = (val) => {
 function EditEx() {
   const navigate = useNavigate();
 
-  // 초기 상태 설정 시 초기 금액 뒤에 "원" 붙여 포맷팅
+  // 초기 상태 설정
   const [formData, setFormData] = useState(() => ({
-    ...INITIAL_DATA,
-    amount: formatAmount(INITIAL_DATA.amount),
+    analysisId: expenseEditData.analysisId,
+    merchant: expenseEditData.merchantName,
+    date: expenseEditData.date,
+    amount: formatAmount(expenseEditData.amount),
+    item: expenseEditData.itemName,
+    proofType: EVIDENCE_TYPE_MAP[expenseEditData.evidenceType],
+    category: CATEGORY_MAP[expenseEditData.category],
+    qualifiedEvidence: expenseEditData.qualifiedEvidence ?? false, // Boolean (true/false)
   }));
 
   const handleChange = (e) => {
@@ -50,7 +74,14 @@ function EditEx() {
     }
   };
 
-  // 수정 저장하기 버튼 클릭 시 검증 및 처리
+
+  const handleQualifiedChange = (value) => {
+    setFormData((prev) => ({
+      ...prev,
+      qualifiedEvidence: value,
+    }));
+  };
+
   const handleSave = () => {
     // input 태그에 값이 비어있는지 확인
     if (
@@ -63,21 +94,30 @@ function EditEx() {
       return;
     }
 
-    // 날짜 형식(YYYY-MM-DD) 및 금액 형식(숫자) 검증
-    const dateRegex = /^\d{4}-\d{2}-\d{2}$/;
-    const cleanAmount = String(formData.amount).replace(/[^0-9]/g, "").trim();
-    const amountRegex = /^\d+$/;
+    const dateRegex = /^\d{4}[.-]\d{2}[.-]\d{2}$/;
+    const cleanAmount = Number(
+      String(formData.amount).replace(/[^0-9]/g, "").trim()
+    );
 
-    if (!dateRegex.test(formData.date) || !amountRegex.test(cleanAmount)) {
+    if (!dateRegex.test(formData.date) || isNaN(cleanAmount)) {
       alert("형식에 맞춰 내용을 입력해주세요");
       return;
     }
 
-    // 사용자가 입력/선택한 값 log 출력 및 alert 표시
-    console.log({
-      ...formData,
+    // 서버 / 더미 데이터 규격에 맞춘 최종 객체
+    const saveData = {
+      analysisId: formData.analysisId,
+      type: "EXPENSE",
+      date: formData.date,
+      merchantName: formData.merchant,
+      itemName: formData.item,
       amount: cleanAmount,
-    });
+      category: getKeyByValue(CATEGORY_MAP, formData.category),
+      evidenceType: getKeyByValue(EVIDENCE_TYPE_MAP, formData.proofType),
+      qualifiedEvidence: formData.qualifiedEvidence, // Boolean (true/false)
+    };
+
+    console.log("저장 데이터:", saveData);
     alert("수정되었습니다!");
     navigate(-1)
   };
@@ -112,7 +152,7 @@ function EditEx() {
                 name="merchant"
                 className={styles.input}
                 value={formData.merchant}
-                placeholder={INITIAL_DATA.merchant}
+                placeholder={expenseEditData.merchantName}
                 onChange={handleChange}
               />
             </div>
@@ -128,7 +168,7 @@ function EditEx() {
                   name="date"
                   className={styles.input}
                   value={formData.date}
-                  placeholder={INITIAL_DATA.date}
+                  placeholder={expenseEditData.date}
                   onChange={handleChange}
                 />
               </div>
@@ -141,7 +181,7 @@ function EditEx() {
                   name="amount"
                   className={`${styles.input} ${styles.boldText}`}
                   value={formData.amount}
-                  placeholder={formatAmount(INITIAL_DATA.amount)}
+                  placeholder={formatAmount(expenseEditData.amount)}
                   onChange={handleChange}
                 />
               </div>
@@ -157,7 +197,7 @@ function EditEx() {
                 name="item"
                 className={styles.input}
                 value={formData.item}
-                placeholder={INITIAL_DATA.item}
+                placeholder={expenseEditData.itemName}
                 onChange={handleChange}
               />
             </div>
@@ -214,15 +254,14 @@ function EditEx() {
             <div className={styles.radioGroup}>
               <label
                 className={`${styles.radioBtn} ${
-                  formData.isValid === "적격" ? styles.selected : ""
+                  formData.qualifiedEvidence === true ? styles.selected : ""
                 }`}
               >
                 <input
                   type="radio"
-                  name="isValid"
-                  value="적격"
-                  checked={formData.isValid === "적격"}
-                  onChange={handleChange}
+                  name="qualifiedEvidence"
+                  checked={formData.qualifiedEvidence === true}
+                  onChange={() => handleQualifiedChange(true)}
                   className={styles.hiddenRadio}
                 />
                 <span>적격</span>
@@ -230,15 +269,14 @@ function EditEx() {
 
               <label
                 className={`${styles.radioBtn} ${
-                  formData.isValid === "부적격" ? styles.selected : ""
+                  formData.qualifiedEvidence === false ? styles.selected : ""
                 }`}
               >
                 <input
                   type="radio"
-                  name="isValid"
-                  value="부적격"
-                  checked={formData.isValid === "부적격"}
-                  onChange={handleChange}
+                  name="qualifiedEvidence"
+                  checked={formData.qualifiedEvidence === false}
+                  onChange={() => handleQualifiedChange(false)}
                   className={styles.hiddenRadio}
                 />
                 <span>부적격</span>
