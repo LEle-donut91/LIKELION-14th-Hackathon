@@ -18,9 +18,9 @@ const calculateAmounts = (netAmountStr, isWithholding) => {
 
   if (cleanNet === 0) {
     return {
-      netFormatted: "",
-      grossAmount: "0",
-      taxAmount: "0",
+      netFormatted: 0,
+      grossAmount: 0,
+      taxAmount: 0,
     };
   }
 
@@ -44,7 +44,7 @@ const calculateAmounts = (netAmountStr, isWithholding) => {
 function EditIn() {
   const navigate = useNavigate();
 
-  // 2) 초기 상태 설정 시 초기 자동 계산 실행
+  // 초기 상태 설정 시 초기 자동 계산 실행
   const [formData, setFormData] = useState(() => {
     const calculated = calculateAmounts(
       INITIAL_DATA.netAmount,
@@ -212,7 +212,6 @@ function EditIn() {
               name="netAmount"
               className={`${styles.input} ${styles.boldInput}`}
               value={formData.netAmount}
-              placeholder="0"
               onChange={handleChange}
             />
           </div>
