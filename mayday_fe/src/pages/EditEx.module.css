@@ -75,11 +75,18 @@
 }
 
 /* Input & Select 커스텀 */
-.inputBox,
-.selectBox {
+.inputBox {
   height: 50px;
   border: 1px solid #d4d4d8;
   border-radius: 12px;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.selectBox {
+  height: 50px;
   box-sizing: border-box;
   display: flex;
   align-items: center;

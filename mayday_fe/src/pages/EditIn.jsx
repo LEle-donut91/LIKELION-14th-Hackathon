@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import styles from "./EditIn.module.css";
 import Header from "../components/Header";
 import Button from "../components/Button";
+import EditDropdown from "../components/EditDropdown";
 
 // 더미 데이터 불러오기
 import { incomeEditData } from "../api/edit-mock-data";
@@ -45,6 +46,9 @@ const calculateAmounts = (netAmountStr, isWithholding) => {
     };
   }
 };
+
+// 수입 항목 드롭다운 메뉴 리스트
+const categoryItems = ['매출', '기타(수입)'];
 
 function EditIn() {
   const navigate = useNavigate();
@@ -122,6 +126,14 @@ function EditIn() {
         [name]: value,
       }));
     }
+  };
+
+  // Dropdown 전용 값 변경 함수
+  const handleDropdownChange = (name, value) => {
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
   };
 
   // 3.3% 공제 여부 변경 시 금액 자동 재계산
@@ -313,15 +325,12 @@ function EditIn() {
           <div className={styles.field}>
             <label className={styles.label}>항목</label>
             <div className={styles.selectWrapper}>
-              <select
-                name="category"
-                className={styles.select}
-                value={formData.category}
-                onChange={handleChange}
-              >
-                <option value="매출">매출</option>
-                <option value="기타(수입)">기타(수입)</option>
-              </select>
+              <EditDropdown
+                placeholder="수입 항목 선택"
+                items={categoryItems}
+                selectedValue={formData.category}
+                onSelect={(val) => handleDropdownChange("category", val)}
+            />
               {/* 커스텀 화살표 아이콘 추가 */}
               <span className={styles.arrowIcon} />
             </div>

@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import styles from "./EditEx.module.css";
 import Header from "../components/Header";
 import Button from "../components/Button";
+import EditDropdown from "../components/EditDropdown";
 
 // 더미 데이터 불러오기
 import { expenseEditData } from "../api/edit-mock-data";
@@ -40,6 +41,17 @@ const formatAmount = (val) => {
   if (cleanNumber === 0) return "0원";
   return `${cleanNumber.toLocaleString()}원`;
 };
+
+// 경비 항목 드롭다운 메뉴 리스트
+const categoryItems = [
+    '제세공과금', '임차료', '기업업무추진비', '차량유지비',
+    '지급수수료', '소모품비', '운반비', '광고선전비', '여비교통비', '기타(비용)'
+  ];
+
+// 증빙 유형 드롭다운 메뉴 리스트
+const evidenceItems = [
+    '세금계산서', '계산서', '신용카드 매출전표', '현금영수증', '해당 없음'
+  ];
 
 function EditEx() {
   const navigate = useNavigate();
@@ -98,6 +110,14 @@ function EditEx() {
         [name]: value,
       }));
     }
+  };
+
+  // Dropdown 전용 값 변경 함수
+  const handleDropdownChange = (name, value) => {
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
   };
 
 
@@ -244,18 +264,12 @@ function EditEx() {
           <div className={styles.inputGroup}>
             <label className={styles.label}>증빙 유형</label>
             <div className={styles.selectBox}>
-              <select
-                name="proofType"
-                className={styles.select}
-                value={formData.proofType}
-                onChange={handleChange}
-              >
-                <option value="세금계산서">세금계산서</option>
-                <option value="계산서">계산서</option>
-                <option value="신용카드 매출전표">신용카드 매출전표</option>
-                <option value="현금영수증">현금영수증</option>
-                <option value="해당 없음">해당 없음</option>
-              </select>
+              <EditDropdown
+                placeholder="증빙 유형 선택"
+                items={evidenceItems}
+                selectedValue={formData.proofType}
+                onSelect={(val) => handleDropdownChange("proofType", val)}
+            />
               <span className={styles.arrowIcon} />
             </div>
           </div>
@@ -264,23 +278,12 @@ function EditEx() {
           <div className={styles.inputGroup}>
             <label className={styles.label}>경비 항목</label>
             <div className={styles.selectBox}>
-              <select
-                name="category"
-                className={styles.select}
-                value={formData.category}
-                onChange={handleChange}
-              >
-                <option value="제세공과금">제세공과금</option>
-                <option value="임차료">임차료</option>
-                <option value="기업업무추진비">기업업무추진비</option>
-                <option value="차량유지비">차량유지비</option>
-                <option value="지급수수료">지급수수료</option>
-                <option value="소모품비">소모품비</option>
-                <option value="운반비">운반비</option>
-                <option value="광고선전비">광고선전비</option>
-                <option value="여비교통비">여비교통비</option>
-                <option value="기타(비용)">기타(비용)</option>
-              </select>
+              <EditDropdown
+                placeholder="경비 항목 선택"
+                items={categoryItems}
+                selectedValue={formData.category}
+                onSelect={(val) => handleDropdownChange("category", val)}
+            />
               <span className={styles.arrowIcon} />
             </div>
           </div>
