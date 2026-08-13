@@ -134,16 +134,6 @@ function History() {
 
   const closeBottomSheet = () => setActiveBottomSheet(null);
 
-  const handleItemClick = (type, id) => {
-    const targetPath = type === "expense" ? "/edit_expense" : "/edit_income";
-    navigate(targetPath, {
-      state: {
-        id: id,
-        type: type,
-      },
-    });
-  };
-
   // 내보내기 페이지로 이동하며 현재 활성화된 연도 전달
   const handleExport = () => {
     navigate("/export", {
@@ -309,8 +299,11 @@ function History() {
           <article
             key={item.id}
             className={styles.recordItem}
-            onClick={() => handleItemClick(item.type, item.id)}
-            style={{ cursor: "pointer" }}
+            onClick={() => {
+              const targetPath =
+                item.type === "expense" ? "/edit_expense" : "/edit_income";
+              navigate(targetPath, { state: { item } });
+            }}
           >
             <div className={styles.recordIconWrapper}>
               {renderCategoryIcon(item.category)}
