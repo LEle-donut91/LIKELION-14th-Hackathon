@@ -7,43 +7,43 @@
   position: relative;
   border-radius: 50%;
   background-color: #111111;
-  flex-shrink: 0;
 }
 
 .circleCheckMark {
   position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 9px;
-  height: 5px;
+  top: calc(50% + 0.57px);
+  left: calc(50% - 6px);
   border-bottom: 2px solid #ffffff;
   border-left: 2px solid #ffffff;
   box-sizing: border-box;
-  transform: translate(-50%, -60%) rotate(-45deg);
-  transform-origin: center;
+  width: 10px;
+  height: 6px;
+  overflow: hidden;
+  transform: rotate(-45deg);
+  transform-origin: 0 0;
 }
 
 /* ==========================================
    사각 체크박스 (SquareCheckbox)
    ========================================== */
 .checkSquare {
-  width: 26px;
-  height: 26px;
+  width: 24px;
+  height: 24px;
   position: relative;
-  border-radius: 8.27px;
+  border-radius: 8px;
   background-color: #111111;
-  border: 2px solid #111111;
 }
 
 .squareCheckMark {
   position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 13px;
-  height: 8.3px;
+  top: calc(50% + 0.49px);
+  left: calc(50% - 6px);
   border-bottom: 2px solid #ffffff;
   border-left: 2px solid #ffffff;
   box-sizing: border-box;
-  transform: translate(-50%, -60%) rotate(-45deg);
-  transform-origin: center;
+  width: 12px;
+  height: 7px;
+  overflow: hidden;
+  transform: rotate(-45deg);
+  transform-origin: 0 0;
 }
