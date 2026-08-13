@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "./EditEx.module.css";
 import Header from "../components/Header";
@@ -56,13 +56,30 @@ function EditEx() {
     qualifiedEvidence: expenseEditData.qualifiedEvidence ?? false, // Boolean (true/false)
   }));
 
-  // 클릭(포커스) 시 해당 값 초기화하여 placeholder 노출
+  // onFocus 직전의 필드별 값 보관용 ref
+  const previousValuesRef = useRef({});
+
+  // 클릭(포커스) 시 직전 값을 기록하고 입력창을 비움
   const handleFocus = (e) => {
-    const { name } = e.target;
+    const { name, value } = e.target;
+    previousValuesRef.current[name] = value; // 포커스 직전 값 저장
+
     setFormData((prev) => ({
       ...prev,
       [name]: "",
     }));
+  };
+
+  // 포커스 해제(블러) 시 아무것도 입력 안 한 상태면 '직전 값'으로 복구
+  const handleBlur = (e) => {
+    const { name, value } = e.target;
+    if (!value.trim()) {
+      const prevValue = previousValuesRef.current[name] || "";
+      setFormData((prev) => ({
+        ...prev,
+        [name]: prevValue,
+      }));
+    }
   };
 
   const handleChange = (e) => {
@@ -166,6 +183,7 @@ function EditEx() {
                 value={formData.merchant}
                 placeholder={expenseEditData.merchantName}
                 onFocus={handleFocus}
+                onBlur={handleBlur}
                 onChange={handleChange}
               />
             </div>
@@ -183,6 +201,7 @@ function EditEx() {
                   value={formData.date}
                   placeholder={expenseEditData.date}
                   onFocus={handleFocus}
+                  onBlur={handleBlur}
                   onChange={handleChange}
                 />
               </div>
@@ -197,6 +216,7 @@ function EditEx() {
                   value={formData.amount}
                   placeholder={defaultAmountPlaceholder}
                   onFocus={handleFocus}
+                  onBlur={handleBlur}
                   onChange={handleChange}
                 />
               </div>
@@ -214,6 +234,7 @@ function EditEx() {
                 value={formData.item}
                 placeholder={expenseEditData.itemName}
                 onFocus={handleFocus}
+                onBlur={handleBlur}
                 onChange={handleChange}
               />
             </div>

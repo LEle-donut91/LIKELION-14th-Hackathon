@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "./EditIn.module.css";
 import Header from "../components/Header";
@@ -67,13 +67,41 @@ function EditIn() {
     };
   });
 
-  // 클릭(포커스) 시 해당 값 초기화하여 placeholder 노출
+  // onFocus 직전의 필드별 값 보관용 ref
+  const previousValuesRef = useRef({});
+
+  // 클릭(포커스) 시 직전 값을 기록하고 입력창을 비움
   const handleFocus = (e) => {
-    const { name } = e.target;
+    const { name, value } = e.target;
+    previousValuesRef.current[name] = value; // 포커스 직전 값 저장
+
     setFormData((prev) => ({
       ...prev,
       [name]: "",
     }));
+  };
+
+  // 포커스 해제(블러) 시 아무것도 입력 안 한 상태면 '직전 값'으로 복구
+  const handleBlur = (e) => {
+    const { name, value } = e.target;
+    if (!value.trim()) {
+      const prevValue = previousValuesRef.current[name] || "";
+
+      if (name === "netAmount") {
+        const calculated = calculateAmounts(prevValue, formData.isWithholding);
+        setFormData((prev) => ({
+          ...prev,
+          netAmount: calculated.netFormatted,
+          grossAmount: calculated.grossAmount,
+          taxAmount: calculated.taxAmount,
+        }));
+      } else {
+        setFormData((prev) => ({
+          ...prev,
+          [name]: prevValue,
+        }));
+      }
+    }
   };
 
   // 일반 입력 변경 (실수령액 입력 시 다른 금액 자동 계산)
@@ -179,6 +207,7 @@ function EditIn() {
                 value={formData.merchant}
                 placeholder={incomeEditData.merchantName}
                 onFocus={handleFocus}
+                onBlur={handleBlur}
                 onChange={handleChange}
               />
             </div>
@@ -192,6 +221,7 @@ function EditIn() {
                 value={formData.date}
                 placeholder={incomeEditData.date}
                 onFocus={handleFocus}
+                onBlur={handleBlur}
                 onChange={handleChange}
               />
             </div>
@@ -243,6 +273,7 @@ function EditIn() {
               value={formData.netAmount}
               placeholder={defaultAmountPlaceholder}
               onFocus={handleFocus}
+              onBlur={handleBlur}
               onChange={handleChange}
             />
           </div>
