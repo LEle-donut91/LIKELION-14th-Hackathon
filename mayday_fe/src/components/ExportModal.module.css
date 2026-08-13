@@ -188,3 +188,63 @@
   align-items: center;
   justify-content: center;
 }
+/* 테이블 스크롤 영역 - 브라우저 기본 스크롤바 숨기기 */
+.tableScrollArea {
+  width: 100%;
+  max-height: 198px;
+  border-radius: 12px;
+  border: 1px solid #ececee;
+  box-sizing: border-box;
+  overflow: auto;
+  
+  /* IE/Edge, Firefox 스크롤바 숨기기 */
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Chrome, Safari, Opera 스크롤바 숨기기 */
+.tableScrollArea::-webkit-scrollbar {
+  display: none;
+}
+
+/* 커스텀 스크롤바 트랙 */
+.scrollIndicatorTrack {
+  position: relative;
+  width: 50px;
+  height: 4px;
+  background-color: #e4e4e7;
+  border-radius: 2px;
+  margin: 10px auto 0 auto;
+  cursor: pointer;
+  
+  /* 클릭/드래그 시 영역 선택 방지 */
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+/* 클릭 편의성을 위한 가상 터치 영역 추가 */
+.scrollIndicatorTrack::before {
+  content: "";
+  position: absolute;
+  top: -6px;
+  bottom: -6px;
+  left: 0;
+  right: 0;
+}
+
+/* 커스텀 스크롤바 (Thumb) */
+.scrollIndicatorThumb {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 27px;
+  height: 4px;
+  background-color: #111111;
+  border-radius: 2px;
+  cursor: grab;
+  touch-action: none;
+}
+
+.scrollIndicatorThumb:active {
+  cursor: grabbing;
+}
