@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import styles from "./EditEx.module.css";
 import Header from "../components/Header";
 import Button from "../components/Button";
@@ -7,7 +8,7 @@ import Button from "../components/Button";
 const INITIAL_DATA = {
   merchant: "쿠팡",
   date: "2026-08-04",
-  amount: "34,900원",
+  amount: 34900,
   item: "A4 용지 외 2건",
   proofType: "해당 없음",
   category: "소모품비",
@@ -15,6 +16,7 @@ const INITIAL_DATA = {
 };
 
 function EditEx() {
+    const navigate = useNavigate();
   const [formData, setFormData] = useState(INITIAL_DATA);
 
   const handleChange = (e) => {
@@ -23,6 +25,41 @@ function EditEx() {
       ...prev,
       [name]: value,
     }));
+  };
+
+  // 수정 저장하기 버튼 클릭 시 검증 및 처리
+  const handleSave = () => {
+    // input 태그에 값이 비어있는지 확인
+    if (
+      !formData.merchant.trim() ||
+      !formData.date.trim() ||
+      !formData.amount.trim() ||
+      !formData.item.trim()
+    ) {
+      alert("값을 입력해주세요");
+      return;
+    }
+
+    // 날짜 형식(YYYY-MM-DD) 및 금액 형식(숫자) 검증
+    const dateRegex = /^\d{4}-\d{2}-\d{2}$/;
+    const cleanAmount = formData.amount.replace(/,/g, "").replace("원", "").trim();
+    const amountRegex = /^\d+$/;
+
+    if (!dateRegex.test(formData.date) || !amountRegex.test(cleanAmount)) {
+      alert("형식에 맞춰 내용을 입력해주세요");
+      return;
+    }
+
+    // 사용자가 입력/선택한 값 log 출력 및 alert 표시
+    console.log(formData);
+    alert("수정되었습니다!");
+    navigate(-1)
+  };
+
+  // 이 기록 삭제하기 버튼 클릭 시 처리
+  const handleDelete = () => {
+    alert("해당 기록이 삭제되었습니다");
+    navigate(-1);
   };
 
   return (
@@ -49,6 +86,7 @@ function EditEx() {
                 name="merchant"
                 className={styles.input}
                 value={formData.merchant}
+                placeholder={INITIAL_DATA.merchant}
                 onChange={handleChange}
               />
             </div>
@@ -64,6 +102,7 @@ function EditEx() {
                   name="date"
                   className={styles.input}
                   value={formData.date}
+                  placeholder={INITIAL_DATA.date}
                   onChange={handleChange}
                 />
               </div>
@@ -76,6 +115,7 @@ function EditEx() {
                   name="amount"
                   className={`${styles.input} ${styles.boldText}`}
                   value={formData.amount}
+                  placeholder={INITIAL_DATA.amount}
                   onChange={handleChange}
                 />
               </div>
@@ -91,6 +131,7 @@ function EditEx() {
                 name="item"
                 className={styles.input}
                 value={formData.item}
+                placeholder={INITIAL_DATA.item}
                 onChange={handleChange}
               />
             </div>
@@ -182,10 +223,12 @@ function EditEx() {
 
         {/* 버튼 영역 */}
         <div className={styles.btnGroup}>
-        <Button text="수정 저장하기"/>
-        <button className={styles.deleteBtn}>
-          이 기록 삭제하기
-        </button>
+          <div onClick={handleSave}>
+            <Button text="수정 저장하기" />
+          </div>
+          <button className={styles.deleteBtn} onClick={handleDelete}>
+            이 기록 삭제하기
+          </button>
         </div>
       </main>
     </div>
