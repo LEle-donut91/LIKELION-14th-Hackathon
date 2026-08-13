@@ -251,7 +251,7 @@ function EditIn() {
           {/* 항목 선택 */}
           <div className={styles.field}>
             <label className={styles.label}>항목</label>
-            <div className={styles.selectBox}>
+            <div className={styles.selectWrapper}>
               <select
                 name="category"
                 className={styles.select}
@@ -261,6 +261,8 @@ function EditIn() {
                 <option value="매출">매출</option>
                 <option value="기타(수입)">기타(수입)</option>
               </select>
+              {/* 커스텀 화살표 아이콘 추가 */}
+              <span className={styles.arrowIcon} />
             </div>
             <span className={styles.helperText}>매출 · 기타(수입) 중 선택</span>
           </div>
