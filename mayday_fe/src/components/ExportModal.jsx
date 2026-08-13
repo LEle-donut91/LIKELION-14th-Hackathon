@@ -38,6 +38,18 @@ function ExportModal({
   const thumbWidth = 27;
   const maxThumbLeft = trackWidth - thumbWidth; // 23px
 
+  // 모달이 다시 열릴 때 스크롤 위치 및 스크롤바 초기화
+  useEffect(() => {
+      if (isOpen) {
+        setScrollRatio(0);
+        setIsThumbDragging(false);
+        setIsTableDragging(false);
+        if (tableScrollRef.current) {
+          tableScrollRef.current.scrollLeft = 0;
+        }
+      }
+    }, [isOpen]);
+
   // 테이블 스크롤 시 커스텀 바 위치 동기화
   const handleScroll = () => {
     if (!tableScrollRef.current || isThumbDragging) return;
