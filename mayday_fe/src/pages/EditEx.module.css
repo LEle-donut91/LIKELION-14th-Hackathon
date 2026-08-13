@@ -123,6 +123,17 @@
   display: none;
 }
 
+.arrowIcon {
+  position: absolute;
+  right: 18px;
+  width: 8px;
+  height: 8px;
+  border-right: 2px solid #71717a;
+  border-bottom: 2px solid #71717a;
+  transform: rotate(45deg);
+  pointer-events: none;
+}
+
 .radioBtn {
   flex: 1;
   height: 46px;
