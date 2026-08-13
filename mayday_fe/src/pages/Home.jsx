@@ -63,7 +63,7 @@ function Home() {
       {/* 헤더 */}
       <header className={styles.header}>
         <b className={styles.logo}>
-          <span className={styles.logoText}>메이데이</span>
+          <span className={styles.logoText}>메이데이   </span>
           <span className={styles.dDay}>{dDay}</span>
         </b>
 

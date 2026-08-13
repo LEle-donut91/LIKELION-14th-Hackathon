@@ -24,7 +24,7 @@
 /* 메인 콘텐츠 영역 */
 .mainContent {
   flex: 1;
-  padding: 16px 20px 24px;
+  padding: 16px 20px 22.5px;
   display: flex;
   flex-direction: column;
   gap: 14px;
@@ -213,7 +213,7 @@
 
 /* 로그아웃 버튼 */
 .logoutButton {
-  margin-top: 12px;
+  margin-top: 85.5px;
   align-self: center;
   background: transparent;
   border: none;
@@ -222,5 +222,4 @@
   text-decoration: underline;
   cursor: pointer;
   font-family: inherit;
-  padding: 6px 12px;
 }
