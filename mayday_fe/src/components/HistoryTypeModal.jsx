@@ -56,7 +56,7 @@ function HistoryTypeModal({
     <HistoryModal
       isOpen={isOpen}
       onClose={onClose}
-      title="경비 항목"
+      title="항목"
       onReset={() => setTempCategories([])}
       submitText={`${tempCount}건 보기`}
       onSubmit={() => onApply(tempCategories)}

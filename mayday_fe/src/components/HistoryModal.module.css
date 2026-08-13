@@ -48,8 +48,6 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 16px;
-  height: 30px;
 }
 
 .title {
@@ -103,16 +101,24 @@
   border-radius: 3px;
 }
 
-/* 적격 여부, 증빙 유형 */
 .subTitle {
   font-size: 13px;
   color: #8e8e93;
-  margin-bottom: 12px;
+  margin-top: 6.5px;
+  margin-bottom: 9px;
 }
 
-.optionsList {
+.qualOptionsList {
+  margin-top: 11.5px;
   display: flex;
   flex-direction: column;
+  border-top: 1px solid #f2f2f7; /* 최상단 선 추가 */
+}
+
+.proofOptionsList {
+  display: flex;
+  flex-direction: column;
+  border-top: 1px solid #f2f2f7; /* 최상단 선 추가 */
 }
 
 .optionRow {
@@ -126,10 +132,6 @@
   cursor: pointer;
   border-bottom: 1px solid #f2f2f7;
   text-align: left;
-}
-
-.optionRow:last-child {
-  border-bottom: none;
 }
 
 .leftGroup {
@@ -158,6 +160,7 @@
   background-color: #f4f4f5;
   border-radius: 10px;
   padding: 3px;
+  margin-top: 11.5px;
   margin-bottom: 16px;
 }
 

@@ -40,7 +40,7 @@ function HistoryQualModal({ isOpen, onClose, value, onApply, records = [] }) {
       submitText={`${tempCount}건 보기`}
       onSubmit={() => onApply(tempSelected)}
     >
-      <div className={styles.optionsList}>
+      <div className={styles.qualOptionsList}>
         {QUALIFIED_OPTIONS.map((opt) => {
           const isSelected = tempSelected === opt.id;
           return (

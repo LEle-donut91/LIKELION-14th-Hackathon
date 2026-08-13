@@ -57,7 +57,7 @@ function HistoryProofModal({
       onSubmit={() => onApply(tempSelected)}
     >
       <p className={styles.subTitle}>여러 개를 선택할 수 있어요</p>
-      <div className={styles.optionsList}>
+      <div className={styles.proofOptionsList}>
         {EVIDENCE_OPTIONS.map((label) => {
           const isSelected = tempSelected.includes(label);
           return (
