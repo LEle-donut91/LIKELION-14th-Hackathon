@@ -188,6 +188,10 @@ function ExportModal({
   const { isQualifiedGroupChecked, isEvidenceChecked, hasRemark } = options;
   const thumbLeft = scrollRatio * maxThumbLeft;
 
+  // 헤더 텍스트 판별 및 클래스/태그 처리 함수
+  const isTargetHeader = (header) =>
+    header === "적격 여부" || header === "증빙 유형" || header === "비고";
+
   return ReactDOM.createPortal(
     <div className={styles.overlay} onClick={onClose}>
       <div className={styles.modalCard} onClick={(e) => e.stopPropagation()}>
@@ -225,18 +229,27 @@ function ExportModal({
           <table className={styles.previewTable}>
             <thead>
               <tr>
-                {headers.map((header, idx) => (
-                  <th
-                    key={idx}
-                    className={
-                      header === "수입" || header === "비용"
-                        ? styles.alignRight
-                        : styles.alignLeft
-                    }
-                  >
-                    {header}
-                  </th>
-                ))}
+                {headers.map((header, idx) => {
+                  const isHighlight = isTargetHeader(header);
+                  const alignClass =
+                    header === "수입" || header === "비용"
+                      ? styles.alignRight
+                      : styles.alignLeft;
+                  const bgClass = isHighlight ? styles.highlightHeader : "";
+
+                  return (
+                    <th
+                      key={idx}
+                      className={`${alignClass} ${bgClass}`}
+                    >
+                      {isHighlight ? (
+                        <b style={{ color: "#111" }}>{header}</b>
+                      ) : (
+                        header
+                      )}
+                    </th>
+                  );
+                })}
               </tr>
             </thead>
             <tbody>
@@ -250,7 +263,7 @@ function ExportModal({
                   <td className={styles.alignRight}>{row.expense || ""}</td>
 
                   {isQualifiedGroupChecked && (
-                    <td>
+                    <td className={styles.highlightCell}>
                       {row.qualified === null || row.qualified === undefined
                         ? "—"
                         : row.qualified
@@ -258,9 +271,15 @@ function ExportModal({
                         : "부적격"}
                     </td>
                   )}
-                  {isEvidenceChecked && <td>{formatValue(row.evidence)}</td>}
+                  {isEvidenceChecked && (
+                    <td className={styles.highlightCell}>
+                      {formatValue(row.evidence)}
+                    </td>
+                  )}
                   {isQualifiedGroupChecked && hasRemark && (
-                    <td>{formatValue(row.remark)}</td>
+                    <td className={styles.highlightCell}>
+                      {formatValue(row.remark)}
+                    </td>
                   )}
                 </tr>
               ))}
@@ -284,7 +303,9 @@ function ExportModal({
 
         {/* 하단 안내 및 확인 버튼 */}
         <p className={styles.noticeText}>{noticeText}</p>
-        <Button text="확인" onClick={onClose} />
+        <div className={styles.buttonWrapper}>
+          <Button text="확인" onClick={onClose} />
+        </div>
       </div>
     </div>,
     document.body,
