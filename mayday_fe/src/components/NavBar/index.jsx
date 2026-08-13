@@ -12,8 +12,8 @@ function NavBar() {
 
   return (
     <nav className={styles.navContainer}>
-      <Link to="/" className={styles.navItem}>
-        <img src={isActive('/') ? homeIcon : homeIcon} className={styles.icon} /> {/* 액티브 아이콘 수정 필요*/}
+      <Link to="/home" className={styles.navItem}>
+        <img src={isActive('/home') ? homeIcon : homeIcon} className={styles.icon} /> {/* 액티브 아이콘 수정 필요*/}
         <span className={styles.label} style={{ color: isActive('/') ? '#101828' : '#99A1AF' }}>홈</span>
       </Link>
 

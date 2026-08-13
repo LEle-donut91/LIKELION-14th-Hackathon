@@ -1,5 +1,6 @@
 import React from 'react';
 import Button from '../components/Button';
+import NavBar from '../components/NavBar';
 
 function Home() {
   const handleTestClick = () => {
@@ -14,6 +15,7 @@ function Home() {
       <div style={{ marginTop: '20px' }}>
         <Button text="저장하기" onClick={handleTestClick} />
       </div>
+      <NavBar />
     </div>
   );
 }
