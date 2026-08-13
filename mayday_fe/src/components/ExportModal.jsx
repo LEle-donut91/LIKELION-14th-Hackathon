@@ -22,13 +22,25 @@ function ExportModal({
   const tableScrollRef = useRef(null);
   const trackRef = useRef(null);
   const [scrollRatio, setScrollRatio] = useState(0);
-  const [isDragging, setIsDragging] = useState(false);
-  const dragStartX = useRef(0);
-  const dragStartScrollLeft = useRef(0);
 
-  // 테이블 영역 스크롤 시 비율 업데이트
+  // 커스텀 스크롤바 바(Thumb) 드래그 상태
+  const [isThumbDragging, setIsThumbDragging] = useState(false);
+  const thumbStartX = useRef(0);
+  const thumbStartScrollLeft = useRef(0);
+
+  // 테이블 영역 마우스 드래그 스크롤 상태
+  const [isTableDragging, setIsTableDragging] = useState(false);
+  const tableStartX = useRef(0);
+  const tableStartScrollLeft = useRef(0);
+
+  // 2번 디자인 상수
+  const trackWidth = 50;
+  const thumbWidth = 27;
+  const maxThumbLeft = trackWidth - thumbWidth; // 23px
+
+  // 테이블 스크롤 시 커스텀 바 위치 동기화
   const handleScroll = () => {
-    if (!tableScrollRef.current || isDragging) return;
+    if (!tableScrollRef.current || isThumbDragging) return;
     const { scrollLeft, scrollWidth, clientWidth } = tableScrollRef.current;
     const maxScroll = scrollWidth - clientWidth;
     if (maxScroll > 0) {
@@ -36,28 +48,48 @@ function ExportModal({
     }
   };
 
-  // 트랙 상수
-  const trackWidth = 50;
-  const thumbWidth = 27;
-  const maxThumbLeft = trackWidth - thumbWidth; // 23px
+  /* 테이블 영역 마우스 드래그 스크롤 이벤트 */
+  const handleTableMouseDown = (e) => {
+    // 텍스트 선택 등 기본 동작 방지 및 드래그 시작
+    if (!tableScrollRef.current) return;
+    setIsTableDragging(true);
+    tableStartX.current = e.clientX;
+    tableStartScrollLeft.current = tableScrollRef.current.scrollLeft;
+  };
 
-  // 드래그 시작 (마우스 / 터치)
-  const handleDragStart = (clientX) => {
-    setIsDragging(true);
-    dragStartX.current = clientX;
+  const handleTableMouseMove = useCallback(
+    (e) => {
+      if (!isTableDragging || !tableScrollRef.current) return;
+      e.preventDefault();
+      const deltaX = e.clientX - tableStartX.current;
+      tableScrollRef.current.scrollLeft = tableStartScrollLeft.current - deltaX;
+    },
+    [isTableDragging]
+  );
+
+  const handleTableMouseUp = useCallback(() => {
+    setIsTableDragging(false);
+  }, []);
+
+  /* 커스텀 스크롤바(Thumb) 드래그 & 클릭 이벤트 */
+  const handleThumbDragStart = (clientX) => {
+    setIsThumbDragging(true);
+    thumbStartX.current = clientX;
     if (tableScrollRef.current) {
-      dragStartScrollLeft.current = tableScrollRef.current.scrollLeft;
+      thumbStartScrollLeft.current = tableScrollRef.current.scrollLeft;
     }
   };
 
-  const handleMouseDown = (e) => {
+  const handleThumbMouseDown = (e) => {
     e.preventDefault();
-    handleDragStart(e.clientX);
+    e.stopPropagation(); // 트랙 클릭 이벤트 방지
+    handleThumbDragStart(e.clientX);
   };
 
-  const handleTouchStart = (e) => {
+  const handleThumbTouchStart = (e) => {
+    e.stopPropagation();
     if (e.touches.length > 0) {
-      handleDragStart(e.touches[0].clientX);
+      handleThumbDragStart(e.touches[0].clientX);
     }
   };
 
@@ -76,12 +108,11 @@ function ExportModal({
     setScrollRatio(ratio);
   };
 
-  // 드래그 중 이동 처리
-  const handleMove = useCallback(
+  const handleThumbMove = useCallback(
     (clientX) => {
-      if (!isDragging || !tableScrollRef.current) return;
-      const deltaX = clientX - dragStartX.current;
-      
+      if (!isThumbDragging || !tableScrollRef.current) return;
+      const deltaX = clientX - thumbStartX.current;
+
       const { scrollWidth, clientWidth } = tableScrollRef.current;
       const maxScroll = scrollWidth - clientWidth;
       
@@ -89,37 +120,55 @@ function ExportModal({
 
       // 트랙의 이동 범위 대비 테이블 이동 비율 계산
       const scrollDelta = (deltaX / maxThumbLeft) * maxScroll;
-      const newScrollLeft = Math.max(0, Math.min(maxScroll, dragStartScrollLeft.current + scrollDelta));
-      
+      const newScrollLeft = Math.max(
+        0,
+        Math.min(maxScroll, thumbStartScrollLeft.current + scrollDelta)
+      );
+
       tableScrollRef.current.scrollLeft = newScrollLeft;
       setScrollRatio(newScrollLeft / maxScroll);
     },
-    [isDragging, maxThumbLeft]
+    [isThumbDragging, maxThumbLeft]
   );
 
-  const handleDragEnd = useCallback(() => {
-    setIsDragging(false);
+  const handleThumbDragEnd = useCallback(() => {
+    setIsThumbDragging(false);
   }, []);
 
   // 전역 마우스/터치 이벤트 등록
   useEffect(() => {
-    if (!isDragging) return;
+    // 스크롤바 바(Thumb) 드래그 중 처리
+    if (isThumbDragging) {
+      const onMouseMove = (e) => handleThumbMove(e.clientX);
+      const onTouchMove = (e) =>
+        e.touches.length > 0 && handleThumbMove(e.touches[0].clientX);
 
-    const onMouseMove = (e) => handleMove(e.clientX);
-    const onTouchMove = (e) => e.touches.length > 0 && handleMove(e.touches[0].clientX);
+      window.addEventListener("mousemove", onMouseMove);
+      window.addEventListener("mouseup", handleThumbDragEnd);
+      window.addEventListener("touchmove", onTouchMove);
+      window.addEventListener("touchend", handleThumbDragEnd);
 
-    window.addEventListener("mousemove", onMouseMove);
-    window.addEventListener("mouseup", handleDragEnd);
-    window.addEventListener("touchmove", onTouchMove);
-    window.addEventListener("touchend", handleDragEnd);
+      return () => {
+        window.removeEventListener("mousemove", onMouseMove);
+        window.removeEventListener("mouseup", handleThumbDragEnd);
+        window.removeEventListener("touchmove", onTouchMove);
+        window.removeEventListener("touchend", handleThumbDragEnd);
+      };
+    }
+  }, [isThumbDragging, handleThumbMove, handleThumbDragEnd]);
 
-    return () => {
-      window.removeEventListener("mousemove", onMouseMove);
-      window.removeEventListener("mouseup", handleDragEnd);
-      window.removeEventListener("touchmove", onTouchMove);
-      window.removeEventListener("touchend", handleDragEnd);
-    };
-  }, [isDragging, handleMove, handleDragEnd]);
+  useEffect(() => {
+    // 테이블 마우스 드래그 중 처리
+    if (isTableDragging) {
+      window.addEventListener("mousemove", handleTableMouseMove);
+      window.addEventListener("mouseup", handleTableMouseUp);
+
+      return () => {
+        window.removeEventListener("mousemove", handleTableMouseMove);
+        window.removeEventListener("mouseup", handleTableMouseUp);
+      };
+    }
+  }, [isTableDragging, handleTableMouseMove, handleTableMouseUp]);
 
   if (!isOpen) return null;
 
@@ -152,11 +201,14 @@ function ExportModal({
           <span className={styles.scrollHint}>← 좌우로 밀어 확인 →</span>
         </div>
 
-        {/* 테이블 영역 */}
+        {/* 테이블 영역 (마우스 드래그 스크롤 지원) */}
         <section
           ref={tableScrollRef}
           onScroll={handleScroll}
-          className={styles.tableScrollArea}
+          onMouseDown={handleTableMouseDown}
+          className={`${styles.tableScrollArea} ${
+            isTableDragging ? styles.dragging : ""
+          }`}
         >
           <table className={styles.previewTable}>
             <thead>
@@ -213,8 +265,8 @@ function ExportModal({
           <div
             className={styles.scrollIndicatorThumb}
             style={{ transform: `translateX(${thumbLeft}px)` }}
-            onMouseDown={handleMouseDown}
-            onTouchStart={handleTouchStart}
+            onMouseDown={handleThumbMouseDown}
+            onTouchStart={handleThumbTouchStart}
           />
         </div>
 

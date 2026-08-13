@@ -196,7 +196,12 @@
   border: 1px solid #ececee;
   box-sizing: border-box;
   overflow: auto;
+  cursor: grab;
   
+  /* 드래그 시 내부 텍스트 선택 방지 */
+  user-select: none;
+  -webkit-user-select: none;
+
   /* IE/Edge, Firefox 스크롤바 숨기기 */
   -ms-overflow-style: none;
   scrollbar-width: none;
@@ -205,6 +210,11 @@
 /* Chrome, Safari, Opera 스크롤바 숨기기 */
 .tableScrollArea::-webkit-scrollbar {
   display: none;
+}
+
+/* 마우스로 끌고 있는 상태 */
+.tableScrollArea.dragging {
+  cursor: grabbing;
 }
 
 /* 커스텀 스크롤바 트랙 */
