@@ -34,6 +34,16 @@ const calculateAmounts = (valueStr, isWithholding, sourceField = "netAmount") =>
   let gross = 0; // 공제 전 금액
   let tax = 0; // 원천징수 세액
 
+  // 공제 없음(false)일 때 금액 설정
+  if (!isWithholding) {
+    tax = 0; // 원천징수 세액은 무조건 0원
+    net = cleanVal; // 실수령액 = 입력 금액
+    gross = cleanVal; // 공제 전 금액 = 입력 금액
+
+    return { netAmount: net, grossAmount: gross, taxAmount: tax };
+  }
+
+  // [조건] 3.3% 공제(true)일 때의 기존 로직
   if (sourceField === "netAmount") { // 실수령액 입력 시
     gross = Math.round(cleanVal / 0.967);
     tax = gross - cleanVal;
@@ -86,6 +96,9 @@ function EditIn() {
   const handleChange = (e) => {
     const { name, value } = e.target;
 
+    // 공제 없음일 때는 taxAmount 변경 무시
+    if (!formData.isWithholding && name === "taxAmount") return;
+
     // 금액 관련 3개 필드 변경 처리
     if (["netAmount", "grossAmount", "taxAmount"].includes(name)) {
       const calculated = calculateAmounts(value, formData.isWithholding, name);
@@ -122,6 +135,9 @@ function EditIn() {
 
   // 금액 필드 백스페이스 처리 (단위 제거 시 숫자 한 자리 지우기)
   const handleKeyDown = (e, fieldName) => {
+    // 공제 없음일 때 taxAmount 키입력 방지
+    if (!formData.isWithholding && fieldName === "taxAmount") return;
+
     if (e.key === "Backspace") {
       const input = e.target;
       const { selectionStart, selectionEnd, value } = input;
@@ -147,7 +163,8 @@ function EditIn() {
     if (
       !formData.merchant.trim() ||
       !formData.date.trim() ||
-      !formData.netAmount.trim()
+      formData.netAmount === "" ||
+      formData.netAmount === null
     ) {
       alert("값을 입력해주세요");
       return;
@@ -281,7 +298,7 @@ function EditIn() {
             />
           </div>
 
-          {/* 공제 전 금액 & 원천징수 세액 (수정 가능 및 상호 자동 계산) */}
+          {/* 공제 전 금액 & 원천징수 세액 */}
           <div className={styles.row}>
             <div className={styles.col}>
               <label className={styles.label}>공제 전 금액</label>
@@ -312,6 +329,7 @@ function EditIn() {
                 }
                 onChange={handleChange}
                 onKeyDown={(e) => handleKeyDown(e, "taxAmount")}
+                readOnly={!formData.isWithholding} // 공제 없음 선택 시 수정 불가능(readOnly)
               />
             </div>
           </div>
