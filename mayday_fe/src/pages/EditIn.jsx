@@ -74,7 +74,7 @@ function EditIn() {
   // onFocus 직전의 필드별 값 보관용 ref
   const previousValuesRef = useRef({});
 
-  // 클릭(포커스) 시 직전 값을 기록하고 입력창을 비움
+  // 클릭(포커스) 시 직전 값을 기록하고 입력창을 비움 (onFocus 이벤트)
   const handleFocus = (e) => {
     const { name, value } = e.target;
     previousValuesRef.current[name] = value; // 포커스 직전 값 저장
@@ -85,7 +85,7 @@ function EditIn() {
     }));
   };
 
-  // 포커스 해제(블러) 시 아무것도 입력 안 한 상태면 '직전 값'으로 복구
+  // 포커스 해제(블러) 시 아무것도 입력 안 한 상태면 '직전 값'으로 복구 (onBlur 이벤트)
   const handleBlur = (e) => {
     const { name, value } = e.target;
     if (!value.trim()) {
@@ -218,8 +218,6 @@ function EditIn() {
                 className={styles.input}
                 value={formData.merchant}
                 placeholder={incomeEditData.merchantName}
-                onFocus={handleFocus}
-                onBlur={handleBlur}
                 onChange={handleChange}
               />
             </div>
@@ -232,8 +230,6 @@ function EditIn() {
                 className={styles.input}
                 value={formData.date}
                 placeholder={incomeEditData.date}
-                onFocus={handleFocus}
-                onBlur={handleBlur}
                 onChange={handleChange}
               />
             </div>
@@ -284,8 +280,6 @@ function EditIn() {
               className={`${styles.input} ${styles.boldInput}`}
               value={formData.netAmount}
               placeholder={defaultAmountPlaceholder}
-              onFocus={handleFocus}
-              onBlur={handleBlur}
               onChange={handleChange}
             />
           </div>
