@@ -6,15 +6,18 @@ import MyPageModalIcon from "../assets/images/MyPageModalIcon.svg";
 import HistoryChecked from "./HistoryChecked";
 import HistoryUnChecked from "./HistoryUnChecked";
 import Button from "./Button"; // Button 공통 컴포넌트 import
+import { deleteUser } from "../api/myPageApi";
 
 function MyPageModal({ isOpen, onClose, onWithdraw }) {
   const [isChecked, setIsChecked] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false); // 로딩 상태
   const navigate = useNavigate();
 
   // 모달이 열릴 때(isOpen이 true가 될 때)마다 체크박스 상태 초기화
   useEffect(() => {
     if (isOpen) {
       setIsChecked(false);
+      setIsDeleting(false);
     }
   }, [isOpen]);
 
@@ -25,15 +28,33 @@ function MyPageModal({ isOpen, onClose, onWithdraw }) {
   };
 
   // 탈퇴하기 클릭 핸들러
-  const handleWithdraw = () => {
-    alert("회원 탈퇴가 완료되었습니다.");
+  const handleWithdraw = async () => {
+    if (!isChecked || isDeleting) return;
 
-    if (onWithdraw) {
-      onWithdraw();
+    try {
+      setIsDeleting(true);
+
+      // 백엔드로 탈퇴 요청 (DELETE /users/me)
+      const res = await deleteUser();
+
+      alert(res?.message || "회원 탈퇴가 완료되었습니다.");
+
+      // 프론트 인증 정보 삭제
+      localStorage.removeItem("accessToken");
+
+      if (onWithdraw) {
+        onWithdraw();
+      }
+
+      onClose();
+      navigate("/login");
+    } catch (error) {
+      const errorMessage =
+        error.response?.data?.message || "회원 탈퇴 처리 중 오류가 발생했습니다.";
+      alert(errorMessage);
+    } finally {
+      setIsDeleting(false);
     }
-
-    onClose();
-    navigate("/login");
   };
 
   return createPortal(
@@ -74,6 +95,7 @@ function MyPageModal({ isOpen, onClose, onWithdraw }) {
             className={styles.hiddenCheckbox}
             checked={isChecked}
             onChange={handleCheckboxChange}
+            disabled={isDeleting}
           />
           {isChecked ? <HistoryChecked type="square" /> : <HistoryUnChecked />}
           <span className={styles.checkboxLabel}>
@@ -87,7 +109,7 @@ function MyPageModal({ isOpen, onClose, onWithdraw }) {
           <div className={styles.submitButtonWrapper}>
             <Button
               text="탈퇴하기"
-              disabled={!isChecked}
+              disabled={!isChecked || isDeleting}
               onClick={handleWithdraw}
             />
           </div>
@@ -97,6 +119,7 @@ function MyPageModal({ isOpen, onClose, onWithdraw }) {
             type="button"
             className={styles.cancelButton}
             onClick={onClose}
+            disabled={isDeleting}
           >
             돌아가기
           </button>

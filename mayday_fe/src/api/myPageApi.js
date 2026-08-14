@@ -47,3 +47,21 @@ export const postLogout = async () => {
     throw error;
   }
 };
+
+/**
+ * 회원 탈퇴 API 요청
+ */
+export const deleteUser = async () => {
+  try {
+    // axios.delete는 두 번째 인자에 { data: payload } 형태로 body를 전달
+    const response = await axiosInstance.delete(axiosRequests.deleteUser, {
+      data: {
+        confirmText: "탈퇴합니다",
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("회원 탈퇴 API 요청 실패:", error);
+    throw error;
+  }
+};
