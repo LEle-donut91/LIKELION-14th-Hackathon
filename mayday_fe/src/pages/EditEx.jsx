@@ -35,13 +35,6 @@ const getKeyByValue = (object, value) => {
   return Object.keys(object).find((key) => object[key] === value);
 };
 
-const formatAmount = (val) => {
-  if (val === undefined || val === null || val === "") return "";
-  const cleanNumber = Number(val.toString().replace(/[^0-9]/g, "")) || 0;
-  if (cleanNumber === 0) return "0원";
-  return `${cleanNumber.toLocaleString()}원`;
-};
-
 // 경비 항목 드롭다운 메뉴 리스트
 const categoryItems = [
     '제세공과금', '임차료', '기업업무추진비', '차량유지비',
@@ -61,7 +54,7 @@ function EditEx() {
     analysisId: expenseEditData.analysisId,
     merchant: expenseEditData.merchantName,
     date: expenseEditData.date,
-    amount: formatAmount(expenseEditData.amount),
+    amount: expenseEditData.amount,
     item: expenseEditData.itemName,
     proofType: EVIDENCE_TYPE_MAP[expenseEditData.evidenceType],
     category: CATEGORY_MAP[expenseEditData.category],
@@ -95,22 +88,22 @@ function EditEx() {
   };
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
+  const { name, value } = e.target;
 
-    if (name === "amount") {
-      // 숫자 이외의 문자 제거 후 포맷팅
-      const formatted = formatAmount(value);
-      setFormData((prev) => ({
-        ...prev,
-        amount: formatted,
-      }));
-    } else {
-      setFormData((prev) => ({
-        ...prev,
-        [name]: value,
-      }));
-    }
-  };
+  if (name === "amount") {
+    // '원', 쉼표 등 숫자가 아닌 모든 문자 제거 후 저장
+    const onlyNumbers = value.replace(/[^0-9]/g, "");
+    setFormData((prev) => ({
+      ...prev,
+      amount: onlyNumbers, // state에는 100000 형태의 숫자만 들어감
+    }));
+  } else {
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  }
+};
 
   // Dropdown 전용 값 변경 함수
   const handleDropdownChange = (name, value) => {
@@ -174,9 +167,6 @@ function EditEx() {
     navigate(-1);
   };
 
-  // 금액 Placeholder용 더미 데이터 쉼표+원 포맷팅
-  const defaultAmountPlaceholder = formatAmount(expenseEditData.amount);
-
   return (
     <div className={styles.container}>
     {/* 헤더 영역 */}
@@ -229,8 +219,12 @@ function EditEx() {
                   type="text"
                   name="amount"
                   className={`${styles.input} ${styles.boldText}`}
-                  value={formData.amount}
-                  placeholder={defaultAmountPlaceholder}
+                  value={
+                    formData.amount 
+                      ? `${Number(formData.amount).toLocaleString()}원` 
+                      : ""
+                  }
+                  placeholder={`${expenseEditData.amount.toLocaleString()}원`}
                   onChange={handleChange}
                 />
               </div>

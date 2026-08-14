@@ -18,15 +18,15 @@ const getKeyByValue = (object, value) => {
   return Object.keys(object).find((key) => object[key] === value);
 };
 
-// 금액 자동 계산 함수 (뒤에 "원" 붙이기)
+// 금액 자동 계산 함수
 const calculateAmounts = (netAmountStr, isWithholding) => {
   const cleanNet = Number(netAmountStr.toString().replace(/[^0-9]/g, "")) || 0;
 
   if (cleanNet === 0) {
     return {
-      netFormatted: "0원",
-      grossAmount: "0원",
-      taxAmount: "0원",
+      netFormatted: 0,
+      grossAmount: 0,
+      taxAmount: 0,
     };
   }
 
@@ -34,15 +34,15 @@ const calculateAmounts = (netAmountStr, isWithholding) => {
     const gross = Math.round(cleanNet / 0.967);
     const tax = gross - cleanNet;
     return {
-      netFormatted: `${cleanNet.toLocaleString()}원`,
-      grossAmount: `${gross.toLocaleString()}원`,
-      taxAmount: `${tax.toLocaleString()}원`,
+      netFormatted: cleanNet,
+      grossAmount: gross,
+      taxAmount: tax,
     };
   } else {
     return {
-      netFormatted: `${cleanNet.toLocaleString()}원`,
-      grossAmount: `${cleanNet.toLocaleString()}원`,
-      taxAmount: "0원",
+      netFormatted: cleanNet,
+      grossAmount: cleanNet,
+      taxAmount: 0,
     };
   }
 };
@@ -190,9 +190,6 @@ function EditIn() {
     navigate(-1);
   };
 
-  // 금액 Placeholder용 더미 데이터 쉼표+원 포맷팅
-  const defaultAmountPlaceholder = `${Number(incomeEditData.amount).toLocaleString()}원`;
-
   return (
     <div className={styles.container}>
       {/* 헤더 영역 */}
@@ -278,8 +275,12 @@ function EditIn() {
               type="text"
               name="netAmount"
               className={`${styles.input} ${styles.boldInput}`}
-              value={formData.netAmount}
-              placeholder={defaultAmountPlaceholder}
+              value={
+                    formData.netAmount 
+                      ? `${Number(formData.netAmount).toLocaleString()}원` 
+                      : ""
+              }
+              placeholder={`${incomeEditData.amount.toLocaleString()}원`}
               onChange={handleChange}
             />
           </div>
@@ -292,7 +293,7 @@ function EditIn() {
                 type="text"
                 name="grossAmount"
                 className={styles.input}
-                value={formData.grossAmount}
+                value={`${formData.grossAmount.toLocaleString()}원`}
                 readOnly
               />
             </div>
@@ -303,7 +304,7 @@ function EditIn() {
                 type="text"
                 name="taxAmount"
                 className={styles.input}
-                value={formData.taxAmount}
+                value={`${formData.taxAmount.toLocaleString()}원`}
                 readOnly
               />
             </div>
