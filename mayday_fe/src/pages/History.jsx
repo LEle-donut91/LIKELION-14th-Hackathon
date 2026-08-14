@@ -1,10 +1,7 @@
-import { useState, useMemo } from "react";
+import { useState, useEffect, useMemo, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "./History.module.css";
-
-// mock 데이터 파일 불러오기
-import { mockTransactions } from "../api/history-mock-data.js";
-import { mockSearchTransactions } from "../api/history-search-mock-data.js";
+import { historyApi } from "../api/historyApi";
 
 import HistoryQualModal from "../components/HistoryQualModal";
 import HistoryProofModal from "../components/HistoryProofModal";
@@ -71,8 +68,8 @@ const EVIDENCE_TYPE_MAP = {
   NON_QUALIFIED: "해당 없음",
 };
 
-// mockTransactions 데이터를 기존 뷰 포맷으로 변환하는 함수
-const transformMockData = (rawList) => {
+// API 데이터를 컴포넌트 뷰 포맷으로 변환하는 함수
+const transformApiData = (rawList = []) => {
   return rawList.map((item) => {
     const dateObj = new Date(item.date);
     const year = String(dateObj.getFullYear() || "2026");
@@ -104,17 +101,6 @@ const transformMockData = (rawList) => {
   });
 };
 
-const RECORD_LIST = transformMockData(mockTransactions);
-const SEARCH_RESULTS = transformMockData(mockSearchTransactions);
-
-// 데이터에 존재하는 연도 목록 자동 추출 (내림차순 정렬: ["2026", "2025", "2024", ...])
-const AVAILABLE_YEARS = Array.from(
-  new Set(RECORD_LIST.map((item) => item.year)),
-).sort((a, b) => Number(b) - Number(a));
-
-// 최신 연도 설정 (데이터가 없을 경우 대비)
-const LATEST_YEAR = AVAILABLE_YEARS[0] || "기록 없음";
-
 const renderCategoryIcon = (category) => {
   const iconSrc = CATEGORY_ICONS[category];
   if (!iconSrc) return null;
@@ -124,7 +110,14 @@ const renderCategoryIcon = (category) => {
 function History() {
   const navigate = useNavigate();
 
-  const [selectedYear, setSelectedYear] = useState(LATEST_YEAR);
+  // 서버 연동 데이터 상태 management
+  const [availableYears, setAvailableYears] = useState([]);
+  const [selectedYear, setSelectedYear] = useState("");
+  const [recordList, setRecordList] = useState([]);
+  const [searchResults, setSearchResults] = useState([]);
+  const [loading, setLoading] = useState(false);
+
+  // 필터 및 모달 상태
   const [activeBottomSheet, setActiveBottomSheet] = useState(null);
   const [qualifiedFilter, setQualifiedFilter] = useState("all");
   const [evidenceFilter, setEvidenceFilter] = useState([]);
@@ -137,6 +130,48 @@ function History() {
 
   const closeBottomSheet = () => setActiveBottomSheet(null);
 
+  // 초기 연도 목록 조회
+  useEffect(() => {
+    const fetchYears = async () => {
+      try {
+        const res = await historyApi.getLedgerYears();
+        if (res.status === 200 && res.data?.years) {
+          const yearsStr = res.data.years.map(String);
+          setAvailableYears(yearsStr);
+          if (yearsStr.length > 0) {
+            setSelectedYear(yearsStr[0]); // 최신 연도 자동 선택
+          }
+        }
+      } catch (err) {
+        console.error("연도 목록 조회 실패:", err);
+      }
+    };
+    fetchYears();
+  }, []);
+
+  // 선택된 연도의 전체 데이터 조회
+  const fetchLedgerList = useCallback(async () => {
+    if (!selectedYear) return;
+    setLoading(true);
+    try {
+      const res = await historyApi.getLedgerList(Number(selectedYear));
+      if (res.status === 200 && res.data?.transactions) {
+        setRecordList(transformApiData(res.data.transactions));
+      }
+    } catch (err) {
+      console.error("기록 목록 조회 실패:", err);
+      setRecordList([]);
+    } finally {
+      setLoading(false);
+    }
+  }, [selectedYear]);
+
+  useEffect(() => {
+    if (!isSearched) {
+      fetchLedgerList();
+    }
+  }, [selectedYear, isSearched, fetchLedgerList]);
+
   // 내보내기 페이지로 이동하며 현재 활성화된 연도 전달
   const handleExport = () => {
     navigate("/export", {
@@ -147,14 +182,28 @@ function History() {
   };
 
   // 검색 아이콘 클릭 또는 엔터 입력 시
-  const handleSearch = () => {
+  const handleSearch = async () => {
     if (!searchTerm.trim()) {
       alert("값을 입력해주세요");
       return;
     }
-
-    setIsSearched(true);
-    alert(`${SEARCH_RESULTS.length}건이 검색되었습니다.`);
+    setLoading(true);
+    try {
+      const res = await historyApi.getLedgerSearch(
+        Number(selectedYear),
+        searchTerm.trim()
+      );
+      if (res.status === 200) {
+        const transformed = transformApiData(res.data);
+        setSearchResults(transformed);
+        setIsSearched(true);
+        alert(`${transformed.length}건이 검색되었습니다.`);
+      }
+    } catch (err) {
+      alert(err.response?.data?.message || "검색 도중 오류가 발생했습니다.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   // 검색어 입력 변경 시 (검색어가 비면 다시 전체 데이터 모드로 복귀)
@@ -168,9 +217,8 @@ function History() {
 
   // 검색 실행 여부에 따라 표시할 대상 데이터셋 결정
   const targetRecords = useMemo(() => {
-    if (isSearched) return SEARCH_RESULTS;
-    return RECORD_LIST.filter((item) => item.year === selectedYear);
-  }, [isSearched, SEARCH_RESULTS, selectedYear]);
+    return isSearched ? searchResults : recordList;
+  }, [isSearched, searchResults, recordList]);
 
   // 필터링 적용
   const filteredRecords = targetRecords.filter((item) => {
@@ -228,7 +276,7 @@ function History() {
       </div>
 
       <nav className={styles.yearTabGroup}>
-        {AVAILABLE_YEARS.map((year) => (
+        {availableYears.map((year) => (
           <button
             key={year}
             type="button"
@@ -298,55 +346,58 @@ function History() {
       </div>
 
       <main className={styles.recordList}>
-        {filteredRecords.map((item) => (
-          // 리스트의 각각의 항목 클릭 시, 상세페이지(EditEx, EditIn)로 이동
-          <article
-            key={item.id}
-            className={styles.recordItem}
-            onClick={() => {
-              // targetPath는 클릭 후 이동할 경로
-              // 현재 클릭한 항목의 ID를 경로 뒤에 붙임 (예: /edit_expense/ana_001)
+        {loading ? (
+          <div>로딩 중...</div>
+        ) : (
+          filteredRecords.map((item) => (
+            // 리스트의 각각의 항목 클릭 시, 상세페이지(EditEx, EditIn)로 이동
+            <article
+              key={item.id}
+              className={styles.recordItem}
+              onClick={() => {
+                // targetPath는 클릭 후 이동할 경로
+                // 현재 클릭한 항목의 ID를 경로 뒤에 붙임 (예: /edit_expense/ana_001)
 
-              // 1) 지출(expense)일 경우, EditEx.jsx로 이동 (예: /edit_expense/ana_001)
-              // 2) 수입(income)일 경우, EditIn.jsx로 이동 (예: /edit_income/ana_010)
-              const targetPath =
-                item.type === "expense"
-                  ? `/edit_expense/${item.id}`
-                  : `/edit_income/${item.id}`;
+                // 1) 지출(expense)일 경우, EditEx.jsx로 이동 (예: /edit_expense/ana_001)
+                // 2) 수입(income)일 경우, EditIn.jsx로 이동 (예: /edit_income/ana_010)
+                const targetPath =
+                  item.type === "expense"
+                    ? `/edit_expense/${item.id}`
+                    : `/edit_income/${item.id}`;
+                navigate(targetPath);
+              }}
+            >
+              <div className={styles.recordIconWrapper}>
+                {renderCategoryIcon(item.category)}
+              </div>
 
-              navigate(targetPath);
-            }}
-          >
-            <div className={styles.recordIconWrapper}>
-              {renderCategoryIcon(item.category)}
-            </div>
-
-            <div className={styles.recordInfo}>
-              <span className={styles.recordTitle}>{item.title}</span>
-              <span className={styles.recordDesc}>
-                {item.date} · {item.category}
-              </span>
-            </div>
-            <div className={styles.recordRight}>
-              <strong className={styles.recordAmount}>
-                {item.type === "expense"
-                  ? `- ${item.amount}원`
-                  : `+ ${item.amount}원`}
-              </strong>
-              {item.isQualified !== null && item.isQualified !== undefined && (
-                <span
-                  className={`${styles.badge} ${
-                    item.isQualified
-                      ? styles.badgeQualified
-                      : styles.badgeUnqualified
-                  }`}
-                >
-                  {item.isQualified ? "적격" : "부적격"}
+              <div className={styles.recordInfo}>
+                <span className={styles.recordTitle}>{item.title}</span>
+                <span className={styles.recordDesc}>
+                  {item.date} · {item.category}
                 </span>
-              )}
-            </div>
-          </article>
-        ))}
+              </div>
+              <div className={styles.recordRight}>
+                <strong className={styles.recordAmount}>
+                  {item.type === "expense"
+                    ? `- ${item.amount}원`
+                    : `+ ${item.amount}원`}
+                </strong>
+                {item.isQualified !== null && item.isQualified !== undefined && (
+                  <span
+                    className={`${styles.badge} ${
+                      item.isQualified
+                        ? styles.badgeQualified
+                        : styles.badgeUnqualified
+                    }`}
+                  >
+                    {item.isQualified ? "적격" : "부적격"}
+                  </span>
+                )}
+              </div>
+            </article>
+          ))
+        )}
       </main>
 
       <footer className={styles.footer}>
