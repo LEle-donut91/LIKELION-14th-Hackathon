@@ -163,6 +163,11 @@ function Export() {
 
   // "파일 다운로드" 버튼 클릭 이벤트 핸들러
   const handleDownload = () => {
+    if (filteredRows.length === 0) {
+      alert("다운로드할 기록이 없습니다.");
+      return;
+    }
+
     const excelData = filteredRows.map((row) => {
       const rowData = [
         row.date,
