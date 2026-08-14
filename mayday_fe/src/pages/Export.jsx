@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import * as XLSX from "xlsx";
 import styles from "./Export.module.css";
@@ -8,9 +8,7 @@ import Header from "../components/Header";
 import HistoryChecked from "../components/HistoryChecked";
 import HistoryUnChecked from "../components/HistoryUnChecked";
 import Button from "../components/Button";
-
-// mock 데이터 가져오기
-import { EXPORT_SUMMARY, mockExportPreviewData } from "../api/export-mock-data";
+import { getExportPreview } from "../api/exportApi";
 
 // 1. 증빙 유형 한글 매핑 딕셔너리
 const EVIDENCE_TYPE_MAP = {
@@ -68,11 +66,11 @@ function getFilteredPreviewData(rawData, filterState) {
     const account = CATEGORY_MAP[item.category] || "-";
 
     // 수입 / 지출 금액 분리 및 콤마 포맷팅
-    const formattedAmount = item.amount
-      ? item.amount.toLocaleString("ko-KR")
-      : "";
-    const income = item.type === "INCOME" ? formattedAmount : "";
-    const expense = item.type === "EXPENSE" ? formattedAmount : "";
+    const incomeVal = item.income || (item.type === "INCOME" ? item.amount : 0);
+    const expenseVal = item.expense || (item.type === "EXPENSE" ? item.amount : 0);
+
+    const income = incomeVal ? Number(incomeVal).toLocaleString("ko-KR") : "";
+    const expense = expenseVal ? Number(expenseVal).toLocaleString("ko-KR") : "";
 
     return {
       ...item,
@@ -115,7 +113,18 @@ function getFilteredPreviewData(rawData, filterState) {
 function Export() {
   // 2. location에서 state 추출
   const location = useLocation();
-  const selectedYear = location.state?.selectedYear;
+  const targetYear = location.state?.selectedYear;
+
+  // 서버 API 데이터 상태
+  const [exportSummary, setExportSummary] = useState({
+    exportYear: targetYear,
+    totalRecordsCount: 0,
+    totalIncome: 0,
+    totalExpense: 0,
+  });
+  const [rawPreviewItems, setRawPreviewItems] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [errorMessage, setErrorMessage] = useState("");
 
   // 1. 상태 정의
   // (1) 상위 항목 체크 상태
@@ -135,9 +144,35 @@ function Export() {
   // (4) 미리보기 모달 열림/닫힘 상태 추가
   const [isPreviewOpen, setIsPreviewOpen] = useState(false);
 
+  // 서버 API 데이터 조회
+  useEffect(() => {
+    const fetchExportData = async () => {
+      setIsLoading(true);
+      setErrorMessage("");
+      try {
+        const response = await getExportPreview(targetYear);
+        if (response.status === 200 && response.data) {
+          const { summary, items } = response.data;
+          setExportSummary(summary);
+          setRawPreviewItems(items || []);
+        }
+      } catch (error) {
+        // API 명세서 400 에러 메시지 표출
+        console.error("내보내기 데이터 조회 실패:", error);
+        setErrorMessage(
+          error.message || "내보내기 조건이 올바르지 않습니다."
+        );
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchExportData();
+  }, [targetYear]);
+
   // 2. 필터링 및 건수 재계산 함수 호출
   const { headers, filteredRows, summary, noticeText } = getFilteredPreviewData(
-    mockExportPreviewData,
+    rawPreviewItems,
     { isQualifiedGroupChecked, isEvidenceChecked, qualifiedOptions },
   );
 
@@ -199,7 +234,7 @@ function Export() {
     const workbook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(workbook, worksheet, "내보내기_기록");
 
-    const fileName = `장부내보내기_${EXPORT_SUMMARY.exportYear}.${fileFormat}`;
+    const fileName = `장부내보내기_${exportSummary.exportYear}.${fileFormat}`;
 
     if (fileFormat === "xlsx") {
       // 엑셀 파일 다운로드
@@ -221,6 +256,28 @@ function Export() {
     }
   };
 
+  if (isLoading) {
+    return (
+      <div className={styles.card}>
+        <Header text="내보내기" />
+        <div style={{ textAlign: "center", padding: "50px 0" }}>
+          데이터를 불러오는 중입니다...
+        </div>
+      </div>
+    );
+  }
+
+  if (errorMessage) {
+    return (
+      <div className={styles.card}>
+        <Header text="내보내기" />
+        <div style={{ textAlign: "center", padding: "50px 0", color: "#e53e3e" }}>
+          <p>{errorMessage}</p>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className={styles.card}>
       {/* 헤더 영역 */}
@@ -233,19 +290,19 @@ function Export() {
         <section className={styles.summaryCard}>
           <div className={styles.summaryRow}>
             <span>내보낼 기록</span>
-            <strong>{EXPORT_SUMMARY.exportYear}</strong>
+            <strong>{exportSummary.exportYear}년</strong>
           </div>
           <div className={styles.summaryRow}>
             <span>기록 수</span>
-            <strong>{EXPORT_SUMMARY.totalRecordsCount}건</strong>
+            <strong>{exportSummary.totalRecordsCount}건</strong>
           </div>
           <div className={`${styles.summaryRow} ${styles.dividerRow}`}>
             <span>수입</span>
-            <strong>{EXPORT_SUMMARY.totalIncome}</strong>
+            <strong>{exportSummary.totalIncome?.toLocaleString("ko-KR")}원</strong>
           </div>
           <div className={styles.summaryRow}>
             <span>지출</span>
-            <strong>{EXPORT_SUMMARY.totalExpense}</strong>
+            <strong>{exportSummary.totalExpense?.toLocaleString("ko-KR")}원</strong>
           </div>
         </section>
 
