@@ -150,6 +150,32 @@ function EditIn() {
     }));
   };
 
+  const handleKeyDown = (e) => {
+    // Backspace 키를 눌렀을 때만 작동
+    if (e.key === "Backspace") {
+      const input = e.target;
+      const { selectionStart, selectionEnd, value } = input;
+
+      // 커서 위치가 맨 뒤(또는 "원" 뒤)에 있고, 텍스트가 존재하는 경우
+      if (selectionStart === value.length && selectionEnd === value.length && value.length > 0) {
+        e.preventDefault(); // 기본 Backspace 동작("원"을 지우거나 커서만 이동)을 막음
+
+        // 숫자만 추출 후 맨 뒷자리 제거
+        const numbersOnly = value.replace(/[^0-9]/g, "");
+        const newNumbers = numbersOnly.slice(0, -1);
+
+        // 상태 업데이트
+        const calculated = calculateAmounts(newNumbers, formData.isWithholding);
+        setFormData((prev) => ({
+          ...prev,
+          netAmount: newNumbers,
+          grossAmount: calculated.grossAmount,
+          taxAmount: calculated.taxAmount,
+        }));
+      }
+    }
+  };
+
   const handleSave = () => {
     if (
       !formData.merchant.trim() ||
@@ -282,6 +308,7 @@ function EditIn() {
               }
               placeholder={`${incomeEditData.amount.toLocaleString()}원`}
               onChange={handleChange}
+              onKeyDown={handleKeyDown}
             />
           </div>
 
