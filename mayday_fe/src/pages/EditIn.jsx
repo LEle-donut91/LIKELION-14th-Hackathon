@@ -1,12 +1,10 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import styles from "./EditIn.module.css";
 import Header from "../components/Header";
 import Button from "../components/Button";
 import EditDropdown from "../components/EditDropdown";
-
-// 더미 데이터 불러오기
-import { incomeEditData } from "../api/edit-mock-data";
+import { getIncomeDetail, updateIncomeDetail, deleteIncomeDetail} from "../api/editApi";
 
 // 카테고리 Enum <-> 한글 매핑
 const CATEGORY_MAP = {
@@ -72,24 +70,64 @@ const categoryItems = ['매출', '기타(수입)'];
 
 function EditIn() {
   const navigate = useNavigate();
+  // URL Parameter에서 incomeId 추출
+  const { incomeId } = useParams();
 
-  // 초기 상태 설정
-  const [formData, setFormData] = useState(() => {
-    const isWithholding = incomeEditData.withholding ?? true;
-    const calculated = calculateAmounts(incomeEditData.amount, isWithholding, "netAmount");
+  const [isLoading, setIsLoading] = useState(true);
 
-    return {
-      analysisId: incomeEditData.analysisId,
-      merchant: incomeEditData.merchantName,
-      date: incomeEditData.date,
-      itemName: incomeEditData.itemName,
-      isWithholding: isWithholding,
-      netAmount: calculated.netAmount,
-      grossAmount: calculated.grossAmount,
-      taxAmount: calculated.taxAmount,
-      category: CATEGORY_MAP[incomeEditData.category],
-    };
+  // GET 요청으로 받아온 초기 원본 데이터를 보존할 상태
+  const [initialData, setInitialData] = useState({
+    merchant: "",
+    date: "",
   });
+
+  const [formData, setFormData] = useState({
+    incomeId: "",
+    merchant: "",
+    date: "",
+    isWithholding: true,
+    netAmount: 0,
+    grossAmount: 0,
+    taxAmount: 0,
+    category: "매출",
+  });
+
+  // 초기 API 서버 상세 데이터 로드
+  useEffect(() => {
+    const fetchIncomeDetail = async () => {
+      setIsLoading(true);
+      try {
+        const response = await getIncomeDetail(incomeId);
+        if (response.status === 200 && response.data) {
+          const data = response.data;
+
+          // GET으로 받아온 원본 거래처 / 날짜를 저장 (placeholder 용도)
+          setInitialData({
+            merchant: data.merchantName || "",
+            date: data.date || "",
+          });
+
+          setFormData({
+            incomeId: data.incomeId,
+            merchant: data.merchantName || "",
+            date: data.date || "",
+            isWithholding: data.withholding ?? true,
+            netAmount: data.amount || 0,
+            grossAmount: data.grossAmount || 0,
+            taxAmount: data.withholdingTax || 0,
+            category: CATEGORY_MAP[data.category] || "매출",
+          });
+        }
+      } catch (error) {
+        console.error("수입 상세 조회 실패:", error);
+        alert(error.message || "데이터를 불러올 수 없습니다.");
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchIncomeDetail();
+  }, [incomeId]);
 
 
   // 일반 및 금액 입력 변경 핸들러
@@ -159,7 +197,7 @@ function EditIn() {
     }
   };
 
-  const handleSave = () => {
+  const handleSave = async () => {
     if (
       !formData.merchant.trim() ||
       !formData.date.trim() ||
@@ -178,29 +216,56 @@ function EditIn() {
       return;
     }
 
-    // 서버 / 더미 데이터 규격에 맞춘 최종 객체
-    const saveData = {
-      analysisId: formData.analysisId,
-      type: "INCOME",
-      date: formData.date,
+    // API 요청 규격에 맞춘 Payload 생성
+    const patchPayload = {
+      date: formData.date.replace(/\./g, "-"), // yyyy-mm-dd 서식 맞춤
       merchantName: formData.merchant,
-      itemName: formData.itemName,
-      amount: cleanNet,
-      grossAmount: formData.grossAmount,
-      taxAmount: formData.taxAmount,
+      amount: formData.grossAmount, // 공제 전 금액
+      receivedAmount: cleanNet, // 실수령액
+      withholdingTax: formData.taxAmount, // 원천징수 세액
+      withholdingTaxApplied: formData.isWithholding,
       category: getKeyByValue(CATEGORY_MAP, formData.category),
-      withholding: formData.isWithholding,
+      remark: null,
     };
 
-    console.log("저장 데이터:", saveData);
-    alert("수정되었습니다!");
-    navigate(-1);
+    try {
+      const response = await updateIncomeDetail(incomeId, patchPayload);
+      if (response.status === 200) {
+        alert("수정되었습니다!");
+        navigate(-1);
+      }
+    } catch (error) {
+      console.error("수입 수정 실패:", error);
+      alert(error.message || "수정 처리 중 오류가 발생했습니다.");
+    }
   };
 
-  const handleDelete = () => {
-    alert("해당 기록이 삭제되었습니다");
-    navigate(-1);
+  // 삭제 (DELETE) 핸들러
+  const handleDelete = async () => {
+    try {
+      const response = await deleteIncomeDetail(incomeId);
+      if (response.status === 200) {
+        alert("해당 기록이 삭제되었습니다.");
+        navigate(-1);
+      }
+    } catch (error) {
+      console.error("수입 삭제 실패:", error);
+      alert(error.message || "삭제 처리 중 오류가 발생했습니다.");
+    }
   };
+
+  if (isLoading) {
+    return (
+      <div className={styles.container}>
+        <header className={styles.headerWrapper}>
+          <Header text="수입 기록 수정" />
+        </header>
+        <div style={{ textAlign: "center", padding: "50px 0" }}>
+          상세 정보를 불러오는 중입니다...
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className={styles.container}>
@@ -226,7 +291,7 @@ function EditIn() {
                 name="merchant"
                 className={styles.input}
                 value={formData.merchant}
-                placeholder={incomeEditData.merchantName}
+                placeholder={initialData.merchant}
                 onChange={handleChange}
               />
             </div>
@@ -238,7 +303,7 @@ function EditIn() {
                 name="date"
                 className={styles.input}
                 value={formData.date}
-                placeholder={incomeEditData.date}
+                placeholder={initialData.date}
                 onChange={handleChange}
               />
             </div>
@@ -292,7 +357,6 @@ function EditIn() {
                   ? `${Number(formData.netAmount).toLocaleString()}원`
                   : ""
               }
-              placeholder={`${incomeEditData.amount.toLocaleString()}원`}
               onChange={handleChange}
               onKeyDown={(e) => handleKeyDown(e, "netAmount")}
             />
