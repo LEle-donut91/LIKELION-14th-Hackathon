@@ -34,3 +34,16 @@ export const getMyPageSummary = async (year) => {
     throw error;
   }
 };
+
+/**
+ * 로그아웃 API 요청
+ */
+export const postLogout = async () => {
+  try {
+    const response = await axiosInstance.post(axiosRequests.logout);
+    return response.data;
+  } catch (error) {
+    console.error("로그아웃 API 요청 실패:", error);
+    throw error;
+  }
+};

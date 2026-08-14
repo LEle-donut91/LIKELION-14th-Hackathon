@@ -6,7 +6,7 @@ import MyPageDeleteIcon from "../assets/images/MyPageDeleteIcon.svg";
 import MyPageDownloadIcon from "../assets/images/MyPageDownloadIcon.svg";
 import MyPageFolderIcon from "../assets/images/MyPageFolderIcon.svg";
 import MyPageProfileIcon from "../assets/images/MyPageProfileIcon.svg";
-import { getMyPageSummary } from "../api/myPageApi"; 
+import { getMyPageSummary, postLogout } from "../api/myPageApi"; 
 
 function Mypage() {
   const navigate = useNavigate();
@@ -53,10 +53,18 @@ function Mypage() {
     });
   };
 
-  // 2. 로그아웃 클릭 핸들러
-  const handleLogout = () => {
+  // 2. 로그아웃 클릭 핸들러 (API 연동 적용)
+  const handleLogout = async () => {
     const isConfirmed = window.confirm("로그아웃하시겠습니까?");
-    if (isConfirmed) {
+    if (!isConfirmed) return;
+
+    try {
+      // 백엔드에 로그아웃 요청 전송
+      await postLogout();
+    } catch (error) {
+      console.warn("서버 로그아웃 처리 중 에러 발생:", error);
+    } finally {
+      // 성공/실패 여부와 관계없이 프론트엔드 인증 정보 삭제 후 로그인 이동
       localStorage.removeItem("accessToken");
       alert("로그아웃되었습니다.");
       navigate("/login");
