@@ -44,6 +44,26 @@ const evidenceItems = [
     '세금계산서', '계산서', '신용카드 매출전표', '현금영수증', '해당 없음'
   ];
 
+// remark 값 설정 함수
+const calculateRemark = (amount, isQualified) => {
+  const numAmount = Number(amount);
+
+  // 조건 1: 부적격 + 3만 원 초과 (100만 원 이하)
+  if (!isQualified && numAmount > 30000 && numAmount <= 1000000) {
+    return "증빙불비";
+  }
+  // 조건 2: 100만 원 초과 + 적격
+  if (isQualified && numAmount > 1000000) {
+    return "감가상각 검토";
+  }
+  // 조건 3: 100만 원 초과 + 부적격
+  if (!isQualified && numAmount > 1000000) {
+    return "증빙불비 / 감가상각 검토";
+  }
+  // 조건 4: 부적격 + 3만 원 이하 또는 그 외의 적격 경우
+  return "";
+};
+
 function EditEx() {
   const navigate = useNavigate();
   // URL Parameter에서 expenseId 파라미터를 추출
@@ -218,6 +238,9 @@ function EditEx() {
       return;
     }
 
+    // Remark 값 설정
+    const calculatedRemark = calculateRemark(cleanAmount, formData.qualifiedEvidence);
+
     // API 명세서 규격에 맞춘 Payload 생성
     const patchPayload = {
       date: formData.date.replace(/\./g, "-"),
@@ -227,7 +250,7 @@ function EditEx() {
       category: getKeyByValue(CATEGORY_MAP, formData.category),
       evidenceType: getKeyByValue(EVIDENCE_TYPE_MAP, formData.proofType),
       qualifiedEvidence: formData.qualifiedEvidence,
-      remark: null,
+      remark: calculatedRemark, // remark 값 전달
     };
 
     try {
@@ -354,7 +377,6 @@ function EditEx() {
             <label className={styles.label}>증빙 유형</label>
             <div className={styles.selectBox}>
               <EditDropdown
-                placeholder="증빙 유형 선택"
                 items={evidenceItems}
                 selectedValue={formData.proofType}
                 onSelect={(val) => handleDropdownChange("proofType", val)}
