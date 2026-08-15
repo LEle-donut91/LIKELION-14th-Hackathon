@@ -1,12 +1,10 @@
-import React, { useState, useRef } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useState, useEffect, useRef } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import styles from "./EditEx.module.css";
 import Header from "../components/Header";
 import Button from "../components/Button";
 import EditDropdown from "../components/EditDropdown";
-
-// 더미 데이터 불러오기
-import { expenseEditData } from "../api/edit-mock-data";
+import { getExpenseDetail, updateExpenseDetail, deleteExpenseDetail } from "../api/editApi";
 
 // 증빙 유형 Enum <-> 한글 매핑
 const EVIDENCE_TYPE_MAP = {
@@ -48,18 +46,71 @@ const evidenceItems = [
 
 function EditEx() {
   const navigate = useNavigate();
+  // URL Parameter에서 expenseId 파라미터를 추출
+  const { expenseId } = useParams();
 
-  // 초기 상태 설정
-  const [formData, setFormData] = useState(() => ({
-    analysisId: expenseEditData.analysisId,
-    merchant: expenseEditData.merchantName,
-    date: expenseEditData.date,
-    amount: expenseEditData.amount,
-    item: expenseEditData.itemName,
-    proofType: EVIDENCE_TYPE_MAP[expenseEditData.evidenceType],
-    category: CATEGORY_MAP[expenseEditData.category],
-    qualifiedEvidence: expenseEditData.qualifiedEvidence ?? false, // Boolean (true/false)
-  }));
+  const [isLoading, setIsLoading] = useState(true);
+
+  // GET으로 받아온 원본 보존 (placeholder용)
+  const [initialData, setInitialData] = useState({
+    merchantName: "",
+    date: "",
+    amount: 0,
+    itemName: "",
+  });
+
+  // 수정 입력용 상태
+  const [formData, setFormData] = useState({
+    analysisId: "",
+    merchant: "",
+    date: "",
+    amount: "",
+    item: "",
+    proofType: "신용카드 매출전표",
+    category: "소모품비",
+    qualifiedEvidence: false,
+  });
+
+  // 초기 API 서버 상세 데이터 로드
+  useEffect(() => {
+    const fetchExpenseDetail = async () => {
+      setIsLoading(true);
+      try {
+        const response = await getExpenseDetail(expenseId);
+        // API 응답 구조: { status, message, data }
+        if (response && response.data) {
+          const data = response.data;
+
+          setInitialData({
+            merchantName: data.merchantName,
+            date: data.date,
+            amount: data.amount,
+            itemName: data.itemName,
+          });
+
+          setFormData({
+            analysisId: data.analysisId,
+            merchant: data.merchantName,
+            date: data.date,
+            amount: data.amount,
+            item: data.itemName,
+            proofType: EVIDENCE_TYPE_MAP[data.evidenceType],
+            category: CATEGORY_MAP[data.category],
+            qualifiedEvidence: data.qualifiedEvidence,
+          });
+        }
+      } catch (error) {
+        console.error("지출 상세 조회 실패:", error);
+        alert(error.message || "지출 정보를 불러올 수 없습니다.");
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    if (expenseId) {
+      fetchExpenseDetail();
+    }
+  }, [expenseId]);
 
   // onFocus 직전의 필드별 값 보관용 ref
   const previousValuesRef = useRef({});
@@ -144,7 +195,8 @@ function EditEx() {
     }));
   };
 
-  const handleSave = () => {
+  // PATCH 요청 (수정)
+  const handleSave = async () => {
     // input 태그에 값이 비어있는지 확인
     if (
       !formData.merchant.trim() ||
@@ -166,29 +218,56 @@ function EditEx() {
       return;
     }
 
-    // 서버 / 더미 데이터 규격에 맞춘 최종 객체
-    const saveData = {
-      analysisId: formData.analysisId,
-      type: "EXPENSE",
-      date: formData.date,
+    // API 명세서 규격에 맞춘 Payload 생성
+    const patchPayload = {
+      date: formData.date.replace(/\./g, "-"),
       merchantName: formData.merchant,
       itemName: formData.item,
       amount: cleanAmount,
       category: getKeyByValue(CATEGORY_MAP, formData.category),
       evidenceType: getKeyByValue(EVIDENCE_TYPE_MAP, formData.proofType),
-      qualifiedEvidence: formData.qualifiedEvidence, // Boolean (true/false)
+      qualifiedEvidence: formData.qualifiedEvidence,
+      remark: null,
     };
 
-    console.log("저장 데이터:", saveData);
-    alert("수정되었습니다!");
-    navigate(-1)
+    try {
+      const response = await updateExpenseDetail(expenseId, patchPayload);
+      if (response && response.status === 200) {
+        alert("지출 기록이 수정되었습니다!");
+        navigate(-1);
+      }
+    } catch (error) {
+      console.error("지출 수정 실패:", error);
+      alert(error.message || "수정 중 오류가 발생했습니다.");
+    }
   };
 
-  // 이 기록 삭제하기 버튼 클릭 시 처리
-  const handleDelete = () => {
-    alert("해당 기록이 삭제되었습니다");
-    navigate(-1);
+  // DELETE 요청 (삭제)
+  const handleDelete = async () => {
+    try {
+      const response = await deleteExpenseDetail(expenseId);
+      if (response && response.status === 200) {
+        alert("해당 기록이 삭제되었습니다.");
+        navigate(-1);
+      }
+    } catch (error) {
+      console.error("지출 삭제 실패:", error);
+      alert(error.message || "삭제 중 오류가 발생했습니다.");
+    }
   };
+
+  if (isLoading) {
+    return (
+      <div className={styles.container}>
+        <div className={styles.header}>
+          <Header text="경비 기록 수정" />
+        </div>
+        <div style={{ textAlign: "center", padding: "50px 0" }}>
+          지출 상세 정보를 불러오는 중입니다...
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className={styles.container}>
@@ -214,7 +293,7 @@ function EditEx() {
                 name="merchant"
                 className={styles.input}
                 value={formData.merchant}
-                placeholder={expenseEditData.merchantName}
+                placeholder={initialData.merchantName}
                 onChange={handleChange}
               />
             </div>
@@ -230,7 +309,7 @@ function EditEx() {
                   name="date"
                   className={styles.input}
                   value={formData.date}
-                  placeholder={expenseEditData.date}
+                  placeholder={initialData.date}
                   onChange={handleChange}
                 />
               </div>
@@ -247,7 +326,7 @@ function EditEx() {
                       ? `${Number(formData.amount).toLocaleString()}원` 
                       : ""
                   }
-                  placeholder={`${expenseEditData.amount.toLocaleString()}원`}
+                  placeholder={`${Number(initialData.amount).toLocaleString()}원`}
                   onChange={handleChange}
                   onKeyDown={handleKeyDown}
                 />
@@ -264,7 +343,7 @@ function EditEx() {
                 name="item"
                 className={styles.input}
                 value={formData.item}
-                placeholder={expenseEditData.itemName}
+                placeholder={initialData.itemName}
                 onChange={handleChange}
               />
             </div>
