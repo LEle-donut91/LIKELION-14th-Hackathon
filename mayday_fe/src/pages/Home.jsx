@@ -1,5 +1,4 @@
-import React from "react";
-import Button from "../components/Button";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "./Home.module.css";
 import HomeAiIcon from "../assets/images/HomeAiIcon.svg";
@@ -7,47 +6,42 @@ import HomeArrowIcon from "../assets/images/HomeArrowIcon.svg";
 import HomeDownloadIcon from "../assets/images/HomeDownloadIcon.svg";
 import HomeProfileIcon from "../assets/images/HomeProfileIcon.svg";
 import HomeRecordIcon from "../assets/images/HomeRecordIcon.svg";
-import { HOME_MOCK_DATA } from "../api/home-mock-data";
-
-// 내년 5월 31일까지 남은 일수 계산 함수
-function getDDayString() {
-  const today = new Date();
-  const currentYear = today.getFullYear();
-
-  // 오늘 자정 기준으로 시간 설정 (시/분/초 오차 방지)
-  const startOfDay = new Date(
-    today.getFullYear(),
-    today.getMonth(),
-    today.getDate(),
-  );
-
-  // 목표일: 다음해 5월 31일 (Month는 0부터 시작하므로 4 = 5월)
-  const targetDate = new Date(currentYear + 1, 4, 31);
-
-  const diffTime = targetDate.getTime() - startOfDay.getTime();
-  const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-
-  return `D-${diffDays}`;
-}
+import { getHomeSummary } from "../api/homeApi";
 
 function Home() {
   const navigate = useNavigate();
 
-  const dDay = getDDayString(); // 동적 계산된 D-Day
+  const [homeData, setHomeData] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
 
-  // 직전년도 동적 계산 (예: 2026년 기준 -> 2025년)
-  const previousYear = new Date().getFullYear() - 1;
+  const today = new Date();
+  const currentYear = today.getFullYear(); // 현재 연도
+  const currentMonth = today.getMonth() + 1; // 현재 월 (1 ~ 12월)
 
-  // home-mock-data 사용
-  const {
-    yearlyExpense,
-    aiFoundExpense,
-    recordedIncomeRatio,
-    recordedExpenseRatio,
-    recordedIncome,
-    recordedExpense,
-    aiClassifiedRecords,
-  } = HOME_MOCK_DATA;
+  const previousYear = currentYear - 1; // 직전년도
+
+  useEffect(() => {
+    const fetchHomeSummary = async () => {
+      try {
+        setIsLoading(true);
+        // 현재 연도 및 월 전달
+        const res = await getHomeSummary({
+          year: currentYear,
+          month: currentMonth,
+        });
+
+        if (res.status === 200 && res.data) {
+          setHomeData(res.data);
+        }
+      } catch (error) {
+        console.error("홈 요약 정보 로드 실패:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchHomeSummary();
+  }, [currentYear, currentMonth]);
 
   // 내보내기 페이지 이동 함수
   const handleNavigateToExport = () => {
@@ -58,13 +52,28 @@ function Home() {
     });
   };
 
+  if (isLoading) {
+    return <div className={styles.loading}>데이터를 불러오는 중입니다...</div>;
+  }
+
+  const {
+    yearlyExpense = 0,
+    aiFoundExpense = 0,
+    recordedIncomeRatio = 0,
+    recordedExpenseRatio = 0,
+    recordedIncome = 0,
+    recordedExpense = 0,
+    aiClassifiedRecords = 0,
+    taxDDay = 0,
+  } = homeData || {};
+
   return (
     <div>
       {/* 헤더 */}
       <header className={styles.header}>
         <b className={styles.logo}>
           <span className={styles.logoText}>메이데이   </span>
-          <span className={styles.dDay}>{dDay}</span>
+          <span className={styles.dDay}>D-{taxDDay}</span>
         </b>
 
         <div onClick={() => navigate("/mypage")}>
@@ -79,12 +88,12 @@ function Home() {
           <div className={styles.summaryTitle}>올해 기록한 비용</div>
 
           <div className={styles.summaryAmount}>
-            <b className={styles.expenseAmount}>{yearlyExpense}</b>
+            <b className={styles.expenseAmount}>{yearlyExpense.toLocaleString()}</b>
             <b className={styles.currency}>원</b>
           </div>
 
           <div className={styles.summaryDescription}>
-            이번 달 AI가 {aiFoundExpense}원이 기록됐어요
+            이번 달 AI가 {aiFoundExpense.toLocaleString()}원이 기록됐어요
           </div>
         </section>
 
@@ -116,7 +125,7 @@ function Home() {
           <div className={styles.amountList}>
             <div className={styles.incomeAmount}>
               <b>● 기록한 수입</b>
-              <b className={styles.amountValue}>{recordedIncome}원</b>
+              <b className={styles.amountValue}>{recordedIncome.toLocaleString()}원</b>
             </div>
 
             <div className={styles.expenseAmountRow}>
@@ -125,7 +134,7 @@ function Home() {
                 <span> 기록한 비용</span>
               </b>
 
-              <b className={styles.amountValue}>{recordedExpense}원</b>
+              <b className={styles.amountValue}>{recordedExpense.toLocaleString()}원</b>
             </div>
           </div>
         </section>
