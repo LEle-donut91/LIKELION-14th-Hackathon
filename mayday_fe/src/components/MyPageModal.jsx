@@ -3,8 +3,8 @@ import { createPortal } from "react-dom";
 import { useNavigate } from "react-router-dom";
 import styles from "./MyPageModal.module.css";
 import MyPageModalIcon from "../assets/images/MyPageModalIcon.svg";
-import HistoryChecked from "./HistoryChecked";
-import HistoryUnChecked from "./HistoryUnChecked";
+import MyPageCheckedIcon from "../assets/images/MyPageCheckedIcon.svg"
+import HistoryUnCheckedIcon from "../assets/images/HistoryUnCheckedIcon.svg"
 import Button from "./Button"; // Button 공통 컴포넌트 import
 import { deleteUser } from "../api/myPageApi";
 
@@ -97,7 +97,7 @@ function MyPageModal({ isOpen, onClose, onWithdraw }) {
             onChange={handleCheckboxChange}
             disabled={isDeleting}
           />
-          {isChecked ? <HistoryChecked type="square" /> : <HistoryUnChecked />}
+          {isChecked ? <img src={MyPageCheckedIcon} /> : <img src={HistoryUnCheckedIcon} />}
           <span className={styles.checkboxLabel}>
             삭제되는 내용을 확인했어요
           </span>
