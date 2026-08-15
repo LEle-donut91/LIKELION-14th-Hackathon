@@ -86,7 +86,7 @@ function Mypage() {
       <main className={styles.mainContent}>
         {/* 프로필 카드 */}
         <section className={styles.profileCard}>
-          <img src={MyPageProfileIcon} />
+          <img src={MyPageProfileIcon} className={styles.profileAvatar} alt="" />
           <div className={styles.profileInfo}>
             <strong className={styles.userEmail}>{summaryData?.email}</strong>
             <p className={styles.dDayNotice}>
@@ -127,7 +127,7 @@ function Mypage() {
               className={styles.menuItem}
               onClick={() => navigate("/history")}
             >
-              <img src={MyPageFolderIcon} />
+              <img src={MyPageFolderIcon} className={styles.menuIcon} alt="" />
               <div className={styles.menuTextBox}>
                 <strong className={styles.menuTitle}>기록 조회</strong>
                 <span className={styles.menuSubTitle}>
@@ -138,7 +138,7 @@ function Mypage() {
             </button>
 
             <button className={styles.menuItem} onClick={handleExportClick}>
-              <img src={MyPageDownloadIcon} />
+              <img src={MyPageDownloadIcon} className={styles.menuIcon} alt="" />
               <div className={styles.menuTextBox}>
                 <strong className={styles.menuTitle}>내보내기</strong>
                 <span className={styles.menuSubTitle}>
@@ -159,7 +159,7 @@ function Mypage() {
               className={styles.menuItem}
               onClick={() => setIsModalOpen(true)}
             >
-              <img src={MyPageDeleteIcon} />
+              <img src={MyPageDeleteIcon} className={styles.menuIcon} alt="" />
               <div className={styles.menuTextBox}>
                 <strong className={styles.menuTitle}>회원 탈퇴</strong>
                 <span className={styles.menuSubTitle}>
