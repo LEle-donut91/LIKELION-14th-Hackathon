@@ -10,22 +10,22 @@ import { getExpenseDetail, updateExpenseDetail, deleteExpenseDetail } from "../a
 const EVIDENCE_TYPE_MAP = {
   TAX_INVOICE: "세금계산서",
   INVOICE: "계산서",
-  CREDIT_CARD: "신용카드 매출전표",
+  CARD_RECEIPT: "신용카드 매출전표",
   CASH_RECEIPT: "현금영수증",
   NON_QUALIFIED: "해당 없음",
 };
 
 // 지출 카테고리 Enum <-> 한글 매핑
 const CATEGORY_MAP = {
-  TAXES: "제세공과금",
+  TAXES_AND_DUES: "제세공과금",
   RENT: "임차료",
-  ENTERTAINMENT: "기업업무추진비",
-  VEHICLE: "차량유지비",
-  COMMISSION: "지급수수료",
+  BUSINESS_PROMOTION_EXPENSE: "기업업무추진비",
+  VEHICLE_MAINTENANCE: "차량유지비",
+  SERVICE_FEES: "지급수수료",
   SUPPLIES: "소모품비",
-  TRANSPORT: "운반비",
-  ADVERTISING: "광고선전비",
-  TRAVEL: "여비교통비",
+  DELIVERY_EXPENSE: "운반비",
+  ADVERTISING_EXPENSE: "광고선전비",
+  TRAVEL_AND_TRANSPORTATION: "여비교통비",
   OTHER_EXPENSE: "기타(비용)",
 };
 
