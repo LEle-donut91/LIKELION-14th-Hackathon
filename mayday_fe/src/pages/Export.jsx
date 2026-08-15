@@ -5,10 +5,10 @@ import styles from "./Export.module.css";
 import ExportModal from "../components/ExportModal";
 import headerIcon from "../assets/images/HeaderIcon.svg";
 import Header from "../components/Header";
-import HistoryChecked from "../components/HistoryChecked";
-import HistoryUnChecked from "../components/HistoryUnChecked";
 import Button from "../components/Button";
 import { getExportPreview } from "../api/exportApi";
+import HistorySquareCheckedIcon from "../assets/images/HistorySquareCheckedIcon.svg"
+import HistoryUnCheckedIcon from "../assets/images/HistoryUnCheckedIcon.svg"
 
 // 1. 증빙 유형 한글 매핑 딕셔너리
 const EVIDENCE_TYPE_MAP = {
@@ -296,7 +296,7 @@ function Export() {
             <span>기록 수</span>
             <strong>{exportSummary.totalRecordsCount}건</strong>
           </div>
-          <div className={`${styles.summaryRow} ${styles.dividerRow}`}>
+          <div className={`${styles.incomeRow} ${styles.dividerRow}`}>
             <span>수입</span>
             <strong>{exportSummary.totalIncome?.toLocaleString("ko-KR")}원</strong>
           </div>
@@ -319,9 +319,9 @@ function Export() {
                 onChange={handleToggleQualifiedGroup}
               />
               {isQualifiedGroupChecked ? (
-                <HistoryChecked type="square" />
+                <img src={HistorySquareCheckedIcon}/>
               ) : (
-                <HistoryUnChecked />
+                <img src={HistoryUnCheckedIcon}/>
               )}
               <strong className={styles.optionTitle}>적격 여부</strong>
               <span className={styles.optionSubtext}>
@@ -342,9 +342,9 @@ function Export() {
                     />
                     <span className={styles.subCheckboxWrapper}>
                       {qualifiedOptions.qualified ? (
-                        <HistoryChecked type="square" />
+                        <img src={HistorySquareCheckedIcon}/>
                       ) : (
-                        <HistoryUnChecked />
+                        <img src={HistoryUnCheckedIcon}/>
                       )}
                     </span>
                     <span>적격</span>
@@ -361,9 +361,9 @@ function Export() {
                     />
                     <span className={styles.subCheckboxWrapper}>
                       {qualifiedOptions.unqualified ? (
-                        <HistoryChecked type="square" />
+                        <img src={HistorySquareCheckedIcon}/>
                       ) : (
-                        <HistoryUnChecked />
+                        <img src={HistoryUnCheckedIcon}/>
                       )}
                     </span>
                     <span>부적격</span>
@@ -380,9 +380,9 @@ function Export() {
                     />
                     <span className={styles.subCheckboxWrapper}>
                       {qualifiedOptions.remark ? (
-                        <HistoryChecked type="square" />
+                        <img src={HistorySquareCheckedIcon}/>
                       ) : (
-                        <HistoryUnChecked />
+                        <img src={HistoryUnCheckedIcon}/>
                       )}
                     </span>
                     <span className={styles.itemLabel}>비고</span>
@@ -403,9 +403,9 @@ function Export() {
                 onChange={handleToggleEvidence}
               />
               {isEvidenceChecked ? (
-                <HistoryChecked type="square" />
+                <img src={HistorySquareCheckedIcon}/>
               ) : (
-                <HistoryUnChecked />
+                <img src={HistoryUnCheckedIcon}/>
               )}
               <strong className={styles.optionTitle}>증빙 유형</strong>
               <span className={styles.optionSubtext}>

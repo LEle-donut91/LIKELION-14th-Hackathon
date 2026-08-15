@@ -13,6 +13,7 @@
 
 /* 메인 컨텐츠 리프 */
 .content {
+  background-color: #F7F8FA;
   padding: 8px 20px 0 20px;
   display: flex;
   flex-direction: column;
@@ -60,6 +61,18 @@
   font-weight: bold;
   margin: 0;
   line-height: 1.18;
+}
+
+.incomeRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  line-height: 1.19;
+  color: #157E00;
+}
+
+.incomeRow span {
+  color: #71717A;
 }
 
 /* 내보낼 항목 박스 */
