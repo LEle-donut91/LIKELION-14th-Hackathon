@@ -173,7 +173,7 @@ function EditEx() {
         // 상태 업데이트
         setFormData((prev) => ({
           ...prev,
-          amount: newNumbers,
+          amount: newNumbers === "" ? "0" : newNumbers, // 모두 지워지면 "0" 설정
         }));
         }
       }
@@ -322,9 +322,9 @@ function EditEx() {
                   name="amount"
                   className={`${styles.input} ${styles.boldText}`}
                   value={
-                    formData.amount 
+                    formData.amount !== "" && formData.amount !== null && formData.amount !== undefined 
                       ? `${Number(formData.amount).toLocaleString()}원` 
-                      : ""
+                      : "0원"
                   }
                   placeholder={`${Number(initialData.amount).toLocaleString()}원`}
                   onChange={handleChange}
