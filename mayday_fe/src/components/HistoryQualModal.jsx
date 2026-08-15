@@ -2,7 +2,7 @@
 import React, { useState, useEffect, useMemo } from "react";
 import HistoryModal from "./HistoryModal";
 import styles from "./HistoryModal.module.css";
-import HistoryChecked from "./HistoryChecked";
+import HistoryCircleCheckedIcon from "../assets/images/HistoryCircleCheckedIcon.svg";
 
 const QUALIFIED_OPTIONS = [
   { id: "all", label: "전체" },
@@ -52,7 +52,7 @@ function HistoryQualModal({ isOpen, onClose, value, onApply, records = [] }) {
             >
               <span className={styles.optionLabel}>{opt.label}</span>
               {isSelected ? (
-                <HistoryChecked checked={isSelected} type="circle" />
+                <img src={HistoryCircleCheckedIcon}/>
               ) : (
                 <span className={styles.optionCount}>
                   {optionCounts[opt.id] ?? 0}건

@@ -143,9 +143,6 @@
 .optionLabel {
   font-size: 15px;
   color: #1c1c1e;
-}
-
-.selected .optionLabel {
   font-weight: 600;
 }
 

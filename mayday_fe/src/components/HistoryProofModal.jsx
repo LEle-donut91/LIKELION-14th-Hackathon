@@ -2,8 +2,8 @@
 import React, { useState, useEffect, useMemo } from "react";
 import HistoryModal from "./HistoryModal";
 import styles from "./HistoryModal.module.css";
-import HistoryChecked from "./HistoryChecked";
-import HistoryUnChecked from "./HistoryUnChecked";
+import HistorySquareCheckedIcon from "../assets/images/HistorySquareCheckedIcon.svg"
+import HistoryUnCheckedIcon from "../assets/images/HistoryUnCheckedIcon.svg"
 
 const EVIDENCE_OPTIONS = [
   "신용카드 매출전표",
@@ -70,9 +70,9 @@ function HistoryProofModal({
               <div className={styles.leftGroup}>
                 {/* isChecked 값에 따라 분리된 컴포넌트 출력 */}
                 {isSelected ? (
-                  <HistoryChecked type="square" />
+                  <img src={HistorySquareCheckedIcon}/>
                 ) : (
-                  <HistoryUnChecked />
+                  <img src={HistoryUnCheckedIcon}/>
                 )}
                 <span className={styles.optionLabel}>{label}</span>
               </div>
