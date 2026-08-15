@@ -2,7 +2,7 @@
 .overlay {
   position: fixed;
   inset: 0;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(22, 24, 29, 0.4);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -14,14 +14,15 @@
   width: 370px;
   padding: 20px 16px;
   background-color: #ffffff;
-  border-radius: 22px;
-  box-shadow: 0px 20px 50px rgba(0, 0, 0, 0.2);
+  box-shadow: 0px 18px 44px -18px rgba(22, 24, 29, 0.34);
+  border-radius: 18px;
   box-sizing: border-box;
-  font-size: 13px;
-  color: #111111;
-  font-family: Pretendard, Arial, sans-serif;
+  font-size: 12px;
+  color: #16181d;
+  font-family: 'Pretendard Variable', Pretendard, Arial, sans-serif;
   display: flex;
   flex-direction: column;
+  position: relative;
 }
 
 /* 상단 타이틀 영역 */
@@ -29,38 +30,54 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 12px;
+  height: 30px;
+  margin-bottom: 10px;
 }
 
 .title {
   margin: 0;
-  font-size: 16px;
+  font-size: 17px;
   font-weight: 700;
-  line-height: 1.2;
+  letter-spacing: -0.51px;
+  line-height: 118%;
+  color: #16181d;
 }
 
 .closeBtn {
   border: transparent;
   background: transparent;
   cursor: pointer;
+  padding: 0;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.closeBtn img {
+  width: 30px;
+  height: 30px;
+  border-radius: 50px;
 }
 
 /* 서브 헤더 (건수 정보 & 안내) */
 .subHeader {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  font-size: 12px;
+  height: 14.5px;
   margin-bottom: 12px;
 }
 
 .recordSummary {
-  color: #a1a1aa;
+  font-size: 12px;
+  line-height: 121%;
+  font-weight: 500;
+  color: #8b919c;
 }
 
 .scrollHint {
-  font-size: 11.5px;
-  color: #52525b;
+  display: none;
 }
 
 /* 표(Table) 스크롤 영역 */
@@ -71,178 +88,109 @@
   border: 1px solid #ececee;
   box-sizing: border-box;
   overflow: auto;
+  cursor: grab;
+  user-select: none;
+  -webkit-user-select: none;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.tableScrollArea::-webkit-scrollbar {
+  display: none;
+}
+
+.tableScrollArea.dragging {
+  cursor: grabbing;
 }
 
 .previewTable {
   border-collapse: collapse;
   table-layout: fixed;
-  font-size: 11px;
+  width: 728px;
+  font-size: 12px;
 }
 
 /* 적격 여부, 증빙 유형, 비고 헤더 배경색 */
 .highlightHeader {
-  background-color: #f0f0f2;
+  background-color: #f7f8fa;
 }
 
 /* 적격 여부, 증빙 유형, 비고 데이터 셀 배경색 */
 .highlightCell {
-  background-color: #f4f4f5;
+  background-color: transparent;
+  font-weight: 600;
 }
 
 .previewTable thead {
-  background-color: #fafafa;
+  background-color: #f7f8fa;
   position: sticky;
   top: 0;
   z-index: 1;
 }
 
 .previewTable th {
-  height: 33px;
-  border-bottom: 1px solid #ececee;
-  border-right: 1px solid #eee;
-  padding: 0 8px;
+  height: 37.5px;
+  border-bottom: 1px solid #e4e7ec;
+  padding: 0 12px;
   font-weight: 700;
-  color: #52525b;
+  color: #6b7280;
   box-sizing: border-box;
+  line-height: 121%;
 }
 
 .previewTable td {
-  height: 33px;
-  border-bottom: 1px solid #f0f0f0;
-  border-right: 1px solid #eee;
-  padding: 0 8px;
+  height: 37.5px;
+  border-bottom: 1px solid #f1f2f5;
+  padding: 0 12px;
   box-sizing: border-box;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  font-weight: 600;
+  color: #16181d;
+  line-height: 121%;
 }
 
 .previewTable tr:last-child td {
   border-bottom: none;
 }
 
-.previewTable th:last-child,
-.previewTable td:last-child {
-  border-right: none;
-}
-
 /* 각 열 너비 지정 */
-.previewTable th:nth-child(1),
-.previewTable td:nth-child(1) {
-  min-width: 61px;
-}
-.previewTable th:nth-child(2),
-.previewTable td:nth-child(2) {
-  min-width: 113px;
-}
-.previewTable th:nth-child(3),
-.previewTable td:nth-child(3) {
-  min-width: 121px;
-}
-.previewTable th:nth-child(4),
-.previewTable td:nth-child(4) {
-  min-width: 101px;
-}
-.previewTable th:nth-child(5),
-.previewTable td:nth-child(5) {
-  min-width: 93px;
-}
-.previewTable th:nth-child(6),
-.previewTable td:nth-child(6) {
-  min-width: 93px;
-}
-.previewTable th:nth-child(7),
-.previewTable td:nth-child(7) {
-  min-width: 93px;
-}
-.previewTable th:nth-child(8),
-.previewTable td:nth-child(8) {
-  min-width: 121px;
-}
-.previewTable th:nth-child(9),
-.previewTable td:nth-child(9) {
-  min-width: 166px;
+.previewTable th,
+.previewTable td {
+  width: 104px;
+  min-width: 104px;
+  max-width: 104px;
 }
 
 /* 정렬 */
 .alignLeft {
   text-align: left;
 }
+
 .alignRight {
   text-align: right;
 }
+
 .dateCol {
-  color: #777;
-}
-
-/* 하단 문구 및 확인 버튼 */
-.noticeText {
-  margin: 12px 6px 7.19px;
-  font-size: 12px;
-  color: #52525b;
-  line-height: 1.4;
-}
-
-.confirmBtn {
-  margin-top: auto;
-  width: 100%;
-  height: 48px;
-  background-color: #111111;
-  color: #ffffff;
-  border: none;
-  border-radius: 12px;
-  cursor: pointer;
-  font-size: 15px;
+  color: #16181d;
   font-weight: 600;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-/* 테이블 스크롤 영역 - 브라우저 기본 스크롤바 숨기기 */
-.tableScrollArea {
-  width: 100%;
-  max-height: 198px;
-  border-radius: 12px;
-  border: 1px solid #ececee;
-  box-sizing: border-box;
-  overflow: auto;
-  cursor: grab;
-  
-  /* 드래그 시 내부 텍스트 선택 방지 */
-  user-select: none;
-  -webkit-user-select: none;
-
-  /* IE/Edge, Firefox 스크롤바 숨기기 */
-  -ms-overflow-style: none;
-  scrollbar-width: none;
-}
-
-/* Chrome, Safari, Opera 스크롤바 숨기기 */
-.tableScrollArea::-webkit-scrollbar {
-  display: none;
-}
-
-/* 마우스로 끌고 있는 상태 */
-.tableScrollArea.dragging {
-  cursor: grabbing;
 }
 
 /* 커스텀 스크롤바 트랙 */
 .scrollIndicatorTrack {
   position: relative;
-  width: 50px;
-  height: 4px;
-  background-color: #e4e4e7;
-  border-radius: 2px;
-  margin: 12px auto;
+  width: 318px;
+  height: 8px;
+  background-color: #e9ebf0;
+  border-radius: 99px;
+  margin: 14px 0;
   cursor: pointer;
-  
-  /* 클릭/드래그 시 영역 선택 방지 */
+  overflow: hidden;
   user-select: none;
   -webkit-user-select: none;
 }
 
-/* 클릭 편의성을 위한 가상 터치 영역 추가 */
 .scrollIndicatorTrack::before {
   content: "";
   position: absolute;
@@ -257,10 +205,10 @@
   position: absolute;
   top: 0;
   left: 0;
-  width: 27px;
-  height: 4px;
-  background-color: #111111;
-  border-radius: 2px;
+  width: 143.1px;
+  height: 8px;
+  background-color: #3559c7;
+  border-radius: 99px;
   cursor: grab;
   touch-action: none;
 }
@@ -269,6 +217,43 @@
   cursor: grabbing;
 }
 
+/* 하단 문구 및 안내 상자 */
+.noticeContainer {
+  width: 318px;
+  min-height: 64.4px;
+  border-radius: 10px;
+  background-color: #f7f8fa;
+  box-sizing: border-box;
+  padding: 15px 13px;
+  display: flex;
+  align-items: center;
+}
+
+.noticeText {
+  margin: 0;
+  font-size: 12px;
+  color: #6b7280;
+  line-height: 19.2px;
+  font-weight: 600;
+  word-break: keep-all;
+}
+
 .buttonWrapper {
-  margin-top: 12px;
+  margin-top: 16px;
+  width: 318px;
+}
+
+.confirmBtn {
+  width: 318px;
+  height: 52px;
+  background-color: #3559c7;
+  color: #ffffff;
+  border: none;
+  border-radius: 11px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }

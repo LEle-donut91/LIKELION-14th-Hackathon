@@ -34,9 +34,9 @@ function ExportModal({
   const tableStartScrollLeft = useRef(0);
 
   // 2번 디자인 상수
-  const trackWidth = 50;
-  const thumbWidth = 27;
-  const maxThumbLeft = trackWidth - thumbWidth; // 23px
+  const trackWidth = 318;
+  const thumbWidth = 143.1;
+  const maxThumbLeft = trackWidth - thumbWidth;
 
   // 모달이 다시 열릴 때 스크롤 위치 및 스크롤바 초기화
   useEffect(() => {
@@ -204,17 +204,15 @@ function ExportModal({
             onClick={onClose}
             aria-label="닫기"
           >
-            <img src={ExportModalCancelIcon} />
+            <img src={ExportModalCancelIcon} alt="" />
           </button>
         </header>
 
         {/* 요약 정보 */}
         <div className={styles.subHeader}>
           <span className={styles.recordSummary}>
-            {headers.length}개 열 · 상위 {topRecordsCount}건 · 전체 {totalCount}
-            건
+            {headers.length}개 열 · 상위 {topRecordsCount}건 · 전체 {totalCount}건
           </span>
-          <span className={styles.scrollHint}>← 좌우로 밀어 확인 →</span>
         </div>
 
         {/* 테이블 영역 (마우스 드래그 스크롤 지원) */}
@@ -243,7 +241,7 @@ function ExportModal({
                       className={`${alignClass} ${bgClass}`}
                     >
                       {isHighlight ? (
-                        <b style={{ color: "#111" }}>{header}</b>
+                        <b>{header}</b>
                       ) : (
                         header
                       )}
@@ -302,9 +300,11 @@ function ExportModal({
         </div>
 
         {/* 하단 안내 및 확인 버튼 */}
-        <p className={styles.noticeText}>{noticeText}</p>
+        <div className={styles.noticeContainer}>
+          <p className={styles.noticeText}>{noticeText}</p>
+        </div>
         <div className={styles.buttonWrapper}>
-          <Button text="확인" onClick={onClose} />
+          <Button text="확인" onClick={onClose} className={styles.confirmBtn} />
         </div>
       </div>
     </div>,

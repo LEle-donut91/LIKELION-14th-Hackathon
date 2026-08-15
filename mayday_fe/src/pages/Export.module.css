@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Pretendard+Variable:ital,wght@0,500;0,600;0,700&display=swap');
+
 /* 상단 영역 */
 .header {
   margin-top: 39px;
@@ -5,48 +7,79 @@
 }
 
 .title {
-  font-size: 17px;
-  font-weight: bold;
+  font-size: 18px;
+  font-weight: 700;
   margin: 0;
-  line-height: 1.18;
+  line-height: 119%;
+  letter-spacing: -0.54px;
 }
 
-/* 메인 컨텐츠 리프 */
+/* 메인 컨텐츠 영역 */
 .content {
-  background-color: #F7F8FA;
-  padding: 8px 20px 0 20px;
+  background-color: #f7f8fa;
+  padding: 8px 20px 20px 20px;
   display: flex;
   flex-direction: column;
   gap: 16px;
+  box-sizing: border-box;
 }
 
 /* 요약 카드 */
 .summaryCard {
+  box-shadow: 0px 1px 2px rgba(22, 24, 29, 0.05);
   border-radius: 16px;
-  border: 1px solid #ececee;
-  padding: 17px 19px;
+  background-color: #ffffff;
+  padding: 18px;
   display: flex;
   flex-direction: column;
-  gap: 9px;
-  font-size: 13.5px;
-  color: #71717a;
+  gap: 10px;
+  font-size: 13px;
+  color: #6b7280;
+  box-sizing: border-box;
 }
 
 .summaryRow {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  line-height: 1.19;
+  line-height: 119%;
+  font-weight: 500;
+}
+
+.summaryRow span {
+  color: #6b7280;
 }
 
 .summaryRow strong {
-  color: #111111;
-  font-weight: bold;
+  font-size: 15px;
+  line-height: 120%;
+  color: #16181d;
+  font-weight: 700;
+}
+
+.incomeRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  line-height: 119%;
+  color: #157e00;
+  font-weight: 500;
+}
+
+.incomeRow span {
+  color: #6b7280;
+}
+
+.incomeRow strong {
+  font-size: 15px;
+  line-height: 120%;
+  color: #157e00;
+  font-weight: 700;
 }
 
 .dividerRow {
-  border-top: 1px solid #f4f4f5;
-  padding-top: 9px;
+  border-top: 1px solid #e9ebf0;
+  padding-top: 10px;
 }
 
 /* 섹션 공통 스타일 */
@@ -57,89 +90,99 @@
 }
 
 .sectionTitle {
-  font-size: 14px;
-  font-weight: bold;
+  font-size: 15px;
+  letter-spacing: -0.37px;
+  line-height: 120%;
+  font-weight: 600;
+  color: #16181d;
   margin: 0;
-  line-height: 1.18;
-}
-
-.incomeRow {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  line-height: 1.19;
-  color: #157E00;
-}
-
-.incomeRow span {
-  color: #71717A;
 }
 
 /* 내보낼 항목 박스 */
 .optionsBox {
+  box-shadow: 0px 1px 2px rgba(22, 24, 29, 0.05);
   border-radius: 16px;
-  border: 1px solid #ececee;
-  padding: 12px 19px;
-  font-size: 14.5px;
-  color: #52525b;
+  background-color: #ffffff;
+  padding: 6px 16px;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
 }
 
 .optionHeader {
   display: flex;
   align-items: center;
-  min-height: 48px;
+  min-height: 50px;
   gap: 12px;
   cursor: pointer;
   user-select: none;
+  font-size: 15px;
+}
+
+.optionHeader img {
+  width: 22px;
+  height: 22px;
+  flex-shrink: 0;
+  display: block;
 }
 
 .dividerTop {
-  border-top: 1px solid #f4f4f5;
+  border-top: 1px solid #e9ebf0;
 }
 
 .optionTitle {
-  color: #111111;
-  font-weight: bold;
-  line-height: 1.17;
+  letter-spacing: -0.3px;
+  line-height: 120%;
+  font-weight: 700;
+  color: #16181d;
 }
 
 .optionSubtext {
-  font-size: 11.5px;
-  color: #a1a1aa;
+  font-size: 12px;
+  line-height: 121%;
+  font-weight: 500;
+  color: #a8adb7;
   margin-left: auto;
-  line-height: 1.17;
 }
 
 /* 하위 선택 리스트 */
 .subOptionList {
   list-style: none;
-  padding: 0 0 4px 25px;
-  margin: 0;
-  border-left: 2px solid #f4f4f5;
+  padding: 0 0 0 11px;
+  margin: 0 0 6px 11px;
+  border-left: 2px solid #e9ebf0;
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: 0px;
+}
+
+.subOptionList li {
+  margin: 0;
 }
 
 .subOptionItem {
   display: flex;
   align-items: center;
-  height: 40px;
-  gap: 12px;
-  font-size: 13.5px;
+  height: 42px;
+  gap: 11px;
+  font-size: 13px;
+  color: #3f4652;
   cursor: pointer;
   user-select: none;
 }
 
 .itemLabel {
-  color: #52525b;
+  line-height: 119%;
+  font-weight: 600;
+  color: #3f4652;
 }
 
 .itemDescription {
-  font-size: 11px;
-  color: #a1a1aa;
+  font-size: 12px;
+  line-height: 121%;
+  font-weight: 500;
+  color: #a8adb7;
   margin-left: auto;
-  line-height: 1.18;
 }
 
 /* 접근성을 위한 시맨틱 input 숨김 */
@@ -155,57 +198,68 @@
   border: 0;
 }
 
-/* 하위 체크박스 아이콘 축소용 래퍼 */
+/* 하위 체크박스 아이콘 래퍼 */
 .subCheckboxWrapper {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  transform: scale(0.8333); 
-  transform-origin: center;
+}
+
+.subCheckboxWrapper img {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  display: block;
 }
 
 /* 안내 텍스트 */
 .noticeText {
   margin: 0;
   padding-left: 4px;
-  font-size: 11.5px;
-  color: #a1a1aa;
-  line-height: 1.17;
+  font-size: 12px;
+  line-height: 121%;
+  font-weight: 500;
+  color: #a8adb7;
 }
 
 /* 미리보기 버튼 */
 .previewButton {
   width: 100%;
+  box-shadow: 0px 1px 2px rgba(22, 24, 29, 0.05);
   border-radius: 16px;
-  border: 1px solid #ececee;
-  background: none;
-  padding: 17px 19px;
+  background-color: #ffffff;
+  border: none;
+  padding: 16px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   cursor: pointer;
   text-align: left;
+  box-sizing: border-box;
 }
 
 .previewTitle {
+  letter-spacing: -0.3px;
+  line-height: 120%;
+  font-weight: 600;
+  color: #16181d;
   font-size: 15px;
-  color: #111111;
   display: block;
-  line-height: 1.17;
 }
 
 .previewSummary {
-  font-size: 12.5px;
-  color: #a1a1aa;
-  margin-top: 5px;
-  line-height: 1.16;
+  font-size: 12px;
+  line-height: 121%;
+  font-weight: 500;
+  color: #8b919c;
+  margin-top: 6px;
 }
 
 .arrowIcon {
   width: 8px;
   height: 8px;
-  border-top: 2px solid #a1a1aa;
-  border-right: 2px solid #a1a1aa;
+  border-top: 2px solid #8b919c;
+  border-right: 2px solid #8b919c;
   transform: rotate(45deg);
   display: inline-block;
 }
@@ -218,78 +272,84 @@
 
 .formatCard {
   flex: 1;
-  height: 70.5px;
-  border-radius: 14px;
-  border: 1px solid #d4d4d8;
-  background: none;
+  height: 71.5px;
+  border-radius: 11px;
+  background-color: #ffffff;
+  border: 1px solid #e4e7ec;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
+  padding: 0 15px;
   gap: 4px;
   cursor: pointer;
-  font-size: 15px;
-  color: #71717a;
-  transition: all 0.15s ease;
+  box-sizing: border-box;
 }
 
-/* 비활성화 파일 형식 카드의 메인 타이틀 */
 .formatTitle {
+  letter-spacing: -0.3px;
+  line-height: 120%;
+  font-weight: 600;
+  color: #8b919c;
   font-size: 15px;
-  color: #a1a1aa;
 }
 
-/* 비활성화 파일 형식 카드의 서브 텍스트 */
-.formatCard .subText {
-  font-size: 11.5px;
-  color: #a1a1aa;
-  line-height: 1.17;
+.formatCard strong {
+  letter-spacing: -0.3px;
+  line-height: 120%;
+  font-weight: 600;
+  color: #2a479f;
+  font-size: 15px;
 }
 
-/* 활성화 파일 형식 카드 스타일 */
+.subText {
+  font-size: 12px;
+  line-height: 121%;
+  font-weight: 600;
+  color: #8b919c;
+}
+
 .formatCard.activeFormat {
-  border: 2px solid #111111;
-  color: #111111;
+  background-color: #ebeef9;
+  border: 1.5px solid #3559c7;
 }
 
-/* 활성화 파일 형식 카드의 메인 타이틀 */
-.formatCard.activeFormat strong {
-  font-size: 15px;
-  font-weight: bold;
-  color: #111111;
-}
-
-/* 활성화 파일 형식 카드의 서브 텍스트 */
 .formatCard.activeFormat .subText {
-  color: #71717a;
+  color: #2a479f;
 }
 
-/* 하단 버튼 및 안내 */
+/* 하단 안내 및 다운로드 영역 */
 .footer {
-  margin-top: 18px;
-  margin-bottom: 45px;
+  margin-top: 10px;
+  margin-bottom: 20px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 12px;
+  gap: 16px;
   text-align: center;
 }
 
 .footerNotice {
   margin: 0;
-  font-size: 11.5px;
-  color: #a1a1aa;
-  line-height: 1.6;
+  font-size: 12px;
+  line-height: 20.4px;
+  font-weight: 600;
+  color: #a8adb7;
+  text-align: center;
 }
 
+/* 공통 버튼 스타일 override 대응 */
 .downloadButton {
   width: 100%;
   height: 54px;
-  border-radius: 16px;
-  background-color: #111111;
+  box-shadow: 0px 1px 2px rgba(22, 24, 29, 0.06);
+  border-radius: 12px;
+  background-color: #3559c7;
   color: #ffffff;
   border: none;
   font-size: 16px;
+  letter-spacing: -0.32px;
+  line-height: 119%;
   font-weight: bold;
   cursor: pointer;
 }
