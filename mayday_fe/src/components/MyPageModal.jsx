@@ -62,12 +62,12 @@ function MyPageModal({ isOpen, onClose, onWithdraw }) {
       {/* e.stopPropagation()으로 모달 카드 클릭 시 닫히는 현상 방지 */}
       <div className={styles.modalCard} onClick={(e) => e.stopPropagation()}>
         {/* 경고 아이콘 */}
-        <img src={MyPageModalIcon} />
+        <img src={MyPageModalIcon} className={styles.modalIcon} alt="" />
 
         {/* 메인 안내 문구 */}
         <div className={styles.titleSection}>
           <h3 className={styles.modalTitle}>정말 탈퇴하시겠어요?</h3>
-          <p className={styles.modalDescription}>
+          <span className={styles.modalDescription}>
             탈퇴하면{" "}
             <b className={styles.highlight}>
               계정의 개인정보와 모든 기록 정보
@@ -76,15 +76,15 @@ function MyPageModal({ isOpen, onClose, onWithdraw }) {
             <b className={styles.highlight}>
               즉시 삭제되며 복구할 수 없어요.
             </b>
-          </p>
+          </span>
         </div>
 
         {/* 내보내기 안내 상자 */}
         <div className={styles.noticeBox}>
           <p className={styles.noticeText}>
             신고에 필요한 기록이 있다면 탈퇴 전에{" "}
-            <strong className={styles.noticeHighlight}>내보내기</strong>로
-            파일을 먼저 보관해 주세요.
+            <strong className={styles.noticeHighlight}>내보내기</strong>
+            <br/>로 파일을 먼저 보관해 주세요.
           </p>
         </div>
 

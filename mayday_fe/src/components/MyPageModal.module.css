@@ -2,7 +2,7 @@
 .overlay {
   position: fixed;
   inset: 0;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(22, 24, 29, 0.34);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -11,78 +11,96 @@
 
 /* 모달 카드 */
 .modalCard {
-  width: 342px;
-  padding: 28px 20px 24px;
-  box-shadow: 0px 20px 50px rgba(0, 0, 0, 0.2);
-  border-radius: 24px;
+  width: 350px;
+  padding: 26px 14px 22px;
+  box-shadow: 0px 18px 44px -18px rgba(22, 24, 29, 0.34);
+  border-radius: 18px;
   background-color: #ffffff;
   box-sizing: border-box;
   font-size: 13px;
-  color: #111111;
-  font-family: "42dot Sans", Arial, sans-serif;
+  color: #16181d;
+  font-family: Pretendard Variable, Arial, sans-serif;
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+/* 경고 아이콘 */
+.modalIcon {
+  width: 46px;
+  height: 46px;
+  border-radius: 50px;
+  object-fit: contain;
 }
 
 /* 제목 및 인트로 섹션 */
 .titleSection {
   width: 100%;
   text-align: center;
-  margin-top: 16px;
-  margin-bottom: 16px;
+  margin-top: 14px;
+  margin-bottom: 14.5px;
 }
 
 .modalTitle {
-  margin: 0 0 12px 0;
+  margin: 0 0 13.5px 0;
   font-size: 18px;
-  font-weight: bold;
-  line-height: 1.19;
+  font-weight: 700;
+  letter-spacing: -0.54px;
+  line-height: 119%;
+  color: #16181d;
 }
 
 .modalDescription {
-  margin: 0;
-  font-size: 13.5px;
-  line-height: 1.4;
-  color: #52525b;
+  margin: 0 0 0 8px;
+  font-size: 12px;
+  line-height: 21.45px;
+  font-weight: 600;
+  color: #6b7280;
 }
 
 .highlight {
-  color: #111111;
+  color: #16181d;
+  font-weight: 700;
+  line-height: 21.45px;
 }
 
 /* 내보내기 안내 영역 */
 .noticeBox {
   width: 100%;
-  border-radius: 14px;
-  background-color: #fafafa;
-  padding: 16.5px 16px;
+  border-radius: 10px;
+  background-color: #f7f8fa;
+  padding: 16px 14px;
   box-sizing: border-box;
-  font-size: 12.5px;
-  color: #71717a;
-  margin-bottom: 16px;
+  font-size: 12px;
+  color: #5a6270;
+  margin: 0 8px 16px;
+  text-align: left;
 }
 
 .noticeText {
   margin: 0;
-  line-height: 1.4;
+  line-height: 19.2px;
+  font-weight: 600;
 }
 
 .noticeHighlight {
-  font-weight: bold;
-  color: #52525b;
+  font-weight: 700;
+  color: #16181d;
+  line-height: 19.2px;
 }
 
 /* 체크박스 영역 */
 .checkboxContainer {
   width: 100%;
+  height: 30px;
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 11px;
   margin-bottom: 16px;
   cursor: pointer;
   user-select: none;
-  color: #52525b;
+  color: #3f4652;
+  box-sizing: border-box;
 }
 
 /* 실제 input은 브라우저 기본 스타일을 숨기지만 키보드/스크린리더가 인식하게 유지 */
@@ -99,7 +117,8 @@
 
 .checkboxLabel {
   font-size: 13px;
-  line-height: 1.15;
+  line-height: 119%;
+  font-weight: 700;
 }
 
 /* 버튼 그룹 */
@@ -107,13 +126,32 @@
   width: 100%;
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  padding: 0 8px;
+  gap: 11px;
 }
 
-/* disabled 상태일 때 Button.module.css의 기본 배경/글자색을 오버라이딩 */
+.submitButtonWrapper {
+  width: 100%;
+}
+
+.submitButtonWrapper button {
+  width: 100%;
+  height: 54px;
+  border-radius: 11px;
+  background-color: #b4474c !important;
+  color: #ffffff !important;
+  font-size: 16px;
+  font-weight: 700;
+  border: none;
+  box-shadow: 0px 1px 2px rgba(22, 24, 29, 0.06);
+  cursor: pointer;
+}
+
+/* disabled 상태일 때 */
 .submitButtonWrapper button:disabled {
   background-color: #e4e4e7 !important;
   color: #999999 !important;
+  box-shadow: none;
   cursor: not-allowed;
 }
 
@@ -121,15 +159,17 @@
 .cancelButton {
   width: 100%;
   height: 52px;
-  border-radius: 13px;
-  border: 1px solid #d4d4d8;
+  border-radius: 11px;
+  border: 1px solid #dee1e7;
   box-sizing: border-box;
-  background-color: transparent;
-  color: #111111;
-  font-weight: bold;
+  background-color: #ffffff;
+  color: #16181d;
+  font-weight: 700;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 15px;
+  line-height: 120%;
+  font-family: inherit;
 }
