@@ -330,7 +330,6 @@ function Export() {
             </label>
 
             {/* 하위 항목 목록 */}
-            {isQualifiedGroupChecked && (
               <ul className={styles.subOptionList}>
                 <li>
                   <label className={styles.subOptionItem}>
@@ -392,7 +391,6 @@ function Export() {
                   </label>
                 </li>
               </ul>
-            )}
 
             {/* 상위: 증빙 유형 */}
             <label className={`${styles.optionHeader} ${styles.dividerTop}`}>
