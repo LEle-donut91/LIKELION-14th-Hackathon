@@ -265,13 +265,11 @@ function Export() {
   };
 
   return (
-    <div className={styles.card}>
-      {/* 헤더 영역 */}
-      <div className={styles.header}>
-        <Header text="내보내기" />
-      </div>
+    <div className={styles.export}>
+      <Header text="내보내기" />
 
       <main className={styles.content}>
+
         {/* 요약 정보 카드 */}
         <section className={styles.summaryCard}>
           <div className={styles.summaryRow}>
