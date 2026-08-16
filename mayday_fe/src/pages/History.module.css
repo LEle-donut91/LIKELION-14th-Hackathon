@@ -1,0 +1,348 @@
+/* Pretendard 웹폰트 import (Figma 코드 기준) */
+@import url("https://fonts.googleapis.com/css2?family=Pretendard+Variable:ital,wght@0,500;0,600;0,700&display=swap");
+
+/* 폰트 기본 설정 */
+body {
+  font-family:
+    "Pretendard Variable",
+    Pretendard,
+    -apple-system,
+    BlinkMacSystemFont,
+    system-ui,
+    Roboto,
+    "Helvetica Neue",
+    "Segoe UI",
+    "Apple SD Gothic Neo",
+    "Noto Sans KR",
+    "Malgun Gothic",
+    "Apple Color Emoji",
+    "Segoe UI Emoji",
+    "Segoe UI Symbol",
+    sans-serif;
+}
+
+/* 모든 요소 및 pseudo 클래스가 부모의 font-family를 상속받도록 설정 */
+*,
+::before,
+::after {
+  font-family: inherit;
+}
+
+/* 헤더 */
+.container {
+  min-height: 764px;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background-color: #f7f8fa;
+  box-sizing: border-box;
+}
+
+.header {
+  background-color: #f7f8fa;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+  box-sizing: border-box;
+  flex-shrink: 0;
+}
+
+/* 연도 탭 navigation */
+.yearTabGroup {
+  display: flex;
+  align-items: center;
+  height: 47.5px;
+  border-bottom: 1px solid #e7e9ee;
+  padding-left: 22px;
+  gap: 22px;
+  background-color: #f7f8fa;
+  box-sizing: border-box;
+  flex-shrink: 0;
+}
+
+.yearTab {
+  background: none;
+  border: none;
+  padding: 0;
+  font-size: 16px;
+  color: #a8adb7;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  box-sizing: border-box;
+}
+
+.activeYear {
+  color: #16181d;
+  font-weight: bold;
+  border-bottom: 2.5px solid #16181d;
+}
+
+/* 검색 및 필터 영역 */
+.filterSection {
+  padding: 16px 20px 8px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  box-sizing: border-box;
+  flex-shrink: 0;
+}
+
+.searchBar {
+  display: flex;
+  align-items: center;
+  background-color: #eff0f3;
+  border-radius: 11px;
+  height: 46px;
+  padding: 0 14px;
+  gap: 9px;
+  box-sizing: border-box;
+}
+
+.searchIcon {
+  width: 17px;
+  height: 17px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.searchIcon svg {
+  width: 100%;
+  height: 100%;
+}
+
+.searchInput {
+  border: none;
+  background: transparent;
+  outline: none;
+  font-size: 14px;
+  font-weight: 600;
+  color: #16181d;
+  width: 100%;
+}
+
+.searchInput::placeholder {
+  color: #a8adb7;
+}
+
+/* 칩 그룹 */
+.chipGroup {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 38px;
+}
+
+.chip {
+  background-color: #ffffff;
+  border: 1px solid #dbdee5;
+  border-radius: 999px;
+  height: 36px;
+  padding: 0 14px;
+  font-size: 13px;
+  color: #3f4652;
+  font-weight: 700;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  box-sizing: border-box;
+}
+
+.chipText {
+  line-height: 119%;
+}
+
+.chipArrow {
+  width: 10px;
+  height: 10px;
+  flex-shrink: 0;
+  color: #3f4652;
+}
+
+/* 필터 적용 시 칩 스타일 (1개 또는 선택 시) */
+.activeChip {
+  background-color: #3559c7;
+  border: none;
+  color: #ffffff;
+}
+
+.activeChip .chipArrow {
+  width: 11px;
+  height: 11px;
+  color: #ffffff;
+}
+
+/* 2개 이상 복수 선택 시 숫자 뱃지 */
+.chipBadge {
+  background-color: rgba(255, 255, 255, 0.24);
+  border-radius: 99px;
+  width: 17px;
+  height: 17px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  color: #ffffff;
+}
+
+.chipBadge b {
+  font-weight: bold;
+  line-height: 118%;
+}
+
+/* 필터 결과 요약 */
+.resultSummary {
+  margin: 12px 20px 6px 20px;
+  background-color: #eff0f3;
+  border-radius: 10px;
+  height: 41.5px;
+  display: flex;
+  align-items: center;
+  padding: 0 15px;
+  font-size: 13px;
+  color: #5a6270;
+  font-weight: 500;
+  box-sizing: border-box;
+  flex-shrink: 0;
+}
+
+.resultCount {
+  color: #16181d;
+  margin-left: 6px;
+  font-weight: 700;
+}
+
+/* 리스트 영역 */
+.recordList {
+  margin: 6px 20px 0 20px;
+  box-shadow: 0px 1px 2px rgba(22, 24, 29, 0.05);
+  border-radius: 16px;
+  background-color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.recordItem {
+  display: flex;
+  align-items: center;
+  height: 73px;
+  padding: 0 16px;
+  border-bottom: 1px solid #f1f2f5;
+  cursor: pointer;
+  box-sizing: border-box;
+}
+
+.recordItem:last-child {
+  border-bottom: none;
+}
+
+.recordIconWrapper {
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.categoryImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.recordInfo {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-left: 12px;
+  flex: 1;
+}
+
+.recordTitle {
+  font-size: 15px;
+  font-weight: 600;
+  color: #16181d;
+  letter-spacing: -0.3px;
+  line-height: 120%;
+}
+
+.recordDesc {
+  font-size: 12px;
+  font-weight: 500;
+  color: #9aa0ab;
+  margin-top: 3px;
+  line-height: 121%;
+}
+
+.recordRight {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+.recordAmount {
+  font-size: 15px;
+  font-weight: 700;
+  color: #16181d;
+  line-height: 120%;
+}
+
+.badge,
+.badgePlaceholder {
+  font-size: 11px;
+  font-weight: 700;
+  border-radius: 6px;
+  height: 19px;
+  padding: 0 7px;
+  margin-top: 4px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 118%;
+  box-sizing: border-box;
+}
+
+.badgePlaceholder {
+  /* 빈 공간 유지를 위한 투명 레이아웃 */
+  visibility: hidden;
+  display: inline-block;
+}
+
+/* 적격 뱃지 */
+.badgeQualified {
+  background-color: #e8f6e6;
+  color: #157e00;
+}
+
+/* 부적격 뱃지 */
+.badgeUnqualified {
+  background-color: #fde8e8;
+  color: #c73535;
+}
+
+/* 하단 내보내기 버튼 영역 */
+.footer {
+  margin-top: auto;
+  background-color: #ffffff;
+  border-top: 1px solid #e9ebf0;
+  height: 85px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 20px;
+  box-sizing: border-box;
+  flex-shrink: 0;
+}

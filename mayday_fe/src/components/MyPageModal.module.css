@@ -1,0 +1,203 @@
+/* Pretendard 웹폰트 import (Figma 코드 기준) */
+@import url("https://fonts.googleapis.com/css2?family=Pretendard+Variable:ital,wght@0,500;0,600;0,700&display=swap");
+
+/* 폰트 기본 설정 */
+body {
+  font-family:
+    "Pretendard Variable",
+    Pretendard,
+    -apple-system,
+    BlinkMacSystemFont,
+    system-ui,
+    Roboto,
+    "Helvetica Neue",
+    "Segoe UI",
+    "Apple SD Gothic Neo",
+    "Noto Sans KR",
+    "Malgun Gothic",
+    "Apple Color Emoji",
+    "Segoe UI Emoji",
+    "Segoe UI Symbol",
+    sans-serif;
+}
+
+/* 모든 요소 및 pseudo 클래스가 부모의 font-family를 상속받도록 설정 */
+*,
+::before,
+::after {
+  font-family: inherit;
+}
+
+/* 화면 전체 어두운 배경 */
+.overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(22, 24, 29, 0.34);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+/* 모달 카드 */
+.modalCard {
+  width: 350px;
+  padding: 26px 14px 22px;
+  box-shadow: 0px 18px 44px -18px rgba(22, 24, 29, 0.34);
+  border-radius: 18px;
+  background-color: #ffffff;
+  box-sizing: border-box;
+  font-size: 13px;
+  color: #16181d;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* 경고 아이콘 */
+.modalIcon {
+  width: 46px;
+  height: 46px;
+  border-radius: 50px;
+  object-fit: contain;
+}
+
+/* 제목 및 인트로 섹션 */
+.titleSection {
+  width: 100%;
+  text-align: center;
+  margin-top: 14px;
+  margin-bottom: 14.5px;
+}
+
+.modalTitle {
+  margin: 0 0 13.5px 0;
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: -0.54px;
+  line-height: 119%;
+  color: #16181d;
+}
+
+.modalDescription {
+  margin: 0 0 0 8px;
+  font-size: 12px;
+  line-height: 21.45px;
+  font-weight: 600;
+  color: #6b7280;
+}
+
+.highlight {
+  color: #16181d;
+  font-weight: 700;
+  line-height: 21.45px;
+}
+
+/* 내보내기 안내 영역 */
+.noticeBox {
+  width: 100%;
+  border-radius: 10px;
+  background-color: #f7f8fa;
+  padding: 16px 14px;
+  box-sizing: border-box;
+  font-size: 12px;
+  color: #5a6270;
+  margin: 0 8px 16px;
+  text-align: left;
+}
+
+.noticeText {
+  margin: 0;
+  line-height: 19.2px;
+  font-weight: 600;
+}
+
+.noticeHighlight {
+  font-weight: 700;
+  color: #16181d;
+  line-height: 19.2px;
+}
+
+/* 체크박스 영역 */
+.checkboxContainer {
+  width: 100%;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  margin-bottom: 16px;
+  cursor: pointer;
+  user-select: none;
+  color: #3f4652;
+  box-sizing: border-box;
+}
+
+/* 실제 input은 브라우저 기본 스타일을 숨기지만 키보드/스크린리더가 인식하게 유지 */
+.hiddenCheckbox {
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.checkboxLabel {
+  font-size: 13px;
+  line-height: 119%;
+  font-weight: 700;
+}
+
+/* 버튼 그룹 */
+.buttonGroup {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 0 8px;
+  gap: 11px;
+}
+
+.submitButtonWrapper {
+  width: 100%;
+}
+
+.submitButtonWrapper button {
+  width: 100%;
+  height: 54px;
+  border-radius: 11px;
+  background-color: #b4474c !important;
+  color: #ffffff !important;
+  font-size: 16px;
+  font-weight: 700;
+  border: none;
+  box-shadow: 0px 1px 2px rgba(22, 24, 29, 0.06);
+  cursor: pointer;
+}
+
+/* disabled 상태일 때 */
+.submitButtonWrapper button:disabled {
+  background-color: #e4e4e7 !important;
+  color: #999999 !important;
+  box-shadow: none;
+  cursor: not-allowed;
+}
+
+/* 돌아가기 버튼 (Button 컴포넌트 사용 X) */
+.cancelButton {
+  width: 100%;
+  height: 52px;
+  border-radius: 11px;
+  border: 1px solid #dee1e7;
+  box-sizing: border-box;
+  background-color: #ffffff;
+  color: #16181d;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 15px;
+  line-height: 120%;
+}

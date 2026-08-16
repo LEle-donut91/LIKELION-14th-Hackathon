@@ -1,0 +1,259 @@
+/* Pretendard 웹폰트 import (Figma 코드 기준) */
+@import url("https://fonts.googleapis.com/css2?family=Pretendard+Variable:ital,wght@0,500;0,600;0,700&display=swap");
+
+/* 폰트 기본 설정 */
+body {
+  font-family:
+    "Pretendard Variable",
+    Pretendard,
+    -apple-system,
+    BlinkMacSystemFont,
+    system-ui,
+    Roboto,
+    "Helvetica Neue",
+    "Segoe UI",
+    "Apple SD Gothic Neo",
+    "Noto Sans KR",
+    "Malgun Gothic",
+    "Apple Color Emoji",
+    "Segoe UI Emoji",
+    "Segoe UI Symbol",
+    sans-serif;
+}
+
+/* 모든 요소 및 pseudo 클래스가 부모의 font-family를 상속받도록 설정 */
+*,
+::before,
+::after {
+  font-family: inherit;
+}
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(16, 24, 40, 0.42);
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  z-index: 1000;
+}
+
+.container {
+  width: 100%;
+  max-width: 390px;
+  background-color: #ffffff;
+  border-radius: 16px 20px 0px 0px;
+  padding: 10px 20px 24px 20px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  animation: slideUp 0.25s ease-out;
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+.handleArea {
+  display: flex;
+  justify-content: center;
+  padding-bottom: 14px;
+}
+
+.handle {
+  width: 38px;
+  height: 4px;
+  background-color: #dcdfe6;
+  border-radius: 99px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 23px;
+  margin-bottom: 12px;
+}
+
+.title {
+  font-size: 17px;
+  font-weight: 700;
+  color: #16181d;
+  letter-spacing: -0.51px;
+  line-height: 118%;
+}
+
+.resetButton {
+  background: none;
+  border: none;
+  font-size: 12.5px;
+  font-weight: 700;
+  color: #8b919c;
+  cursor: pointer;
+  padding: 0;
+  line-height: 120%;
+}
+
+.body {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.footer {
+  margin-top: 24px;
+  width: 100%;
+}
+
+.submitButton {
+  width: 100%;
+  height: 54px;
+  background-color: #3559c7;
+  color: #ffffff;
+  border: none;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: -0.32px;
+  cursor: pointer;
+  box-shadow: 0px 1px 2px rgba(22, 24, 29, 0.06);
+}
+
+.homeIndicatorWrapper {
+  display: none;
+}
+
+.homeIndicator {
+  display: none;
+}
+
+.subTitle {
+  font-size: 12px;
+  font-weight: 600;
+  color: #a8adb7;
+  line-height: 121%;
+  margin-top: 0;
+  margin-bottom: 12.5px;
+}
+
+.qualOptionsList {
+  display: flex;
+  flex-direction: column;
+}
+
+.proofOptionsList {
+  display: flex;
+  flex-direction: column;
+}
+
+.optionRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 51px;
+  padding: 0;
+  border: none;
+  background: none;
+  width: 100%;
+  cursor: pointer;
+  border-bottom: 1px solid #f1f2f5;
+  text-align: left;
+  box-sizing: border-box;
+}
+
+.leftGroup {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.leftGroup img {
+  width: 22px;
+  height: 22px;
+  border-radius: 6px;
+}
+
+.optionLabel {
+  font-size: 14.5px;
+  color: #16181d;
+  font-weight: 700;
+  line-height: 121%;
+}
+
+.optionCount {
+  font-size: 13px;
+  font-weight: 600;
+  color: #9aa0ab;
+  line-height: 119%;
+}
+
+/* 경비 항목 */
+.sheetContent {
+  display: flex;
+  flex-direction: column;
+}
+
+.tabContainer {
+  display: flex;
+  background-color: #eff0f3;
+  border-radius: 11px;
+  padding: 4px;
+  margin-bottom: 14px;
+  box-sizing: border-box;
+  height: 54px;
+}
+
+.tabButton {
+  flex: 1;
+  height: 46px;
+  border: none;
+  background: transparent;
+  border-radius: 10px;
+  font-size: 14.5px;
+  color: #8b919c;
+  cursor: pointer;
+  font-weight: 700;
+  letter-spacing: -0.29px;
+}
+
+.activeTab {
+  background-color: #3559c7;
+  color: #ffffff;
+  font-weight: 700;
+  box-shadow: 0px 1px 2px rgba(22, 24, 29, 0.06);
+}
+
+.categoryChipGroup {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 0;
+}
+
+.categoryChip {
+  height: 38px;
+  padding: 0 14px;
+  border-radius: 999px;
+  border: 1px solid #dbdee5;
+  background-color: #ffffff;
+  font-size: 13px;
+  font-weight: 700;
+  color: #3f4652;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+}
+
+.selectedCategoryChip {
+  background-color: #16181d;
+  color: #ffffff;
+  border-color: #16181d;
+  font-weight: 700;
+}

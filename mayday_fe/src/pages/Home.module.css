@@ -1,0 +1,357 @@
+/* Pretendard 웹폰트 import (Figma 코드 기준) */
+@import url("https://fonts.googleapis.com/css2?family=Pretendard+Variable:ital,wght@0,500;0,600;0,700&display=swap");
+
+/* 폰트 기본 설정 */
+body {
+  font-family:
+    "Pretendard Variable",
+    Pretendard,
+    -apple-system,
+    BlinkMacSystemFont,
+    system-ui,
+    Roboto,
+    "Helvetica Neue",
+    "Segoe UI",
+    "Apple SD Gothic Neo",
+    "Noto Sans KR",
+    "Malgun Gothic",
+    "Apple Color Emoji",
+    "Segoe UI Emoji",
+    "Segoe UI Symbol",
+    sans-serif;
+}
+
+/* 모든 요소 및 pseudo 클래스가 부모의 font-family를 상속받도록 설정 */
+*,
+::before,
+::after {
+  font-family: inherit;
+}
+.loading {
+  padding: 20px;
+  text-align: center;
+}
+
+.header {
+  background-color: #f7f8fa;
+  width: 100%;
+  padding: 26px 20px 0 30px;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.headerLeft {
+  display: flex;
+  flex-direction: column;
+}
+
+.logo {
+  font-size: 20px;
+  letter-spacing: -0.7px;
+  line-height: 120%;
+}
+
+.logoText {
+  display: inline-block;
+}
+
+.dDayBadge {
+  margin-top: 3px;
+  border-radius: 7px;
+  background-color: #e1e6f7;
+  height: 22px;
+  padding: 0 9px;
+  display: flex;
+  align-items: center;
+}
+
+.dDay {
+  font-size: 12px;
+  color: #2a479f;
+  font-weight: 700;
+  letter-spacing: -0.12px;
+  line-height: 121%;
+}
+
+.profileButton {
+  cursor: pointer;
+}
+
+.profileIcon {
+  border-radius: 50px;
+  width: 36px;
+  height: 36px;
+}
+
+/* =========================
+   Main Content
+========================= */
+
+.content {
+  width: 100%;
+  background-color: #f7f8fa;
+  padding: 25px 20px 20px 20px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* 올해 기록한 비용 */
+
+.expenseSummary {
+  box-shadow: 0px 1px 2px rgba(22, 24, 29, 0.05);
+  border-radius: 16px;
+  background-color: #ffffff;
+  width: 350px;
+  height: 131px;
+  padding: 17px 22px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+}
+
+.summaryTitle {
+  font-size: 13px;
+  color: #6b7280;
+  line-height: 119%;
+  font-weight: 500;
+}
+
+.summaryAmount {
+  display: flex;
+  align-items: baseline;
+  margin-top: 6.5px;
+  color: #16181d;
+}
+
+.expenseAmount {
+  font-size: 32px;
+  letter-spacing: -1.44px;
+  line-height: 119%;
+  font-weight: 700;
+}
+
+.currency {
+  font-size: 17px;
+  line-height: 118%;
+  font-weight: 600;
+  color: #3f4652;
+  margin-left: 2px;
+}
+
+.summaryDescription {
+  margin-top: 16px;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 12px;
+  line-height: 121%;
+  font-weight: 500;
+  color: #16181d;
+}
+
+.dotIcon {
+  border-radius: 50px;
+  background-color: #3b6bf5;
+  width: 6px;
+  height: 6px;
+}
+
+/* 올해 수입과 비용 */
+
+.incomeExpense {
+  box-shadow: 0px 1px 2px rgba(22, 24, 29, 0.05);
+  border-radius: 16px;
+  background-color: #ffffff;
+  width: 350px;
+  height: 193.5px;
+  padding: 20px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+}
+
+.sectionTitle {
+  font-size: 15px;
+  letter-spacing: -0.37px;
+  line-height: 120%;
+  color: #16181d;
+}
+
+.ratioBar {
+  margin-top: 14px;
+  width: 310px;
+  height: 14px;
+  display: flex;
+  gap: 4px;
+}
+
+.incomeBar {
+  border-radius: 99px;
+  background-color: #1ca800;
+  height: 100%;
+}
+
+.expenseBar {
+  border-radius: 99px;
+  background-color: #3559c7;
+  height: 100%;
+}
+
+.ratioLabels {
+  margin-top: 10px;
+  width: 310px;
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  color: #9aa0ab;
+}
+
+.incomeLabel,
+.expenseLabel {
+  line-height: 121%;
+  font-weight: 600;
+}
+
+.amountList {
+  margin-top: 16px;
+  padding-top: 8.5px;
+  border-top: 1px solid #f1f2f5;
+  width: 310px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  font-size: 13px;
+}
+
+.incomeAmount,
+.expenseAmountRow {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 18px;
+}
+
+.incomeDotRow,
+.expenseDotRow {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+
+.incomeDot {
+  border-radius: 50px;
+  background-color: #1ca800;
+  width: 7px;
+  height: 7px;
+}
+
+.expenseDot {
+  border-radius: 50px;
+  background-color: #3559c7;
+  width: 7px;
+  height: 7px;
+}
+
+.incomeText,
+.expenseText {
+  color: #3f4652;
+  font-weight: 600;
+  line-height: 119%;
+}
+
+.amountValueIncome {
+  font-size: 15px;
+  line-height: 120%;
+  color: #157e00;
+  font-weight: 700;
+}
+
+.amountValueExpense {
+  font-size: 15px;
+  line-height: 120%;
+  color: #16181d;
+  font-weight: 700;
+}
+
+/* =========================
+   2x2 카드 그리드 영역
+========================= */
+
+.gridContainer {
+  width: 350px;
+  display: grid;
+  grid-template-columns: 169px 169px;
+  gap: 12px;
+}
+
+.recentRecords,
+.exportCard {
+  box-shadow: 0px 1px 2px rgba(22, 24, 29, 0.05);
+  border-radius: 16px;
+  background-color: #ffffff;
+  height: 132px;
+  padding: 18px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  cursor: pointer;
+}
+
+.aiRecords {
+  box-shadow: 0px 1px 2px rgba(22, 24, 29, 0.05);
+  border-radius: 16px;
+  background-color: #ffffff;
+  height: 132px;
+  padding: 18px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+}
+
+.expenseRecordCard {
+  box-shadow: 0px 2px 8px rgba(53, 89, 199, 0.2);
+  border-radius: 16px;
+  background-color: #3559c7;
+  height: 132px;
+  padding: 18px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  color: #ffffff;
+  cursor: pointer;
+}
+
+.aiIcon {
+  border-radius: 10px;
+  width: 38px;
+  height: 38px;
+}
+
+.cardTitle,
+.aiCount,
+.actionTitle {
+  margin-top: 21.5px;
+  font-size: 15px;
+  letter-spacing: -0.37px;
+  line-height: 120%;
+  font-weight: 700;
+}
+
+.cardDescription,
+.aiDescription,
+.actionDescription {
+  margin-top: 2px;
+  font-size: 12px;
+  line-height: 121%;
+  font-weight: 500;
+  color: #8b919c;
+}
+
+.expenseRecordCard .actionDescription {
+  color: rgba(255, 255, 255, 0.78);
+}
