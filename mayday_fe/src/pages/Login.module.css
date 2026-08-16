@@ -1,82 +1,78 @@
 .container {
-  padding: 60px 20px 40px;
   display: flex;
   flex-direction: column;
+  height: 100%;
+  padding: 0 24px;
+  justify-content: center;
 }
-
+.section {
+  margin-top: -60px;
+}
 .logo {
   margin-bottom: 16px;
 }
-
 .loginIcon {
-  width: 64px;
-  height: 64px;
-  background-color: var(--color-primary);
-  border-radius: 16px;
-  color: #fff;
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 28px;
-  font-weight: bold;
 }
-
-.title {
-  font-size: 24px;
-  font-weight: bold;
-  color: var(--primary-0);
-  margin: 0 0 12px 0;
-}
-
 .text {
-  font-size: 14px;
-  color: var(--text-1);
+  font-size: 15px;
+  color: var(--text-secondary);
   line-height: 1.5;
   margin: 0 0 40px 0;
+  letter-spacing: -0.3px;
 }
-
 .inputWrap {
   display: flex;
   flex-direction: column;
-  gap: 12px;
-  margin-bottom: 16px;
+  gap: 10px;
+  margin-bottom: 18px;
 }
-
 .input {
   width: 100%;
   padding: 16px;
   border: 1px solid var(--border);
   border-radius: 12px;
   font-size: 15px;
+  color: var(--text);
   outline: none;
-  box-sizing: border-box;
+  transition: border-color 0.2s;
 }
-
+.input:focus {
+  border-color: var(--primary);
+}
 .input::placeholder {
-  color: var(--text-2);
+  color: var(--text-tertiary);
 }
-
-.error {
-  padding: 12px;
-  border: 1px dashed var(--border);
+.errorMes {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 11px 13px;
+  background-color: #F8EEEE;
   border-radius: 8px;
-  color: var(--text-2);
-  font-size: 12px;
-  text-align: center;
-  margin-bottom: 32px;
+  margin-bottom: 23px;
 }
-
+.errorMes span {
+  color: var(--danger);
+  font-size: 12px;
+  font-weight: 600;
+}
 .btn {
   display: flex;
-  flex-direction: column;
-  gap: 12px;
-  margin-bottom: 32px;
+  justify-content: center;
+  align-items: center;
+  gap: 14px;
+  margin-top: 24px;
 }
-
-.join {
-  text-align: center;
+.link {
   font-size: 14px;
-  color: var(--text-3);
-  text-decoration: underline;
+  color: var(--primary);
   cursor: pointer;
+  font-weight: 600;
+}
+.div {
+  color: var(--border);
+  font-size: 12px;
 }

@@ -17,17 +17,19 @@ import Mypage from './pages/Mypage';
 function App() {
   return (
     <BrowserRouter>
-      <div className={styles.appContainer}>
-        <div className={styles.contentArea}>
-          <Routes>
-            <Route path="/" element={<Login />} />
-            <Route path="/join" element={<Join />} />
-            <Route path="/home" element={<Home />} />
-            <Route path="/loading" element={<Loading />} />
-            <Route path="/analysis-result" element={<AnalysisResult />} />
-            <Route path="/record" element={<Record />} />
-            <Route path="/mypage" element={<Mypage />} />
-          </Routes>
+      <div className={styles.appWrapper}>
+        <div className={styles.appContainer}>
+          <div className={styles.contentArea}>
+            <Routes>
+              <Route path="/" element={<Login />} />
+              <Route path="/join" element={<Join />} />
+              <Route path="/home" element={<Home />} />
+              <Route path="/loading" element={<Loading />} />
+              <Route path="/analysis-result" element={<AnalysisResult />} />
+              <Route path="/record" element={<Record />} />
+              <Route path="/mypage" element={<Mypage />} />
+            </Routes>
+          </div>
         </div>
       </div>
     </BrowserRouter>
