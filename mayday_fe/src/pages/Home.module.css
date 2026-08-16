@@ -92,7 +92,7 @@ body {
 .content {
   width: 100%;
   background-color: #f7f8fa;
-  padding: 25px 20px 20px 20px;
+  padding: 25px 20px 80px 20px;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
@@ -106,7 +106,6 @@ body {
   border-radius: 16px;
   background-color: #ffffff;
   width: 350px;
-  height: 131px;
   padding: 17px 22px;
   box-sizing: border-box;
   display: flex;

@@ -6,6 +6,7 @@ import HomeHistoryIcon from "../assets/images/HomeHistoryIcon.svg";
 import HomeExportIcon from "../assets/images/HomeExportIcon.svg";
 import HomeProfileIcon from "../assets/images/HomeProfileIcon.svg";
 import HomeRecordIcon from "../assets/images/HomeRecordIcon.svg";
+import NavBar from "../components/NavBar";
 import { getHomeSummary } from "../api/homeApi";
 
 function Home() {
@@ -208,6 +209,7 @@ function Home() {
           </div>
         </div>
       </main>
+      <NavBar />
     </div>
   );
 }

@@ -6,6 +6,7 @@ import MyPageDeleteIcon from "../assets/images/MyPageDeleteIcon.svg";
 import MyPageDownloadIcon from "../assets/images/MyPageDownloadIcon.svg";
 import MyPageFolderIcon from "../assets/images/MyPageFolderIcon.svg";
 import MyPageProfileIcon from "../assets/images/MyPageProfileIcon.svg";
+import NavBar from "../components/NavBar";
 import { getMyPageSummary, postLogout } from "../api/myPageApi";
 
 function Mypage() {
@@ -193,6 +194,7 @@ function Mypage() {
           로그아웃
         </button>
       </main>
+      <NavBar />
 
       {/* 모달 상태에 따른 조건부 렌더링 */}
       <MyPageModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
