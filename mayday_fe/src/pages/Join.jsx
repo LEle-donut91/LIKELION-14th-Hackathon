@@ -7,6 +7,9 @@ import Button from '../components/Button';
 import JoinCheck from '../assets/images/JoinCheck.svg';
 import JoinunCheck from '../assets/images/JoinunCheck.svg';
 
+import axiosInstance from '../api/axiosInstance';
+import axiosRequests from '../api/axiosRequests';
+
 function Join() {
   const navigate = useNavigate();
   const [email, setEmail] = useState('');
@@ -47,30 +50,27 @@ function Join() {
   const handleJoin = async () => {
     if (!isFormValid) return;
     try {
-      const response = await fetch('/auth/signup', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          email,
-          password,
-          passwordConfirm: passwordCheck,
-          termsAgreed: check.service,
-          privacyAgreed: check.privacy,
-          evidenceProcessingAgreed: check.privacy
-        })
+      const response = await axiosInstance.post(axiosRequests.signup, {
+        email,
+        password,
+        passwordConfirm: passwordCheck,
+        termsAgreed: check.service,
+        privacyAgreed: check.privacy,
+        evidenceProcessingAgreed: check.privacy
       });
-      const result = await response.json();
       if (response.status === 201) {
         alert('회원가입이 완료되었습니다. 로그인해주세요.');
-        navigate('/');
-      } else if (response.status === 409) {
-        setEmailError('이미 가입된 이메일이에요');
-      } else {
-        alert(result.message);
-      }
+        navigate('/login');
+      } 
     } catch (error) {
       console.error(error);
-      alert('통신 오류가 발생했습니다.');
+      if (error.response && error.response.status === 409) {
+        setEmailError('이미 가입된 이메일이에요');
+      } else if (error.response && error.response.data && error.response.data.message) {
+        alert(error.response.data.message);
+      } else {
+        alert('통신 오류가 발생했습니다.');
+      }
     }
   };
 
@@ -95,15 +95,15 @@ function Join() {
 
         <div className={styles.check}>
           <div className={`${styles.Item} ${styles.All}`} onClick={checkAll}>
-            <img src={allCheck ? JoinCheck : JoinunCheck} />
+            <img src={allCheck ? JoinCheck : JoinunCheck} alt="전체동의" />
             <span>전체 동의</span>
           </div>
           <div className={`${styles.Item}`} onClick={() => setCheck(prev => ({...prev, service: !prev.service}))}>
-            <img src={check.service ? JoinCheck : JoinunCheck} />
+            <img src={check.service ? JoinCheck : JoinunCheck} alt="서비스이용약관" />
             <span>[필수] 서비스 이용약관 동의</span>
           </div>
           <div className={`${styles.Item}`} onClick={() => setCheck(prev => ({...prev, privacy: !prev.privacy}))}>
-            <img src={check.privacy ? JoinCheck : JoinunCheck} />
+            <img src={check.privacy ? JoinCheck : JoinunCheck} alt="개인정보처리동의" />
             <span>[필수] 개인정보·증빙 처리 동의</span>
           </div>
         </div>

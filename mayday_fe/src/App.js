@@ -15,6 +15,10 @@ import AnalysisResult_Ex from './pages/AnalysisResult_Ex';
 import AnalysisResult_In from './pages/AnalysisResult_In';
 import AnalysisRecord from './pages/AnalysisRecord';
 import Record from './pages/Record';
+import Export from './pages/Export';
+import History from './pages/History';
+import EditEx from './pages/EditEx';
+import EditIn from './pages/EditIn';
 import Mypage from './pages/Mypage';
 
 function App() {
@@ -34,6 +38,10 @@ function App() {
               <Route path="/analysis-record" element={<AnalysisRecord />} />
               <Route path="/record" element={<Record />} />
               <Route path="/mypage" element={<Mypage />} />
+              <Route path="/history" element={<History />} />
+              <Route path="/export" element={<Export />} />
+              <Route path='/edit_expense/:expenseId' element={<EditEx/>}/>
+              <Route path='/edit_income/:incomeId' element={<EditIn/>}/>
             </Routes>
           </div>
         </div>

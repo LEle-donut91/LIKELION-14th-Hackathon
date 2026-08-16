@@ -6,6 +6,9 @@ import Button from '../components/Button';
 import loginIcon from '../assets/images/LoginIcon.svg';
 import loginError from '../assets/images/Loginerror.svg';
 
+import axiosInstance from '../api/axiosInstance';
+import axiosRequests from '../api/axiosRequests';
+
 function Login() {
   const navigate = useNavigate();
   const [email, setEmail] = useState('');
@@ -15,41 +18,41 @@ function Login() {
   const handleLogin = async () => {
     setErrorMessage('');
     try {
-      const response = await fetch('/auth/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password })
+      const response = await axiosInstance.post(axiosRequests.login, {
+        email,
+        password
       });
-      const result = await response.json();
       if (response.status === 200) {
-        localStorage.setItem('accessToken', result.data.accessToken);
-        localStorage.setItem('refreshToken', result.data.refreshToken);
+        localStorage.setItem('accessToken', response.data.data.accessToken);
+        localStorage.setItem('refreshToken', response.data.data.refreshToken);
         navigate('/home');
-      } else if (response.status === 401) {
-        setErrorMessage('이메일 또는 비밀번호가 일치하지 않아요');
       }
     } catch (error) {
       console.error(error);
-      setErrorMessage('서버와 통신 중 오류가 발생했습니다.');
+      if (error.response && error.response.status === 401) {
+        setErrorMessage('이메일 또는 비밀번호가 일치하지 않아요');
+      } else {
+        setErrorMessage('서버와 통신 중 오류가 발생했습니다.');
+      }
     }
   };
 
   const handleDemoLogin = async () => {
     try {
-      const response = await fetch('/auth/demo-login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ demoKey: "mayday-demo" })
+      const response = await axiosInstance.post(axiosRequests.demoLogin, {
+        demoKey: "mayday-demo"
       });
-      const result = await response.json();
       if (response.status === 200) {
-        localStorage.setItem('accessToken', result.data.accessToken);
+        localStorage.setItem('accessToken', response.data.data.accessToken);
         navigate('/home');
-      } else {
-        alert(result.message);
       }
     } catch (error) {
       console.error(error);
+      if (error.response && error.response.data && error.response.data.message) {
+        alert(error.response.data.message);
+      } else {
+        alert("데모 로그인 중 오류가 발생했습니다.");
+      }
     }
   };
 
@@ -57,7 +60,7 @@ function Login() {
     <div className={styles.container}>
       <div className={styles.section}>
         <div className={styles.logo}>
-          <img src={loginIcon} className={styles.loginIcon} />
+          <img src={loginIcon} className={styles.loginIcon} alt="login icon" />
         </div>
         <p className={styles.text}>영수증만 올리면 AI가 경비를 정리해요.<br />5월 종합소득세 신고 준비를 미리 끝내세요.</p>
         <div className={styles.inputWrap}>
@@ -66,7 +69,7 @@ function Login() {
         </div>
         {errorMessage && (
           <div className={styles.errorMes}>
-             <img src={loginError} />
+             <img src={loginError} alt="error icon" />
              <span>{errorMessage}</span>
           </div>
         )}
