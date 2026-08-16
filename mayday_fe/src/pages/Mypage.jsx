@@ -8,6 +8,7 @@ import MyPageFolderIcon from "../assets/images/MyPageFolderIcon.svg";
 import MyPageProfileIcon from "../assets/images/MyPageProfileIcon.svg";
 import NavBar from "../components/NavBar";
 import { getMyPageSummary, postLogout } from "../api/myPageApi";
+import Header from "../components/Header";
 
 function Mypage() {
   const navigate = useNavigate();
@@ -77,8 +78,8 @@ function Mypage() {
   return (
     <div className={styles.myPage}>
       {/* 헤더 */}
-      <header className={styles.header}>
-        <b className={styles.headerTitle}>마이페이지</b>
+      <header className={styles.headerContainer}>
+        <p className={styles.text}>마이페이지</p>
       </header>
 
       {/* 메인 콘텐츠 */}

@@ -27,34 +27,25 @@ body {
 ::after {
   font-family: inherit;
 }
-.card {
-  display: flex;
-  flex-direction: column;
-  height: 100vh; 
-  background-color: var(--background);
-  overflow: hidden;
-}
-.title {
-  font-size: 18px;
-  font-weight: 700;
-  margin: 0;
-  line-height: 119%;
-  letter-spacing: -0.54px;
+
+/* 최상위 컨테이너 */
+.export {
+  min-height: 100vh;
+  background-color: #f7f8fa;
+  box-sizing: border-box;
 }
 
-/* 메인 컨텐츠 영역 */
 .content {
-  flex: 1; 
-  background-color: #f7f8fa;
-  padding: 8px 20px 20px 20px;
   display: flex;
   flex-direction: column;
+  background-color: #f7f8fa;
+
+  /* 고정 푸터에 내용이 가려지지 않도록 하단 여백 추가 */
+  padding: 8px 20px calc(140px + env(safe-area-inset-bottom, 0px)) 20px;
   gap: 16px;
   box-sizing: border-box;
-  overflow-y: auto;
-  -ms-overflow-style: none;
-  scrollbar-width: none;
 }
+
 /* 요약 카드 */
 .summaryCard {
   box-shadow: 0px 1px 2px rgba(22, 24, 29, 0.05);
@@ -349,17 +340,26 @@ body {
   color: #2a479f;
 }
 
-/* 하단 안내 및 다운로드 영역 */
+/* 하단 안내 및 다운로드 영역 (너비 390px, 가로 가운데 고정) */
 .footer {
-  flex-shrink: 0; 
-  padding: 13px 20px 24px;
+  position: fixed;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: 390px;
+  padding: 13px 20px calc(24px + env(safe-area-inset-bottom, 0px));
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
   border-top: 1px solid #f0f0f0;
   background-color: #ffffff;
+  box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.05);
+  box-sizing: border-box;
+  z-index: 100;
 }
+
 .footerNotice {
   margin: 0;
   font-size: 12px;
