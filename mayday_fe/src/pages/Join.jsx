@@ -76,7 +76,7 @@ function Join() {
 
   return (
     <div className={styles.container}>
-      <Header text="회원가입" onClick={() => navigate('/')}/>
+      <Header text="회원가입" onClick={() => navigate('/login')}/>
       <div className={styles.content}>
         <p className={styles.text}>계정을 만들면 기록이 연도 단위로<br />안전하게 보관돼요.</p>
 

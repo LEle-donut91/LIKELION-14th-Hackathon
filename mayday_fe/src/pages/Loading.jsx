@@ -8,6 +8,7 @@ function Loading() {
   const navigate = useNavigate();
   const location = useLocation();
   const [progress, setProgress] = useState(0);
+  const tabType = location.state?.tab || 'expense';
 
   useEffect(() => {
     const total = 4000;
@@ -30,7 +31,13 @@ function Loading() {
   useEffect(() => {
     if (progress >= 100) {
       const navTimer = setTimeout(() => {
-        navigate('/analysis-result', { state: location.state });
+        if (tabType === 'expense') {
+          navigate('/analysis-result-ex', { state: location.state });
+        } else if (tabType === 'income') {
+          navigate('/analysis-result-in', { state: location.state });
+        } else {
+          navigate('/analysis-result-ex', { state: location.state });
+        }
       }, 300);
       return () => clearTimeout(navTimer);
     }
