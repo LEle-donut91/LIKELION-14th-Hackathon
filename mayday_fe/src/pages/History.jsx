@@ -256,18 +256,21 @@ function History() {
     );
   };
 
-  const getEvidenceChipContent = () => {
-    const isFiltered = evidenceFilter.length > 0;
-    const isMulti = evidenceFilter.length >= 2;
+const getEvidenceChipContent = () => {
+    const count = evidenceFilter.length;
+    const isFiltered = count > 0;
+    const isMulti = count >= 2;
 
     return (
       <>
         <span className={styles.chipText}>
-          {evidenceFilter.length === 0 ? "증빙 유형" : evidenceFilter[0]}
+          {/* 0개 선택 시 또는 2개 이상 선택 시 "증빙 유형", 1개 선택 시 선택한 항목 */}
+          {count === 1 ? evidenceFilter[0] : "증빙 유형"}
         </span>
+        {/* 2개 이상 선택 시에만 숫자 badge 노출 */}
         {isMulti && (
           <div className={styles.chipBadge}>
-            <b>{evidenceFilter.length}</b>
+            <b>{count}</b>
           </div>
         )}
         {isFiltered ? (
@@ -282,17 +285,20 @@ function History() {
   };
 
   const getCategoryChipContent = () => {
-    const isFiltered = selectedCategory.length > 0; // 필터 적용 여부
-    const isMulti = selectedCategory.length >= 2;
+    const count = selectedCategory.length;
+    const isFiltered = count > 0;
+    const isMulti = count >= 2;
 
     return (
       <>
         <span className={styles.chipText}>
-          {selectedCategory.length === 0 ? "경비 항목" : selectedCategory[0]}
+          {/* 0개 선택 시 또는 2개 이상 선택 시 "경비 항목", 1개 선택 시 선택한 항목 */}
+          {count === 1 ? selectedCategory[0] : "경비 항목"}
         </span>
+        {/* 2개 이상 선택 시에만 숫자 badge 노출 */}
         {isMulti && (
           <div className={styles.chipBadge}>
-            <b>{selectedCategory.length}</b>
+            <b>{count}</b>
           </div>
         )}
         {isFiltered ? (
