@@ -2,33 +2,38 @@
   display: flex; 
   flex-direction: column; 
   height: 100%; 
-  padding-top: 20px;
+  background: var(--background);
 }
-.content { flex: 1; 
+.content { 
+  flex: 1; 
   padding: 20px; 
   overflow-y: auto; 
-  padding-bottom: 40px; 
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.scrollContent::-webkit-scrollbar {
+  display: none;
 }
 .tabContainer {
   display: flex; 
-  background: #F2F4F7; 
-  border-radius: 12px; 
+  background: #EAEEF6; 
+  border-radius: 11px; 
   padding: 4px; 
   margin-bottom: 24px;
 }
 .tab {
   flex: 1; 
   text-align: center; 
-  padding: 12px 0; 
+  padding: 14px 0; 
   font-size: 15px; 
-  font-weight: bold; 
-  color: #667085; 
+  font-weight: 600; 
+  color: #8B919C; 
   border-radius: 8px; 
   cursor: pointer; 
-  transition: 0.2s;
+  transition: all 0.2s ease;
 }
 .activeTab {
-  background: #101828; 
+  background: var(--primary); 
   color: #fff; 
   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
@@ -37,121 +42,154 @@
 }
 .taxTitle { 
   font-size: 14px; 
-  font-weight: bold; 
+  font-weight: 700; 
   margin-bottom: 12px; 
-  color: #101828; 
+  color: var(--text); 
 }
-.taxDesc { 
-  font-size: 11px; 
-  color: #99A1AF; 
-  margin-top: -16px; 
-  margin-bottom: 8px; 
+.taxTabContainer {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+.taxTab {
+  flex: 1;
+  text-align: center;
+  padding: 14px 0px;
+  font-size: 15px;
+  font-weight: 600;
+  color: #8B919C;
+  background-color: var(--surface);
+  border: 1px solid #E4E7EC;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.taxActive {
+  color: var(--primary-pressed);
+  background-color: #EBEEF9;
+  border: 1px solid var(--primary-pressed);
+}
+.taxText { 
+  font-size: 12px; 
+  color: #8B919C; 
+  margin-bottom: 0px; 
 }
 .uploadBox {
-  border: 1.5px dashed #D0D5DD; 
-  border-radius: 16px; 
+  border: 1.5px dashed #D2D6DE; 
+  border-radius: 14px; 
   padding: 32px 20px; 
   text-align: center; 
   cursor: pointer; 
   margin-bottom: 24px;
+  background-color: var(--surface);
 }
 .uploadIcon { 
-  width: 32px; 
-  margin-bottom: 12px; 
+  display: flex;
+  justify-content: center;
+  margin-bottom: 12px;
 }
 .uploadTitle { 
-  font-size: 16px; 
-  font-weight: bold; 
-  color: #101828; 
+  font-size: 15px; 
+  font-weight: 600; 
+  color: var(--text); 
   margin-bottom: 8px; 
 }
-.uploadDesc { 
+.uploadText { 
   font-size: 12px; 
-  color: #99A1AF; 
+  color: #8B919C; 
 }
 .textBox {
-  background: #F9FAFB; 
+  background: var(--surface); 
   border-radius: 16px; 
   padding: 20px; 
   margin-bottom: 40px;
 }
 .textTitle { 
   font-size: 14px; 
-  font-weight: bold; 
+  font-weight: 700; 
   margin-bottom: 12px; 
-  color: #101828; 
+  color: var(--text); 
 }
 .textarea {
   width: 100%; 
-  min-height: 80px; 
-  background: transparent; 
+  min-height: 88px; 
+  background: var(--background); 
   border: none; 
   resize: none; 
   outline: none; 
-  font-size: 14px;
+  font-size: 13px;
+  color: var(--text);
+  line-height: 1.5;
+  border-radius: 10px;
 }
 .textarea::placeholder { 
-  color: #99A1AF; 
+  color: #A8ADB7; 
 }
 .listHeader {
   display: flex; 
   justify-content: space-between; 
   align-items: center; 
-  font-size: 14px; 
-  font-weight: bold; 
-  margin-bottom: 16px; 
-  color: #101828;
+  margin-bottom: 16px;
+}
+.listTitle {
+  font-size: 14px;
+  font-weight: 700; 
+  color: var(--text);
 }
 .listStatus { 
   font-size: 12px; 
-  font-weight: normal;
-  color: #99A1AF; 
+  font-weight: 500;
+  color: #8B919C;
 }
 .emptyBox {
-  border: 1px dashed #E5E5EA; 
-  border-radius: 12px; 
+  border: 1px dashed #D4D8E0; 
+  border-radius: 14px; 
   padding: 32px 20px; 
   text-align: center; 
   font-size: 13px; 
-  color: #99A1AF; 
-  line-height: 1.5;
+  color: #8B919C; 
+  line-height: 1.7;
 }
 .itemList { 
   display: flex; 
   flex-direction: column; 
-  gap: 12px; 
+  gap: 8px; 
 }
 .itemCard {
   display: flex; 
   align-items: center; 
   padding: 16px; 
-  border: 1px solid #E5E5EA; 
   border-radius: 12px;
+  box-shadow: 0 1px 2px 0 rgba(22, 24, 29, 0.05);
+  background-color: var(--surface);
 }
 .itemThumb {
   width: 40px; 
   height: 40px; 
-  background: #F2F4F7; 
-  border-radius: 8px; 
+  background: #F2F4F7;
   display: flex; 
   justify-content: center; 
   align-items: center; 
-  font-size: 11px; 
-  font-weight: bold; 
-  color: #99A1AF; 
   margin-right: 12px;
+  border-radius: 8px;
+}
+.itemThumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
 }
 .itemInfo { 
   flex: 1; 
 }
 .itemName { 
-  font-size: 14px; 
-  color: #101828; 
+  font-size: 13px; 
+  color: var(--text); 
   margin-bottom: 4px; 
+  font-weight: 700;
 }
 .itemSub { 
   font-size: 12px; 
-  color: #99A1AF; 
+  color: var(--text-tertiary); 
 }
 .deleteBtn {
   background: none; 
@@ -166,6 +204,12 @@
   cursor: pointer;
 }
 .btn { 
-  padding: 20px; 
-  background: var(--bg-app); 
+  padding: 13px 20px; 
+  background: var(--surface);
+}
+.btntext {
+  text-align: center;
+  font-size: 12px;
+  color: #A8ADB7;
+  margin: 10px 0 0 0;
 }

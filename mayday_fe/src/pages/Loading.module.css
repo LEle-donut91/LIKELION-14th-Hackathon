@@ -5,22 +5,64 @@
   align-items: center;
   height: 100%;
   padding: 20px;
-  background-color: var(--bg-app, #ffffff);
+  background-color: var(--surface);
+}
+.progressContainer {
+  position: relative;
+  width: 140px;
+  height: 140px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 40px;
+}
+.progressSvg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform: rotate(-90deg);
+}
+.progressTrack {
+  fill: none;
+  stroke: #EFF0F3;
+  stroke-width: 7;
+}
+.progressFill {
+  fill: none;
+  stroke: var(--primary);
+  stroke-width: 7;
+  stroke-linecap: round;
+  transition: stroke-dashoffset 0.05s linear;
 }
 .iconWrapper {
-  margin-bottom: 24px;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.icon {
+  width: 98px;
+  height: 98px;
+}
+.textContainer {
+  text-align: center;
+}
+.text {
+  font-size: 14px;
+  color: var(--text-tertiary);
+  margin: 0 0 16px 0;
 }
 .title {
-  font-size: 20px;
-  font-weight: bold;
-  color: #101828;
-  margin: 0 0 12px 0;
+  font-size: 25px;
+  font-weight: 700;
+  color: var(--text);
+  margin: 0 0 40px 0;
   text-align: center;
+  line-height: 1.4;
+  letter-spacing: -0.5px;
 }
-.subtitle {
-  font-size: 14px;
-  color: #667085;
-  line-height: 1.6;
-  text-align: center;
+.texts {
+  font-size: 15px;
+  color: var(--text-secondary);
   margin: 0;
 }
