@@ -119,7 +119,6 @@ function History() {
   const [selectedYear, setSelectedYear] = useState("");
   const [recordList, setRecordList] = useState([]);
   const [searchResults, setSearchResults] = useState([]);
-  const [loading, setLoading] = useState(false);
 
   // 필터 및 모달 상태
   const [activeBottomSheet, setActiveBottomSheet] = useState(null);
@@ -156,7 +155,6 @@ function History() {
   // 선택된 연도의 전체 데이터 조회
   const fetchLedgerList = useCallback(async () => {
     if (!selectedYear) return;
-    setLoading(true);
     try {
       const res = await historyApi.getLedgerList(Number(selectedYear));
       if (res.status === 200 && res.data?.transactions) {
@@ -165,8 +163,6 @@ function History() {
     } catch (err) {
       console.error("기록 목록 조회 실패:", err);
       setRecordList([]);
-    } finally {
-      setLoading(false);
     }
   }, [selectedYear]);
 
@@ -191,7 +187,6 @@ function History() {
       alert("값을 입력해주세요");
       return;
     }
-    setLoading(true);
     try {
       const res = await historyApi.getLedgerSearch(
         Number(selectedYear),
@@ -205,8 +200,6 @@ function History() {
       }
     } catch (err) {
       alert(err.response?.data?.message || "검색 도중 오류가 발생했습니다.");
-    } finally {
-      setLoading(false);
     }
   };
 
@@ -392,10 +385,7 @@ function History() {
       </div>
 
       <main className={styles.recordList}>
-        {loading ? (
-          <div>로딩 중...</div>
-        ) : (
-          filteredRecords.map((item) => (
+          {filteredRecords.map((item) => (
             // 리스트의 각각의 항목 클릭 시, 상세페이지(EditEx, EditIn)로 이동
             <article
               key={item.id}
@@ -448,8 +438,7 @@ function History() {
                 )}
               </div>
             </article>
-          ))
-        )}
+          ))}
       </main>
 
       <footer className={styles.footer}>
