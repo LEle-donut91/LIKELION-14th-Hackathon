@@ -315,7 +315,7 @@ function History() {
   return (
     <div className={styles.history}>
       <Header text="내보내기" />
-      <div div className={styles.content}>
+      <main className={styles.content}>
         <nav className={styles.yearTabGroup}>
           {availableYears.map((year) => (
             <button
@@ -388,7 +388,7 @@ function History() {
           </strong>
         </div>
 
-        <main className={styles.recordList}>
+        <article className={styles.recordList}>
           {filteredRecords.map((item) => (
             // 리스트의 각각의 항목 클릭 시, 상세페이지(EditEx, EditIn)로 이동
             <article
@@ -443,8 +443,8 @@ function History() {
               </div>
             </article>
           ))}
-        </main>
-      </div>
+        </article>
+      </main>
 
       <footer className={styles.footer}>
         <Button text="내보내기" onClick={handleExport} />
