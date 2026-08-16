@@ -313,139 +313,138 @@ function History() {
   };
 
   return (
-    <div className={styles.container}>
-      <div className={styles.header}>
-        <Header text="기록 조회" />
-      </div>
+    <div className={styles.history}>
+      <Header text="내보내기" />
+      <div div className={styles.content}>
+        <nav className={styles.yearTabGroup}>
+          {availableYears.map((year) => (
+            <button
+              key={year}
+              type="button"
+              className={`${styles.yearTab} ${selectedYear === year ? styles.activeYear : ""}`}
+              onClick={() => {
+                setSelectedYear(year);
+                setIsSearched(false);
+                setSearchTerm("");
+              }}
+            >
+              {year}년
+            </button>
+          ))}
+        </nav>
 
-      <nav className={styles.yearTabGroup}>
-        {availableYears.map((year) => (
-          <button
-            key={year}
-            type="button"
-            className={`${styles.yearTab} ${selectedYear === year ? styles.activeYear : ""}`}
-            onClick={() => {
-              setSelectedYear(year);
-              setIsSearched(false);
-              setSearchTerm("");
-            }}
-          >
-            {year}년
-          </button>
-        ))}
-      </nav>
+        <section className={styles.filterSection}>
+          <div className={styles.searchBar}>
+            <span
+              className={styles.searchIcon}
+              onClick={handleSearch}
+              style={{ cursor: "pointer" }}
+            >
+              <img src={HistorySearchIcon} alt="Search" />
+            </span>
+            <input
+              type="text"
+              className={styles.searchInput}
+              placeholder="거래처 · 거래내용 검색"
+              value={searchTerm}
+              onChange={handleSearchChange}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") handleSearch();
+              }}
+            />
+          </div>
 
-      <section className={styles.filterSection}>
-        <div className={styles.searchBar}>
-          <span
-            className={styles.searchIcon}
-            onClick={handleSearch}
-            style={{ cursor: "pointer" }}
-          >
-            <img src={HistorySearchIcon} alt="Search" />
-          </span>
-          <input
-            type="text"
-            className={styles.searchInput}
-            placeholder="거래처 · 거래내용 검색"
-            value={searchTerm}
-            onChange={handleSearchChange}
-            onKeyDown={(e) => {
-              if (e.key === "Enter") handleSearch();
-            }}
-          />
+          <div className={styles.chipGroup}>
+            <button
+              type="button"
+              className={`${styles.chip} ${qualifiedFilter !== "all" ? styles.activeChip : ""}`}
+              onClick={() => setActiveBottomSheet("qualified")}
+            >
+              {getQualifiedChipContent()}
+            </button>
+
+            <button
+              type="button"
+              className={`${styles.chip} ${evidenceFilter.length > 0 ? styles.activeChip : ""}`}
+              onClick={() => setActiveBottomSheet("evidence")}
+            >
+              {getEvidenceChipContent()}
+            </button>
+
+            <button
+              type="button"
+              className={`${styles.chip} ${selectedCategory.length > 0 ? styles.activeChip : ""}`}
+              onClick={() => setActiveBottomSheet("expenseCategory")}
+            >
+              {getCategoryChipContent()}
+            </button>
+          </div>
+        </section>
+
+        <div className={styles.resultSummary}>
+          <span>필터 결과 </span>
+          <strong className={styles.resultCount}>
+            {filteredRecords.length}건
+          </strong>
         </div>
 
-        <div className={styles.chipGroup}>
-          <button
-            type="button"
-            className={`${styles.chip} ${qualifiedFilter !== "all" ? styles.activeChip : ""}`}
-            onClick={() => setActiveBottomSheet("qualified")}
-          >
-            {getQualifiedChipContent()}
-          </button>
+        <main className={styles.recordList}>
+          {filteredRecords.map((item) => (
+            // 리스트의 각각의 항목 클릭 시, 상세페이지(EditEx, EditIn)로 이동
+            <article
+              key={item.id}
+              className={styles.recordItem}
+              onClick={() => {
+                // targetPath는 클릭 후 이동할 경로
+                // 현재 클릭한 항목의 ID를 경로 뒤에 붙임 (예: /edit_expense/ana_001)
 
-          <button
-            type="button"
-            className={`${styles.chip} ${evidenceFilter.length > 0 ? styles.activeChip : ""}`}
-            onClick={() => setActiveBottomSheet("evidence")}
-          >
-            {getEvidenceChipContent()}
-          </button>
+                // 1) 지출(expense)일 경우, EditEx.jsx로 이동 (예: /edit_expense/ana_001)
+                // 2) 수입(income)일 경우, EditIn.jsx로 이동 (예: /edit_income/ana_010)
+                const targetPath =
+                  item.type === "expense"
+                    ? `/edit_expense/${item.id}`
+                    : `/edit_income/${item.id}`;
+                navigate(targetPath);
+              }}
+            >
+              <div className={styles.recordIconWrapper}>
+                {renderCategoryIcon(item.category)}
+              </div>
 
-          <button
-            type="button"
-            className={`${styles.chip} ${selectedCategory.length > 0 ? styles.activeChip : ""}`}
-            onClick={() => setActiveBottomSheet("expenseCategory")}
-          >
-            {getCategoryChipContent()}
-          </button>
-        </div>
-      </section>
-
-      <div className={styles.resultSummary}>
-        <span>필터 결과 </span>
-        <strong className={styles.resultCount}>
-          {filteredRecords.length}건
-        </strong>
-      </div>
-
-      <main className={styles.recordList}>
-        {filteredRecords.map((item) => (
-          // 리스트의 각각의 항목 클릭 시, 상세페이지(EditEx, EditIn)로 이동
-          <article
-            key={item.id}
-            className={styles.recordItem}
-            onClick={() => {
-              // targetPath는 클릭 후 이동할 경로
-              // 현재 클릭한 항목의 ID를 경로 뒤에 붙임 (예: /edit_expense/ana_001)
-
-              // 1) 지출(expense)일 경우, EditEx.jsx로 이동 (예: /edit_expense/ana_001)
-              // 2) 수입(income)일 경우, EditIn.jsx로 이동 (예: /edit_income/ana_010)
-              const targetPath =
-                item.type === "expense"
-                  ? `/edit_expense/${item.id}`
-                  : `/edit_income/${item.id}`;
-              navigate(targetPath);
-            }}
-          >
-            <div className={styles.recordIconWrapper}>
-              {renderCategoryIcon(item.category)}
-            </div>
-
-            <div className={styles.recordInfo}>
-              <span className={styles.recordTitle}>{item.title}</span>
-              <span className={styles.recordDesc}>
-                {item.date} · {item.category}
-              </span>
-            </div>
-            <div className={styles.recordRight}>
-              <strong className={styles.recordAmount}>
-                {item.type === "expense"
-                  ? `- ${item.amount}원`
-                  : `+ ${item.amount}원`}
-              </strong>
-
-              {/* 수입일 때는 빈 <span> 공간을 남겨 높이 정렬을 유지 */}
-              {item.type === "expense" &&
-              item.isQualified !== null &&
-              item.isQualified !== undefined ? (
-                <span
-                  className={`${styles.badge} ${
-                    item.isQualified
-                      ? styles.badgeQualified
-                      : styles.badgeUnqualified
-                  }`}
-                >
-                  {item.isQualified ? "적격" : "부적격"}
+              <div className={styles.recordInfo}>
+                <span className={styles.recordTitle}>{item.title}</span>
+                <span className={styles.recordDesc}>
+                  {item.date} · {item.category}
                 </span>
-              ) : (
-                <span className={styles.badgePlaceholder} />
-              )}
-            </div>
-          </article>
-        ))}
-      </main>
+              </div>
+              <div className={styles.recordRight}>
+                <strong className={styles.recordAmount}>
+                  {item.type === "expense"
+                    ? `- ${item.amount}원`
+                    : `+ ${item.amount}원`}
+                </strong>
+
+                {/* 수입일 때는 빈 <span> 공간을 남겨 높이 정렬을 유지 */}
+                {item.type === "expense" &&
+                item.isQualified !== null &&
+                item.isQualified !== undefined ? (
+                  <span
+                    className={`${styles.badge} ${
+                      item.isQualified
+                        ? styles.badgeQualified
+                        : styles.badgeUnqualified
+                    }`}
+                  >
+                    {item.isQualified ? "적격" : "부적격"}
+                  </span>
+                ) : (
+                  <span className={styles.badgePlaceholder} />
+                )}
+              </div>
+            </article>
+          ))}
+        </main>
+      </div>
 
       <footer className={styles.footer}>
         <Button text="내보내기" onClick={handleExport} />
