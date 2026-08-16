@@ -78,7 +78,9 @@ function Mypage() {
   return (
     <div className={styles.myPage}>
       {/* 헤더 */}
-      <Header text="마이페이지" />
+      <header className={styles.headerContainer}>
+        <p className={styles.text}>마이페이지</p>
+      </header>
 
       {/* 메인 콘텐츠 */}
       <main className={styles.mainContent}>
