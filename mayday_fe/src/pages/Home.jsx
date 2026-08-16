@@ -2,8 +2,8 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "./Home.module.css";
 import HomeAiIcon from "../assets/images/HomeAiIcon.svg";
-import HomeArrowIcon from "../assets/images/HomeArrowIcon.svg";
-import HomeDownloadIcon from "../assets/images/HomeDownloadIcon.svg";
+import HomeHistoryIcon from "../assets/images/HomeHistoryIcon.svg";
+import HomeExportIcon from "../assets/images/HomeExportIcon.svg";
 import HomeProfileIcon from "../assets/images/HomeProfileIcon.svg";
 import HomeRecordIcon from "../assets/images/HomeRecordIcon.svg";
 import { getHomeSummary } from "../api/homeApi";
@@ -149,7 +149,7 @@ function Home() {
             className={styles.recentRecords}
             onClick={() => navigate("/history")}
           >
-            <img src={HomeArrowIcon} className={styles.aiIcon} alt="" />
+            <img src={HomeHistoryIcon} className={styles.aiIcon} alt="" />
             <b className={styles.cardTitle}>최근 기록 내역</b>
             <div className={styles.cardDescription}>기록 내역 바로가기</div>
           </div>
@@ -178,7 +178,7 @@ function Home() {
             className={styles.exportCard}
             onClick={handleNavigateToExport}
           >
-            <img src={HomeDownloadIcon} className={styles.aiIcon} alt="" />
+            <img src={HomeExportIcon} className={styles.aiIcon} alt="" />
             <b className={styles.actionTitle}>내보내기</b>
             <div className={styles.actionDescription}>
               직전 년도 기록 내보내기
