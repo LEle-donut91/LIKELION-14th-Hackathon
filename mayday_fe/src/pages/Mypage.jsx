@@ -6,7 +6,7 @@ import MyPageDeleteIcon from "../assets/images/MyPageDeleteIcon.svg";
 import MyPageDownloadIcon from "../assets/images/MyPageDownloadIcon.svg";
 import MyPageFolderIcon from "../assets/images/MyPageFolderIcon.svg";
 import MyPageProfileIcon from "../assets/images/MyPageProfileIcon.svg";
-import { getMyPageSummary, postLogout } from "../api/myPageApi"; 
+import { getMyPageSummary, postLogout } from "../api/myPageApi";
 
 function Mypage() {
   const navigate = useNavigate();
@@ -82,7 +82,11 @@ function Mypage() {
       <main className={styles.mainContent}>
         {/* 프로필 카드 */}
         <section className={styles.profileCard}>
-          <img src={MyPageProfileIcon} className={styles.profileAvatar} alt="" />
+          <img
+            src={MyPageProfileIcon}
+            className={styles.profileAvatar}
+            alt=""
+          />
           <div className={styles.profileInfo}>
             <strong className={styles.userEmail}>
               {isLoading ? "로딩중..." : summaryData?.email}
@@ -105,7 +109,9 @@ function Mypage() {
           <div className={styles.divider} />
           <div className={styles.statGroup}>
             <strong className={styles.statNum}>
-              {isLoading ? "로딩중..." : `${summaryData?.qualifiedEvidenceCount}건`}
+              {isLoading
+                ? "로딩중..."
+                : `${summaryData?.qualifiedEvidenceCount}건`}
             </strong>
             <span className={styles.statLabel}>적격 증빙</span>
           </div>
@@ -139,7 +145,11 @@ function Mypage() {
             </button>
 
             <button className={styles.menuItem} onClick={handleExportClick}>
-              <img src={MyPageDownloadIcon} className={styles.menuIcon} alt="" />
+              <img
+                src={MyPageDownloadIcon}
+                className={styles.menuIcon}
+                alt=""
+              />
               <div className={styles.menuTextBox}>
                 <strong className={styles.menuTitle}>내보내기</strong>
                 <span className={styles.menuSubTitle}>

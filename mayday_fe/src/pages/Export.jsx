@@ -7,8 +7,8 @@ import headerIcon from "../assets/images/HeaderIcon.svg";
 import Header from "../components/Header";
 import Button from "../components/Button";
 import { getExportPreview } from "../api/exportApi";
-import HistorySquareCheckedIcon from "../assets/images/HistorySquareCheckedIcon.svg"
-import HistoryUnCheckedIcon from "../assets/images/HistoryUnCheckedIcon.svg"
+import HistorySquareCheckedIcon from "../assets/images/HistorySquareCheckedIcon.svg";
+import HistoryUnCheckedIcon from "../assets/images/HistoryUnCheckedIcon.svg";
 
 // 1. 증빙 유형 한글 매핑 딕셔너리
 const EVIDENCE_TYPE_MAP = {
@@ -67,10 +67,13 @@ function getFilteredPreviewData(rawData, filterState) {
 
     // 수입 / 지출 금액 분리 및 콤마 포맷팅
     const incomeVal = item.income || (item.type === "INCOME" ? item.amount : 0);
-    const expenseVal = item.expense || (item.type === "EXPENSE" ? item.amount : 0);
+    const expenseVal =
+      item.expense || (item.type === "EXPENSE" ? item.amount : 0);
 
     const income = incomeVal ? Number(incomeVal).toLocaleString("ko-KR") : "";
-    const expense = expenseVal ? Number(expenseVal).toLocaleString("ko-KR") : "";
+    const expense = expenseVal
+      ? Number(expenseVal).toLocaleString("ko-KR")
+      : "";
 
     return {
       ...item,
@@ -159,9 +162,7 @@ function Export() {
       } catch (error) {
         // API 명세서 400 에러 메시지 표출
         console.error("내보내기 데이터 조회 실패:", error);
-        setErrorMessage(
-          error.message || "내보내기 조건이 올바르지 않습니다."
-        );
+        setErrorMessage(error.message || "내보내기 조건이 올바르지 않습니다.");
       } finally {
         setIsLoading(false);
       }
@@ -276,7 +277,9 @@ function Export() {
           <div className={styles.summaryRow}>
             <span>내보낼 기록</span>
             <strong>
-              {isLoading ? "로딩중..." : `${exportSummary.exportYear || targetYear || ""}년`}
+              {isLoading
+                ? "로딩중..."
+                : `${exportSummary.exportYear || targetYear || ""}년`}
             </strong>
           </div>
           <div className={styles.summaryRow}>
@@ -317,9 +320,9 @@ function Export() {
                 disabled={isLoading}
               />
               {isQualifiedGroupChecked ? (
-                <img src={HistorySquareCheckedIcon}/>
+                <img src={HistorySquareCheckedIcon} />
               ) : (
-                <img src={HistoryUnCheckedIcon}/>
+                <img src={HistoryUnCheckedIcon} />
               )}
               <strong className={styles.optionTitle}>적격 여부</strong>
               <span className={styles.optionSubtext}>
@@ -341,9 +344,9 @@ function Export() {
                     />
                     <span className={styles.subCheckboxWrapper}>
                       {qualifiedOptions.qualified ? (
-                        <img src={HistorySquareCheckedIcon}/>
+                        <img src={HistorySquareCheckedIcon} />
                       ) : (
-                        <img src={HistoryUnCheckedIcon}/>
+                        <img src={HistoryUnCheckedIcon} />
                       )}
                     </span>
                     <span>적격</span>
@@ -361,9 +364,9 @@ function Export() {
                     />
                     <span className={styles.subCheckboxWrapper}>
                       {qualifiedOptions.unqualified ? (
-                        <img src={HistorySquareCheckedIcon}/>
+                        <img src={HistorySquareCheckedIcon} />
                       ) : (
-                        <img src={HistoryUnCheckedIcon}/>
+                        <img src={HistoryUnCheckedIcon} />
                       )}
                     </span>
                     <span>부적격</span>
@@ -381,9 +384,9 @@ function Export() {
                     />
                     <span className={styles.subCheckboxWrapper}>
                       {qualifiedOptions.remark ? (
-                        <img src={HistorySquareCheckedIcon}/>
+                        <img src={HistorySquareCheckedIcon} />
                       ) : (
-                        <img src={HistoryUnCheckedIcon}/>
+                        <img src={HistoryUnCheckedIcon} />
                       )}
                     </span>
                     <span className={styles.itemLabel}>비고</span>
@@ -405,9 +408,9 @@ function Export() {
                 disabled={isLoading}
               />
               {isEvidenceChecked ? (
-                <img src={HistorySquareCheckedIcon}/>
+                <img src={HistorySquareCheckedIcon} />
               ) : (
-                <img src={HistoryUnCheckedIcon}/>
+                <img src={HistoryUnCheckedIcon} />
               )}
               <strong className={styles.optionTitle}>증빙 유형</strong>
               <span className={styles.optionSubtext}>
@@ -476,16 +479,16 @@ function Export() {
             </button>
           </div>
         </section>
-          <p className={styles.footerNotice}>
-            파일은 미리보기와 같은 구성으로 저장돼요
-            <br />
-            홈택스 자동 제출은 제공하지 않아요
-          </p>
+        <p className={styles.footerNotice}>
+          파일은 미리보기와 같은 구성으로 저장돼요
+          <br />
+          홈택스 자동 제출은 제공하지 않아요
+        </p>
       </main>
       {/* 하단 안내 및 다운로드 버튼 */}
-        <footer className={styles.footer}>
-          <Button text="파일 다운로드" onClick={handleDownload} />
-        </footer>
+      <footer className={styles.footer}>
+        <Button text="파일 다운로드" onClick={handleDownload} />
+      </footer>
 
       {/* 미리보기 모달 */}
       <ExportModal

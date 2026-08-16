@@ -256,7 +256,7 @@ function History() {
     );
   };
 
-const getEvidenceChipContent = () => {
+  const getEvidenceChipContent = () => {
     const count = evidenceFilter.length;
     const isFiltered = count > 0;
     const isMulti = count >= 2;
@@ -391,60 +391,60 @@ const getEvidenceChipContent = () => {
       </div>
 
       <main className={styles.recordList}>
-          {filteredRecords.map((item) => (
-            // 리스트의 각각의 항목 클릭 시, 상세페이지(EditEx, EditIn)로 이동
-            <article
-              key={item.id}
-              className={styles.recordItem}
-              onClick={() => {
-                // targetPath는 클릭 후 이동할 경로
-                // 현재 클릭한 항목의 ID를 경로 뒤에 붙임 (예: /edit_expense/ana_001)
+        {filteredRecords.map((item) => (
+          // 리스트의 각각의 항목 클릭 시, 상세페이지(EditEx, EditIn)로 이동
+          <article
+            key={item.id}
+            className={styles.recordItem}
+            onClick={() => {
+              // targetPath는 클릭 후 이동할 경로
+              // 현재 클릭한 항목의 ID를 경로 뒤에 붙임 (예: /edit_expense/ana_001)
 
-                // 1) 지출(expense)일 경우, EditEx.jsx로 이동 (예: /edit_expense/ana_001)
-                // 2) 수입(income)일 경우, EditIn.jsx로 이동 (예: /edit_income/ana_010)
-                const targetPath =
-                  item.type === "expense"
-                    ? `/edit_expense/${item.id}`
-                    : `/edit_income/${item.id}`;
-                navigate(targetPath);
-              }}
-            >
-              <div className={styles.recordIconWrapper}>
-                {renderCategoryIcon(item.category)}
-              </div>
+              // 1) 지출(expense)일 경우, EditEx.jsx로 이동 (예: /edit_expense/ana_001)
+              // 2) 수입(income)일 경우, EditIn.jsx로 이동 (예: /edit_income/ana_010)
+              const targetPath =
+                item.type === "expense"
+                  ? `/edit_expense/${item.id}`
+                  : `/edit_income/${item.id}`;
+              navigate(targetPath);
+            }}
+          >
+            <div className={styles.recordIconWrapper}>
+              {renderCategoryIcon(item.category)}
+            </div>
 
-              <div className={styles.recordInfo}>
-                <span className={styles.recordTitle}>{item.title}</span>
-                <span className={styles.recordDesc}>
-                  {item.date} · {item.category}
+            <div className={styles.recordInfo}>
+              <span className={styles.recordTitle}>{item.title}</span>
+              <span className={styles.recordDesc}>
+                {item.date} · {item.category}
+              </span>
+            </div>
+            <div className={styles.recordRight}>
+              <strong className={styles.recordAmount}>
+                {item.type === "expense"
+                  ? `- ${item.amount}원`
+                  : `+ ${item.amount}원`}
+              </strong>
+
+              {/* 수입일 때는 빈 <span> 공간을 남겨 높이 정렬을 유지 */}
+              {item.type === "expense" &&
+              item.isQualified !== null &&
+              item.isQualified !== undefined ? (
+                <span
+                  className={`${styles.badge} ${
+                    item.isQualified
+                      ? styles.badgeQualified
+                      : styles.badgeUnqualified
+                  }`}
+                >
+                  {item.isQualified ? "적격" : "부적격"}
                 </span>
-              </div>
-              <div className={styles.recordRight}>
-                <strong className={styles.recordAmount}>
-                  {item.type === "expense"
-                    ? `- ${item.amount}원`
-                    : `+ ${item.amount}원`}
-                </strong>
-
-                {/* 수입일 때는 빈 <span> 공간을 남겨 높이 정렬을 유지 */}
-                {item.type === "expense" &&
-                item.isQualified !== null &&
-                item.isQualified !== undefined ? (
-                  <span
-                    className={`${styles.badge} ${
-                      item.isQualified
-                        ? styles.badgeQualified
-                        : styles.badgeUnqualified
-                    }`}
-                  >
-                    {item.isQualified ? "적격" : "부적격"}
-                  </span>
-                ) : (
-                  <span className={styles.badgePlaceholder} />
-                )}
-              </div>
-            </article>
-          ))}
+              ) : (
+                <span className={styles.badgePlaceholder} />
+              )}
+            </div>
+          </article>
+        ))}
       </main>
 
       <footer className={styles.footer}>

@@ -4,7 +4,11 @@ import styles from "./EditEx.module.css";
 import Header from "../components/Header";
 import Button from "../components/Button";
 import EditDropdown from "../components/EditDropdown";
-import { getExpenseDetail, updateExpenseDetail, deleteExpenseDetail } from "../api/editApi";
+import {
+  getExpenseDetail,
+  updateExpenseDetail,
+  deleteExpenseDetail,
+} from "../api/editApi";
 import EditDeleteIcon from "../assets/images/EditDeleteIcon.svg";
 
 // 증빙 유형 Enum <-> 한글 매핑
@@ -36,14 +40,26 @@ const getKeyByValue = (object, value) => {
 
 // 경비 항목 드롭다운 메뉴 리스트
 const categoryItems = [
-    '제세공과금', '임차료', '기업업무추진비', '차량유지비',
-    '지급수수료', '소모품비', '운반비', '광고선전비', '여비교통비', '기타(비용)'
-  ];
+  "제세공과금",
+  "임차료",
+  "기업업무추진비",
+  "차량유지비",
+  "지급수수료",
+  "소모품비",
+  "운반비",
+  "광고선전비",
+  "여비교통비",
+  "기타(비용)",
+];
 
 // 증빙 유형 드롭다운 메뉴 리스트
 const evidenceItems = [
-    '세금계산서', '계산서', '신용카드 매출전표', '현금영수증', '해당 없음'
-  ];
+  "세금계산서",
+  "계산서",
+  "신용카드 매출전표",
+  "현금영수증",
+  "해당 없음",
+];
 
 // remark 값 설정 함수
 const calculateRemark = (amount, isQualified) => {
@@ -160,22 +176,22 @@ function EditEx() {
   };
 
   const handleChange = (e) => {
-  const { name, value } = e.target;
+    const { name, value } = e.target;
 
-  if (name === "amount") {
-    // '원', 쉼표 등 숫자가 아닌 모든 문자 제거 후 저장
-    const onlyNumbers = value.replace(/[^0-9]/g, "");
-    setFormData((prev) => ({
-      ...prev,
-      amount: onlyNumbers, // state에는 100000 형태의 숫자만 들어감
-    }));
-  } else {
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  }
-};
+    if (name === "amount") {
+      // '원', 쉼표 등 숫자가 아닌 모든 문자 제거 후 저장
+      const onlyNumbers = value.replace(/[^0-9]/g, "");
+      setFormData((prev) => ({
+        ...prev,
+        amount: onlyNumbers, // state에는 100000 형태의 숫자만 들어감
+      }));
+    } else {
+      setFormData((prev) => ({
+        ...prev,
+        [name]: value,
+      }));
+    }
+  };
 
   const handleKeyDown = (e) => {
     // Backspace 키를 눌렀을 때만 작동
@@ -184,7 +200,11 @@ function EditEx() {
       const { selectionStart, selectionEnd, value } = input;
 
       // 커서 위치가 맨 뒤(또는 "원" 뒤)에 있고, 텍스트가 존재하는 경우
-      if (selectionStart === value.length && selectionEnd === value.length && value.length > 0) {
+      if (
+        selectionStart === value.length &&
+        selectionEnd === value.length &&
+        value.length > 0
+      ) {
         e.preventDefault(); // 기본 Backspace 동작("원"을 지우거나 커서만 이동)을 막음
 
         // 숫자만 추출 후 맨 뒷자리 제거
@@ -196,8 +216,8 @@ function EditEx() {
           ...prev,
           amount: newNumbers === "" ? "0" : newNumbers, // 모두 지워지면 "0" 설정
         }));
-        }
       }
+    }
   };
 
   // Dropdown 전용 값 변경 함수
@@ -207,7 +227,6 @@ function EditEx() {
       [name]: value,
     }));
   };
-
 
   const handleQualifiedChange = (value) => {
     setFormData((prev) => ({
@@ -231,7 +250,9 @@ function EditEx() {
 
     const dateRegex = /^\d{4}[.-]\d{2}[.-]\d{2}$/;
     const cleanAmount = Number(
-      String(formData.amount).replace(/[^0-9]/g, "").trim()
+      String(formData.amount)
+        .replace(/[^0-9]/g, "")
+        .trim(),
     );
 
     if (!dateRegex.test(formData.date) || isNaN(cleanAmount)) {
@@ -240,7 +261,10 @@ function EditEx() {
     }
 
     // Remark 값 설정
-    const calculatedRemark = calculateRemark(cleanAmount, formData.qualifiedEvidence);
+    const calculatedRemark = calculateRemark(
+      cleanAmount,
+      formData.qualifiedEvidence,
+    );
 
     // API 명세서 규격에 맞춘 Payload 생성
     const patchPayload = {
@@ -282,11 +306,15 @@ function EditEx() {
 
   return (
     <div className={styles.container}>
-    {/* 헤더 영역 */}
-    <div className={styles.header}>
+      {/* 헤더 영역 */}
+      <div className={styles.header}>
         <Header text="경비 기록 수정" />
-        <img className={styles.deleteBtn} onClick={handleDelete} src={EditDeleteIcon} />
-    </div>
+        <img
+          className={styles.deleteBtn}
+          onClick={handleDelete}
+          src={EditDeleteIcon}
+        />
+      </div>
 
       {/* 메인 컨텐츠 */}
       <main className={styles.content}>
@@ -338,11 +366,17 @@ function EditEx() {
                   value={
                     isLoading
                       ? "로딩중..."
-                      : formData.amount !== "" && formData.amount !== null && formData.amount !== undefined 
-                        ? `${Number(formData.amount).toLocaleString()}원` 
+                      : formData.amount !== "" &&
+                          formData.amount !== null &&
+                          formData.amount !== undefined
+                        ? `${Number(formData.amount).toLocaleString()}원`
                         : "0원"
                   }
-                  placeholder={isLoading ? "로딩중..." : `${Number(initialData.amount).toLocaleString()}원`}
+                  placeholder={
+                    isLoading
+                      ? "로딩중..."
+                      : `${Number(initialData.amount).toLocaleString()}원`
+                  }
                   onChange={handleChange}
                   onKeyDown={handleKeyDown}
                   disabled={isLoading}
@@ -375,7 +409,7 @@ function EditEx() {
                 items={evidenceItems}
                 selectedValue={isLoading ? "로딩중..." : formData.proofType}
                 onSelect={(val) => handleDropdownChange("proofType", val)}
-            />
+              />
               <span className={styles.arrowIcon} />
             </div>
           </div>
@@ -389,7 +423,7 @@ function EditEx() {
                 items={categoryItems}
                 selectedValue={isLoading ? "로딩중..." : formData.category}
                 onSelect={(val) => handleDropdownChange("category", val)}
-            />
+              />
               <span className={styles.arrowIcon} />
             </div>
           </div>

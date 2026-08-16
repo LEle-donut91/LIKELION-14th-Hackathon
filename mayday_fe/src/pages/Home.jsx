@@ -78,8 +78,15 @@ function Home() {
           </div>
         </div>
 
-        <div onClick={() => navigate("/mypage")} className={styles.profileButton}>
-          <img src={HomeProfileIcon} alt="Profile" className={styles.profileIcon} />
+        <div
+          onClick={() => navigate("/mypage")}
+          className={styles.profileButton}
+        >
+          <img
+            src={HomeProfileIcon}
+            alt="Profile"
+            className={styles.profileIcon}
+          />
         </div>
       </header>
 
@@ -138,7 +145,9 @@ function Home() {
                 <span className={styles.incomeText}>기록한 수입</span>
               </div>
               <b className={styles.amountValueIncome}>
-                {isLoading ? "로딩중..." : `${recordedIncome.toLocaleString()}원`}
+                {isLoading
+                  ? "로딩중..."
+                  : `${recordedIncome.toLocaleString()}원`}
               </b>
             </div>
 
@@ -148,7 +157,9 @@ function Home() {
                 <span className={styles.expenseText}>기록한 비용</span>
               </div>
               <b className={styles.amountValueExpense}>
-                {isLoading ? "로딩중..." : `${recordedExpense.toLocaleString()}원`}
+                {isLoading
+                  ? "로딩중..."
+                  : `${recordedExpense.toLocaleString()}원`}
               </b>
             </div>
           </div>
@@ -188,10 +199,7 @@ function Home() {
           </div>
 
           {/* 내보내기 */}
-          <div
-            className={styles.exportCard}
-            onClick={handleNavigateToExport}
-          >
+          <div className={styles.exportCard} onClick={handleNavigateToExport}>
             <img src={HomeExportIcon} className={styles.aiIcon} alt="" />
             <b className={styles.actionTitle}>내보내기</b>
             <div className={styles.actionDescription}>

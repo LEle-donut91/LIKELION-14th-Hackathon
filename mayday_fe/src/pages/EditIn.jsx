@@ -4,7 +4,11 @@ import styles from "./EditIn.module.css";
 import Header from "../components/Header";
 import Button from "../components/Button";
 import EditDropdown from "../components/EditDropdown";
-import { getIncomeDetail, updateIncomeDetail, deleteIncomeDetail} from "../api/editApi";
+import {
+  getIncomeDetail,
+  updateIncomeDetail,
+  deleteIncomeDetail,
+} from "../api/editApi";
 
 // 카테고리 Enum <-> 한글 매핑
 const CATEGORY_MAP = {
@@ -21,9 +25,13 @@ const getKeyByValue = (object, value) => {
  * @param {string|number} valueStr - 입력된 금액 문자열 또는 숫자
  * @param {boolean} isWithholding - 3.3% 공제 여부
  * @param {'netAmount'|'grossAmount'|'taxAmount'} sourceField - 변경된 입력 필드 이름
- * 
+ *
  */
-const calculateAmounts = (valueStr, isWithholding, sourceField = "netAmount") => {
+const calculateAmounts = (
+  valueStr,
+  isWithholding,
+  sourceField = "netAmount",
+) => {
   // 입력된 금액 -> Number 타입으로 변환
   const cleanVal = Number(valueStr.toString().replace(/[^0-9]/g, "")) || 0;
 
@@ -42,19 +50,22 @@ const calculateAmounts = (valueStr, isWithholding, sourceField = "netAmount") =>
   }
 
   // [조건] 3.3% 공제(true)일 때의 기존 로직
-  if (sourceField === "netAmount") { // 실수령액 입력 시
+  if (sourceField === "netAmount") {
+    // 실수령액 입력 시
     gross = Math.round(cleanVal / 0.967);
     tax = gross - cleanVal;
 
     // 실수령액에 사용자 입력값 최종 저장
-    net = cleanVal; 
-  } else if (sourceField === "grossAmount") { // 공제 전 금액 입력 시
+    net = cleanVal;
+  } else if (sourceField === "grossAmount") {
+    // 공제 전 금액 입력 시
     tax = Math.round(cleanVal * 0.033);
     net = cleanVal - tax;
 
     // 공제 전 금액에 사용자 입력값 최종 저장
-    gross = cleanVal; 
-  } else if (sourceField === "taxAmount") { // 원천징수 세액 입력 시
+    gross = cleanVal;
+  } else if (sourceField === "taxAmount") {
+    // 원천징수 세액 입력 시
     gross = Math.round(cleanVal / 0.033);
     net = gross - cleanVal;
 
@@ -66,7 +77,7 @@ const calculateAmounts = (valueStr, isWithholding, sourceField = "netAmount") =>
 };
 
 // 수입 항목 드롭다운 메뉴 리스트
-const categoryItems = ['매출', '기타(수입)'];
+const categoryItems = ["매출", "기타(수입)"];
 
 function EditIn() {
   const navigate = useNavigate();
@@ -129,7 +140,6 @@ function EditIn() {
     fetchIncomeDetail();
   }, [incomeId]);
 
-
   // 일반 및 금액 입력 변경 핸들러
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -181,14 +191,22 @@ function EditIn() {
       const { selectionStart, selectionEnd, value } = input;
 
       // 커서 위치가 맨 뒤(또는 "원" 뒤)에 있고, 텍스트가 존재하는 경우
-      if (selectionStart === value.length && selectionEnd === value.length && value.length > 0) {
+      if (
+        selectionStart === value.length &&
+        selectionEnd === value.length &&
+        value.length > 0
+      ) {
         e.preventDefault(); // 기본 Backspace 동작("원"을 지우거나 커서만 이동)을 막음
 
         // 숫자만 추출 후 맨 뒷자리 제거
         const numbersOnly = value.replace(/[^0-9]/g, "");
         const newNumbers = numbersOnly.slice(0, -1);
 
-        const calculated = calculateAmounts(newNumbers, formData.isWithholding, fieldName);
+        const calculated = calculateAmounts(
+          newNumbers,
+          formData.isWithholding,
+          fieldName,
+        );
         setFormData((prev) => ({
           ...prev,
           ...calculated,
@@ -347,8 +365,8 @@ function EditIn() {
                 isLoading
                   ? "로딩중..."
                   : formData.netAmount !== ""
-                  ? `${Number(formData.netAmount).toLocaleString()}원`
-                  : ""
+                    ? `${Number(formData.netAmount).toLocaleString()}원`
+                    : ""
               }
               onChange={handleChange}
               onKeyDown={(e) => handleKeyDown(e, "netAmount")}
@@ -368,8 +386,8 @@ function EditIn() {
                   isLoading
                     ? "로딩중..."
                     : formData.grossAmount !== ""
-                    ? `${Number(formData.grossAmount).toLocaleString()}원`
-                    : ""
+                      ? `${Number(formData.grossAmount).toLocaleString()}원`
+                      : ""
                 }
                 onChange={handleChange}
                 onKeyDown={(e) => handleKeyDown(e, "grossAmount")}
@@ -387,8 +405,8 @@ function EditIn() {
                   isLoading
                     ? "로딩중..."
                     : formData.taxAmount !== ""
-                    ? `${Number(formData.taxAmount).toLocaleString()}원`
-                    : ""
+                      ? `${Number(formData.taxAmount).toLocaleString()}원`
+                      : ""
                 }
                 onChange={handleChange}
                 onKeyDown={(e) => handleKeyDown(e, "taxAmount")}
@@ -413,7 +431,7 @@ function EditIn() {
                 items={categoryItems}
                 selectedValue={isLoading ? "로딩중..." : formData.category}
                 onSelect={(val) => handleDropdownChange("category", val)}
-            />
+              />
               {/* 커스텀 화살표 아이콘 추가 */}
               <span className={styles.arrowIcon} />
             </div>
