@@ -4,6 +4,8 @@ import styles from "./EditIn.module.css";
 import Header from "../components/Header";
 import Button from "../components/Button";
 import EditDropdown from "../components/EditDropdown";
+import EditDeleteIcon from "../assets/images/EditDeleteIcon.svg";
+import EditInfoIcon from "../assets/images/EditInfoIcon.svg";
 import {
   getIncomeDetail,
   updateIncomeDetail,
@@ -277,6 +279,12 @@ function EditIn() {
       {/* 헤더 영역 */}
       <header className={styles.headerWrapper}>
         <Header text="수입 기록 수정" />
+        <img
+          className={styles.deleteIconBtn}
+          alt="삭제하기"
+          src={EditDeleteIcon}
+          onClick={handleDelete}
+        />
       </header>
 
       {/* 메인 컨텐츠 */}
@@ -291,28 +299,32 @@ function EditIn() {
           <div className={styles.row}>
             <div className={styles.col}>
               <label className={styles.label}>거래처</label>
-              <input
-                type="text"
-                name="merchant"
-                className={styles.input}
-                value={isLoading ? "로딩중..." : formData.merchant}
-                placeholder={isLoading ? "로딩중..." : initialData.merchant}
-                onChange={handleChange}
-                disabled={isLoading}
-              />
+              <div className={styles.inputBox}>
+                <input
+                  type="text"
+                  name="merchant"
+                  className={styles.input}
+                  value={isLoading ? "로딩중..." : formData.merchant}
+                  placeholder={isLoading ? "로딩중..." : initialData.merchant}
+                  onChange={handleChange}
+                  disabled={isLoading}
+                />
+              </div>
             </div>
 
             <div className={styles.col}>
               <label className={styles.label}>날짜</label>
-              <input
-                type="text"
-                name="date"
-                className={styles.input}
-                value={isLoading ? "로딩중..." : formData.date}
-                placeholder={isLoading ? "로딩중..." : initialData.date}
-                onChange={handleChange}
-                disabled={isLoading}
-              />
+              <div className={styles.inputBox}>
+                <input
+                  type="text"
+                  name="date"
+                  className={styles.input}
+                  value={isLoading ? "로딩중..." : formData.date}
+                  placeholder={isLoading ? "로딩중..." : initialData.date}
+                  onChange={handleChange}
+                  disabled={isLoading}
+                />
+              </div>
             </div>
           </div>
 
@@ -356,71 +368,91 @@ function EditIn() {
 
           {/* 받은 금액 (실수령액) */}
           <div className={styles.field}>
-            <label className={styles.label}>받은 금액 (실수령액)</label>
-            <input
-              type="text"
-              name="netAmount"
-              className={`${styles.input} ${styles.boldInput}`}
-              value={
-                isLoading
-                  ? "로딩중..."
-                  : formData.netAmount !== ""
-                    ? `${Number(formData.netAmount).toLocaleString()}원`
-                    : ""
-              }
-              onChange={handleChange}
-              onKeyDown={(e) => handleKeyDown(e, "netAmount")}
-              disabled={isLoading}
-            />
+            <div className={styles.labelWithBadge}>
+              <label className={styles.label}>받은 금액 (실수령액)</label>
+              <span className={styles.badgePrimary}>주 입력</span>
+            </div>
+            <div className={`${styles.inputBox} ${styles.highlightBox}`}>
+              <input
+                type="text"
+                name="netAmount"
+                className={`${styles.input} ${styles.boldInput}`}
+                value={
+                  isLoading
+                    ? "로딩중..."
+                    : formData.netAmount !== ""
+                      ? `${Number(formData.netAmount).toLocaleString()}원`
+                      : ""
+                }
+                onChange={handleChange}
+                onKeyDown={(e) => handleKeyDown(e, "netAmount")}
+                disabled={isLoading}
+              />
+            </div>
           </div>
 
           {/* 공제 전 금액 & 원천징수 세액 */}
           <div className={styles.row}>
             <div className={styles.col}>
-              <label className={styles.label}>공제 전 금액</label>
-              <input
-                type="text"
-                name="grossAmount"
-                className={styles.input}
-                value={
-                  isLoading
-                    ? "로딩중..."
-                    : formData.grossAmount !== ""
-                      ? `${Number(formData.grossAmount).toLocaleString()}원`
-                      : ""
-                }
-                onChange={handleChange}
-                onKeyDown={(e) => handleKeyDown(e, "grossAmount")}
-                disabled={isLoading}
-              />
+              <div className={styles.labelWithBadge}>
+                <label className={styles.label}>공제 전 금액</label>
+                <span className={styles.badgeAuto}>자동</span>
+              </div>
+              <div className={`${styles.inputBox} ${styles.disabledBox}`}>
+                <input
+                  type="text"
+                  name="grossAmount"
+                  className={styles.input}
+                  value={
+                    isLoading
+                      ? "로딩중..."
+                      : formData.grossAmount !== ""
+                        ? `${Number(formData.grossAmount).toLocaleString()}원`
+                        : ""
+                  }
+                  onChange={handleChange}
+                  onKeyDown={(e) => handleKeyDown(e, "grossAmount")}
+                  disabled={isLoading}
+                  readOnly
+                />
+              </div>
             </div>
 
             <div className={styles.col}>
-              <label className={styles.label}>원천징수 세액</label>
-              <input
-                type="text"
-                name="taxAmount"
-                className={styles.input}
-                value={
-                  isLoading
-                    ? "로딩중..."
-                    : formData.taxAmount !== ""
-                      ? `${Number(formData.taxAmount).toLocaleString()}원`
-                      : ""
-                }
-                onChange={handleChange}
-                onKeyDown={(e) => handleKeyDown(e, "taxAmount")}
-                readOnly={!formData.isWithholding} // 공제 없음 선택 시 수정 불가능(readOnly)
-                disabled={isLoading}
-              />
+              <div className={styles.labelWithBadge}>
+                <label className={styles.label}>원천징수 세액</label>
+                <span className={styles.badgeAuto}>자동</span>
+              </div>
+              <div className={`${styles.inputBox} ${styles.disabledBox}`}>
+                <input
+                  type="text"
+                  name="taxAmount"
+                  className={styles.input}
+                  value={
+                    isLoading
+                      ? "로딩중..."
+                      : formData.taxAmount !== ""
+                        ? `${Number(formData.taxAmount).toLocaleString()}원`
+                        : ""
+                  }
+                  onChange={handleChange}
+                  onKeyDown={(e) => handleKeyDown(e, "taxAmount")}
+                  disabled={isLoading}
+                  readOnly
+                />
+              </div>
             </div>
           </div>
 
           {/* 안내 텍스트 */}
-          <p className={styles.subGuideText}>
-            받은 금액이나 공제 여부를 바꾸면 나머지 금액이 자동으로 다시
-            계산돼요. 직접 수정도 가능해요.
-          </p>
+          <div className={styles.infoNoticeCard}>
+            <img className={styles.infoIcon} src={EditInfoIcon} />
+            <p className={styles.subGuideText}>
+              {formData.isWithholding
+                ? "받은 금액을 입력하면 3.3% 원천징수 기준으로 나머지 금액이 자동 계산돼요."
+                : "원천징수가 없어 세액은 0원이에요."}
+            </p>
+          </div>
 
           {/* 항목 선택 */}
           <div className={styles.field}>
@@ -438,15 +470,11 @@ function EditIn() {
             <span className={styles.helperText}>매출 · 기타(수입) 중 선택</span>
           </div>
         </section>
-
-        {/* 하단 버튼 영역 */}
-        <div className={styles.btnGroup}>
-          <Button text="수입 저장하기" onClick={handleSave} />
-          <button className={styles.deleteBtn} onClick={handleDelete}>
-            이 기록 삭제하기
-          </button>
-        </div>
       </main>
+      {/* 하단 버튼 영역 */}
+      <div className={styles.btnGroup}>
+        <Button text="수입 저장하기" onClick={handleSave} />
+      </div>
     </div>
   );
 }
