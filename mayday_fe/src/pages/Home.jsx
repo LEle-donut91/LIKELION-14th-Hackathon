@@ -52,10 +52,6 @@ function Home() {
     });
   };
 
-  if (isLoading) {
-    return <div className={styles.loading}>데이터를 불러오는 중입니다...</div>;
-  }
-
   const {
     yearlyExpense = 0,
     aiFoundExpense = 0,
@@ -76,7 +72,9 @@ function Home() {
             <span className={styles.logoText}>메이데이</span>
           </b>
           <div className={styles.dDayBadge}>
-            <span className={styles.dDay}>5월 신고 마감일 D-{taxDDay}</span>
+            <span className={styles.dDay}>
+              5월 신고 마감일 D-{isLoading ? "로딩중..." : taxDDay}
+            </span>
           </div>
         </div>
 
@@ -92,13 +90,19 @@ function Home() {
           <div className={styles.summaryTitle}>올해 정리한 경비</div>
 
           <div className={styles.summaryAmount}>
-            <b className={styles.expenseAmount}>{yearlyExpense.toLocaleString()}</b>
-            <div className={styles.currency}>원</div>
+            <b className={styles.expenseAmount}>
+              {isLoading ? "로딩중..." : yearlyExpense.toLocaleString()}
+            </b>
+            {!isLoading && <div className={styles.currency}>원</div>}
           </div>
 
           <div className={styles.summaryDescription}>
             <div className={styles.dotIcon} />
-            <span>이번 달 AI가 {aiFoundExpense.toLocaleString()}원을 기록했어요</span>
+            <span>
+              {isLoading
+                ? "로딩중..."
+                : `이번 달 AI가 ${aiFoundExpense.toLocaleString()}원을 기록했어요`}
+            </span>
           </div>
         </section>
 
@@ -110,17 +114,21 @@ function Home() {
             {/* recordedIncomeRatio 값에 따라 width 조절 */}
             <div
               className={styles.incomeBar}
-              style={{ width: `${recordedIncomeRatio}%` }}
+              style={{ width: `${isLoading ? 0 : recordedIncomeRatio}%` }}
             />
             <div
               className={styles.expenseBar}
-              style={{ width: `${recordedExpenseRatio}%` }}
+              style={{ width: `${isLoading ? 0 : recordedExpenseRatio}%` }}
             />
           </div>
 
           <div className={styles.ratioLabels}>
-            <span className={styles.incomeLabel}>수입 {recordedIncomeRatio}%</span>
-            <span className={styles.expenseLabel}>비용 {recordedExpenseRatio}%</span>
+            <span className={styles.incomeLabel}>
+              수입 {isLoading ? "로딩중..." : `${recordedIncomeRatio}%`}
+            </span>
+            <span className={styles.expenseLabel}>
+              비용 {isLoading ? "로딩중..." : `${recordedExpenseRatio}%`}
+            </span>
           </div>
 
           <div className={styles.amountList}>
@@ -129,7 +137,9 @@ function Home() {
                 <div className={styles.incomeDot} />
                 <span className={styles.incomeText}>기록한 수입</span>
               </div>
-              <b className={styles.amountValueIncome}>{recordedIncome.toLocaleString()}원</b>
+              <b className={styles.amountValueIncome}>
+                {isLoading ? "로딩중..." : `${recordedIncome.toLocaleString()}원`}
+              </b>
             </div>
 
             <div className={styles.expenseAmountRow}>
@@ -137,7 +147,9 @@ function Home() {
                 <div className={styles.expenseDot} />
                 <span className={styles.expenseText}>기록한 비용</span>
               </div>
-              <b className={styles.amountValueExpense}>{recordedExpense.toLocaleString()}원</b>
+              <b className={styles.amountValueExpense}>
+                {isLoading ? "로딩중..." : `${recordedExpense.toLocaleString()}원`}
+              </b>
             </div>
           </div>
         </section>
@@ -157,7 +169,9 @@ function Home() {
           {/* AI 분류 */}
           <div className={styles.aiRecords}>
             <img src={HomeAiIcon} className={styles.aiIcon} alt="" />
-            <b className={styles.aiCount}>{aiClassifiedRecords}건</b>
+            <b className={styles.aiCount}>
+              {isLoading ? "로딩중..." : `${aiClassifiedRecords}건`}
+            </b>
             <div className={styles.aiDescription}>이번 달 AI가 분류한 기록</div>
           </div>
 

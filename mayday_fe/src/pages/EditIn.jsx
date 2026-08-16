@@ -254,19 +254,6 @@ function EditIn() {
     }
   };
 
-  if (isLoading) {
-    return (
-      <div className={styles.container}>
-        <header className={styles.headerWrapper}>
-          <Header text="수입 기록 수정" />
-        </header>
-        <div style={{ textAlign: "center", padding: "50px 0" }}>
-          상세 정보를 불러오는 중입니다...
-        </div>
-      </div>
-    );
-  }
-
   return (
     <div className={styles.container}>
       {/* 헤더 영역 */}
@@ -290,9 +277,10 @@ function EditIn() {
                 type="text"
                 name="merchant"
                 className={styles.input}
-                value={formData.merchant}
-                placeholder={initialData.merchant}
+                value={isLoading ? "로딩중..." : formData.merchant}
+                placeholder={isLoading ? "로딩중..." : initialData.merchant}
                 onChange={handleChange}
+                disabled={isLoading}
               />
             </div>
 
@@ -302,9 +290,10 @@ function EditIn() {
                 type="text"
                 name="date"
                 className={styles.input}
-                value={formData.date}
-                placeholder={initialData.date}
+                value={isLoading ? "로딩중..." : formData.date}
+                placeholder={isLoading ? "로딩중..." : initialData.date}
                 onChange={handleChange}
+                disabled={isLoading}
               />
             </div>
           </div>
@@ -324,6 +313,7 @@ function EditIn() {
                   checked={formData.isWithholding === true}
                   onChange={() => handleWithholdingChange(true)}
                   className={styles.hiddenRadio}
+                  disabled={isLoading}
                 />
                 <span>3.3% 공제</span>
               </label>
@@ -339,6 +329,7 @@ function EditIn() {
                   checked={formData.isWithholding === false}
                   onChange={() => handleWithholdingChange(false)}
                   className={styles.hiddenRadio}
+                  disabled={isLoading}
                 />
                 <span>공제 없음</span>
               </label>
@@ -353,12 +344,15 @@ function EditIn() {
               name="netAmount"
               className={`${styles.input} ${styles.boldInput}`}
               value={
-                formData.netAmount !== ""
+                isLoading
+                  ? "로딩중..."
+                  : formData.netAmount !== ""
                   ? `${Number(formData.netAmount).toLocaleString()}원`
                   : ""
               }
               onChange={handleChange}
               onKeyDown={(e) => handleKeyDown(e, "netAmount")}
+              disabled={isLoading}
             />
           </div>
 
@@ -371,12 +365,15 @@ function EditIn() {
                 name="grossAmount"
                 className={styles.input}
                 value={
-                  formData.grossAmount !== ""
+                  isLoading
+                    ? "로딩중..."
+                    : formData.grossAmount !== ""
                     ? `${Number(formData.grossAmount).toLocaleString()}원`
                     : ""
                 }
                 onChange={handleChange}
                 onKeyDown={(e) => handleKeyDown(e, "grossAmount")}
+                disabled={isLoading}
               />
             </div>
 
@@ -387,13 +384,16 @@ function EditIn() {
                 name="taxAmount"
                 className={styles.input}
                 value={
-                  formData.taxAmount !== ""
+                  isLoading
+                    ? "로딩중..."
+                    : formData.taxAmount !== ""
                     ? `${Number(formData.taxAmount).toLocaleString()}원`
                     : ""
                 }
                 onChange={handleChange}
                 onKeyDown={(e) => handleKeyDown(e, "taxAmount")}
                 readOnly={!formData.isWithholding} // 공제 없음 선택 시 수정 불가능(readOnly)
+                disabled={isLoading}
               />
             </div>
           </div>
@@ -411,7 +411,7 @@ function EditIn() {
               <EditDropdown
                 placeholder="수입 항목 선택"
                 items={categoryItems}
-                selectedValue={formData.category}
+                selectedValue={isLoading ? "로딩중..." : formData.category}
                 onSelect={(val) => handleDropdownChange("category", val)}
             />
               {/* 커스텀 화살표 아이콘 추가 */}

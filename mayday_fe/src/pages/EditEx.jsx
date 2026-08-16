@@ -279,19 +279,6 @@ function EditEx() {
     }
   };
 
-  if (isLoading) {
-    return (
-      <div className={styles.container}>
-        <div className={styles.header}>
-          <Header text="경비 기록 수정" />
-        </div>
-        <div style={{ textAlign: "center", padding: "50px 0" }}>
-          지출 상세 정보를 불러오는 중입니다...
-        </div>
-      </div>
-    );
-  }
-
   return (
     <div className={styles.container}>
     {/* 헤더 영역 */}
@@ -315,9 +302,10 @@ function EditEx() {
                 type="text"
                 name="merchant"
                 className={styles.input}
-                value={formData.merchant}
-                placeholder={initialData.merchantName}
+                value={isLoading ? "로딩중..." : formData.merchant}
+                placeholder={isLoading ? "로딩중..." : initialData.merchantName}
                 onChange={handleChange}
+                disabled={isLoading}
               />
             </div>
           </div>
@@ -331,9 +319,10 @@ function EditEx() {
                   type="text"
                   name="date"
                   className={styles.input}
-                  value={formData.date}
-                  placeholder={initialData.date}
+                  value={isLoading ? "로딩중..." : formData.date}
+                  placeholder={isLoading ? "로딩중..." : initialData.date}
                   onChange={handleChange}
+                  disabled={isLoading}
                 />
               </div>
             </div>
@@ -345,13 +334,16 @@ function EditEx() {
                   name="amount"
                   className={`${styles.input} ${styles.boldText}`}
                   value={
-                    formData.amount !== "" && formData.amount !== null && formData.amount !== undefined 
-                      ? `${Number(formData.amount).toLocaleString()}원` 
-                      : "0원"
+                    isLoading
+                      ? "로딩중..."
+                      : formData.amount !== "" && formData.amount !== null && formData.amount !== undefined 
+                        ? `${Number(formData.amount).toLocaleString()}원` 
+                        : "0원"
                   }
-                  placeholder={`${Number(initialData.amount).toLocaleString()}원`}
+                  placeholder={isLoading ? "로딩중..." : `${Number(initialData.amount).toLocaleString()}원`}
                   onChange={handleChange}
                   onKeyDown={handleKeyDown}
+                  disabled={isLoading}
                 />
               </div>
             </div>
@@ -365,9 +357,10 @@ function EditEx() {
                 type="text"
                 name="item"
                 className={styles.input}
-                value={formData.item}
-                placeholder={initialData.itemName}
+                value={isLoading ? "로딩중..." : formData.item}
+                placeholder={isLoading ? "로딩중..." : initialData.itemName}
                 onChange={handleChange}
+                disabled={isLoading}
               />
             </div>
           </div>
@@ -378,7 +371,7 @@ function EditEx() {
             <div className={styles.selectBox}>
               <EditDropdown
                 items={evidenceItems}
-                selectedValue={formData.proofType}
+                selectedValue={isLoading ? "로딩중..." : formData.proofType}
                 onSelect={(val) => handleDropdownChange("proofType", val)}
             />
               <span className={styles.arrowIcon} />
@@ -392,7 +385,7 @@ function EditEx() {
               <EditDropdown
                 placeholder="경비 항목 선택"
                 items={categoryItems}
-                selectedValue={formData.category}
+                selectedValue={isLoading ? "로딩중..." : formData.category}
                 onSelect={(val) => handleDropdownChange("category", val)}
             />
               <span className={styles.arrowIcon} />

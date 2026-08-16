@@ -71,10 +71,6 @@ function Mypage() {
     }
   };
 
-  if (isLoading) {
-    return <div className={styles.myPage}>로딩 중...</div>;
-  }
-
   return (
     <div className={styles.myPage}>
       {/* 헤더 */}
@@ -88,9 +84,12 @@ function Mypage() {
         <section className={styles.profileCard}>
           <img src={MyPageProfileIcon} className={styles.profileAvatar} alt="" />
           <div className={styles.profileInfo}>
-            <strong className={styles.userEmail}>{summaryData?.email}</strong>
+            <strong className={styles.userEmail}>
+              {isLoading ? "로딩중..." : summaryData?.email}
+            </strong>
             <p className={styles.dDayNotice}>
-              5월 종합소득세 신고 마감까지 D-{summaryData?.taxDDay}
+              5월 종합소득세 신고 마감까지 D-
+              {isLoading ? "..." : summaryData?.taxDDay}
             </p>
           </div>
         </section>
@@ -99,21 +98,23 @@ function Mypage() {
         <section className={styles.statsCard}>
           <div className={styles.statGroup}>
             <strong className={styles.statNum}>
-              {summaryData?.recordedCount}건
+              {isLoading ? "로딩중..." : `${summaryData?.recordedCount}건`}
             </strong>
             <span className={styles.statLabel}>올해 기록</span>
           </div>
           <div className={styles.divider} />
           <div className={styles.statGroup}>
             <strong className={styles.statNum}>
-              {summaryData?.qualifiedEvidenceCount}건
+              {isLoading ? "로딩중..." : `${summaryData?.qualifiedEvidenceCount}건`}
             </strong>
             <span className={styles.statLabel}>적격 증빙</span>
           </div>
           <div className={styles.divider} />
           <div className={styles.statGroup}>
             <strong className={styles.statNum}>
-              {summaryData?.recognizedExpenseTenThousand.toLocaleString()}만 원
+              {isLoading
+                ? "로딩중..."
+                : `${summaryData?.recognizedExpenseTenThousand?.toLocaleString()}만 원`}
             </strong>
             <span className={styles.statLabel}>인정 경비</span>
           </div>

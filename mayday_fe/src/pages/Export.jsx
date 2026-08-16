@@ -176,7 +176,9 @@ function Export() {
     { isQualifiedGroupChecked, isEvidenceChecked, qualifiedOptions },
   );
 
-  const previewSummary = `${headers.length}개 열 · 상위 ${summary.topRecordsCount}건 · 전체 ${summary.totalCount}건`;
+  const previewSummary = isLoading
+    ? "로딩중..."
+    : `${headers.length}개 열 · 상위 ${summary.topRecordsCount}건 · 전체 ${summary.totalCount}건`;
 
   // 3. 이벤트 핸들러
   const handleToggleQualifiedGroup = () => {
@@ -198,6 +200,11 @@ function Export() {
 
   // "파일 다운로드" 버튼 클릭 이벤트 핸들러
   const handleDownload = () => {
+    if (isLoading) {
+      alert("데이터를 불러오는 중입니다.");
+      return;
+    }
+
     if (filteredRows.length === 0) {
       alert("다운로드할 기록이 없습니다.");
       return;
@@ -256,28 +263,6 @@ function Export() {
     }
   };
 
-  if (isLoading) {
-    return (
-      <div className={styles.card}>
-        <Header text="내보내기" />
-        <div style={{ textAlign: "center", padding: "50px 0" }}>
-          데이터를 불러오는 중입니다...
-        </div>
-      </div>
-    );
-  }
-
-  if (errorMessage) {
-    return (
-      <div className={styles.card}>
-        <Header text="내보내기" />
-        <div style={{ textAlign: "center", padding: "50px 0", color: "#e53e3e" }}>
-          <p>{errorMessage}</p>
-        </div>
-      </div>
-    );
-  }
-
   return (
     <div className={styles.card}>
       {/* 헤더 영역 */}
@@ -290,19 +275,31 @@ function Export() {
         <section className={styles.summaryCard}>
           <div className={styles.summaryRow}>
             <span>내보낼 기록</span>
-            <strong>{exportSummary.exportYear}년</strong>
+            <strong>
+              {isLoading ? "로딩중..." : `${exportSummary.exportYear || targetYear || ""}년`}
+            </strong>
           </div>
           <div className={styles.summaryRow}>
             <span>기록 수</span>
-            <strong>{exportSummary.totalRecordsCount}건</strong>
+            <strong>
+              {isLoading ? "로딩중..." : `${exportSummary.totalRecordsCount}건`}
+            </strong>
           </div>
           <div className={`${styles.incomeRow} ${styles.dividerRow}`}>
             <span>수입</span>
-            <strong>{exportSummary.totalIncome?.toLocaleString("ko-KR")}원</strong>
+            <strong>
+              {isLoading
+                ? "로딩중..."
+                : `${exportSummary.totalIncome?.toLocaleString("ko-KR")}원`}
+            </strong>
           </div>
           <div className={styles.summaryRow}>
             <span>지출</span>
-            <strong>{exportSummary.totalExpense?.toLocaleString("ko-KR")}원</strong>
+            <strong>
+              {isLoading
+                ? "로딩중..."
+                : `${exportSummary.totalExpense?.toLocaleString("ko-KR")}원`}
+            </strong>
           </div>
         </section>
 
@@ -317,6 +314,7 @@ function Export() {
                 className={styles.visuallyHidden}
                 checked={isQualifiedGroupChecked}
                 onChange={handleToggleQualifiedGroup}
+                disabled={isLoading}
               />
               {isQualifiedGroupChecked ? (
                 <img src={HistorySquareCheckedIcon}/>
@@ -339,6 +337,7 @@ function Export() {
                       className={styles.visuallyHidden}
                       checked={qualifiedOptions.qualified}
                       onChange={() => handleToggleSubOption("qualified")}
+                      disabled={isLoading}
                     />
                     <span className={styles.subCheckboxWrapper}>
                       {qualifiedOptions.qualified ? (
@@ -358,6 +357,7 @@ function Export() {
                       className={styles.visuallyHidden}
                       checked={qualifiedOptions.unqualified}
                       onChange={() => handleToggleSubOption("unqualified")}
+                      disabled={isLoading}
                     />
                     <span className={styles.subCheckboxWrapper}>
                       {qualifiedOptions.unqualified ? (
@@ -377,6 +377,7 @@ function Export() {
                       className={styles.visuallyHidden}
                       checked={qualifiedOptions.remark}
                       onChange={() => handleToggleSubOption("remark")}
+                      disabled={isLoading}
                     />
                     <span className={styles.subCheckboxWrapper}>
                       {qualifiedOptions.remark ? (
@@ -401,6 +402,7 @@ function Export() {
                 className={styles.visuallyHidden}
                 checked={isEvidenceChecked}
                 onChange={handleToggleEvidence}
+                disabled={isLoading}
               />
               {isEvidenceChecked ? (
                 <img src={HistorySquareCheckedIcon}/>
@@ -425,6 +427,7 @@ function Export() {
             type="button"
             className={styles.previewButton}
             onClick={() => setIsPreviewOpen(true)}
+            disabled={isLoading}
           >
             <div>
               <strong className={styles.previewTitle}>표로 미리보기</strong>
@@ -446,6 +449,7 @@ function Export() {
                 fileFormat === "xlsx" ? styles.activeFormat : ""
               }`}
               onClick={() => setFileFormat("xlsx")}
+              disabled={isLoading}
             >
               {fileFormat === "xlsx" ? (
                 <strong>엑셀 (.xlsx)</strong>
@@ -461,6 +465,7 @@ function Export() {
                 fileFormat === "csv" ? styles.activeFormat : ""
               }`}
               onClick={() => setFileFormat("csv")}
+              disabled={isLoading}
             >
               {fileFormat === "csv" ? (
                 <strong>CSV (.csv)</strong>
