@@ -9,6 +9,10 @@ import HistoryTypeModal from "../components/HistoryTypeModal";
 import Header from "../components/Header";
 import Button from "../components/Button";
 
+import HistoryArrowIcon from "../assets/images/HistoryArrowIcon.svg";
+import HistoryDeleteIcon from "../assets/images/HistoryDeleteIcon.svg";
+import HistorySearchIcon from "../assets/images/HistorySearchIcon.svg";
+
 import HistoryAdIcon from "../assets/images/HistoryAdIcon.svg";
 import HistoryBusinessIcon from "../assets/images/HistoryBusinessIcon.svg";
 import HistoryCommissionIcon from "../assets/images/HistoryCommissionIcon.svg";
@@ -104,7 +108,7 @@ const transformApiData = (rawList = []) => {
 const renderCategoryIcon = (category) => {
   const iconSrc = CATEGORY_ICONS[category];
   if (!iconSrc) return null;
-  return <img src={iconSrc} alt={category} />;
+  return <img src={iconSrc} alt={category} className={styles.categoryImg} />;
 };
 
 function History() {
@@ -238,39 +242,79 @@ function History() {
   });
 
   const getQualifiedChipContent = () => {
-    if (qualifiedFilter === "qualified") return <>적격</>;
-    if (qualifiedFilter === "unqualified") return <>부적격</>;
-    return "적격 여부 ▾";
+    let label = "적격 여부";
+    if (qualifiedFilter === "qualified") label = "적격";
+    if (qualifiedFilter === "unqualified") label = "부적격";
+
+    const isFiltered = qualifiedFilter !== "all"; // 필터 적용 여부
+
+    return (
+      <>
+        <span className={styles.chipText}>{label}</span>
+
+        {isFiltered ? (
+          /* 1) 필터 적용 시: X 아이콘 */
+          <img src={HistoryDeleteIcon} alt="X" />
+        ) : (
+          /* 2) 필터 미적용 시: 아래 화살표 아이콘 */
+          <img src={HistoryArrowIcon} alt="Arrow" />
+        )}
+      </>
+    );
   };
 
   const getEvidenceChipContent = () => {
-    if (evidenceFilter.length === 0) return "증빙 유형 ▾";
-    if (evidenceFilter.length === 1) {
-      return <>{evidenceFilter[0]}</>;
-    }
+    const isFiltered = evidenceFilter.length > 0;
+    const isMulti = evidenceFilter.length >= 2;
+
     return (
       <>
-        {evidenceFilter[0]} 외 {evidenceFilter.length - 1}
+        <span className={styles.chipText}>
+          {evidenceFilter.length === 0 ? "증빙 유형" : evidenceFilter[0]}
+        </span>
+        {isMulti && (
+          <div className={styles.chipBadge}>
+            <b>{evidenceFilter.length}</b>
+          </div>
+        )}
+        {isFiltered ? (
+          /* 1) 필터 적용 시: X 아이콘 */
+          <img src={HistoryDeleteIcon} alt="X" />
+        ) : (
+          /* 2) 필터 미적용 시: 아래 화살표 아이콘 */
+          <img src={HistoryArrowIcon} alt="Arrow" />
+        )}
       </>
     );
   };
 
   const getCategoryChipContent = () => {
-    if (selectedCategory.length === 0) return "경비 항목 ▾";
-    if (selectedCategory.length === 1) {
-      return <>{selectedCategory[0]}</>;
-    }
+    const isFiltered = selectedCategory.length > 0; // 필터 적용 여부
+    const isMulti = selectedCategory.length >= 2;
+
     return (
       <>
-        {selectedCategory[0]} 외 {selectedCategory.length - 1}
+        <span className={styles.chipText}>
+          {selectedCategory.length === 0 ? "경비 항목" : selectedCategory[0]}
+        </span>
+        {isMulti && (
+          <div className={styles.chipBadge}>
+            <b>{selectedCategory.length}</b>
+          </div>
+        )}
+        {isFiltered ? (
+          /* 1) 필터 적용 시: X 아이콘 */
+          <img src={HistoryDeleteIcon} alt="X" />
+        ) : (
+          /* 2) 필터 미적용 시: 아래 화살표 아이콘 */
+          <img src={HistoryArrowIcon} alt="Arrow" />
+        )}
       </>
     );
   };
 
   return (
     <div className={styles.container}>
-      <div className={styles.statusBar} />
-
       <div className={styles.header}>
         <Header text="기록 조회" />
       </div>
@@ -298,7 +342,9 @@ function History() {
             className={styles.searchIcon}
             onClick={handleSearch}
             style={{ cursor: "pointer" }}
-          />
+          >
+            <img src={HistorySearchIcon} alt="Search" />
+          </span>
           <input
             type="text"
             className={styles.searchInput}
