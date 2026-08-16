@@ -32,19 +32,24 @@ body {
   text-align: center;
 }
 
-.header {
+.home {
   background-color: #f7f8fa;
+}
+
+.header {
   width: 100%;
-  padding: 26px 20px 0 30px;
+  padding: 25px 20px 25px 30px;
   box-sizing: border-box;
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
+  gap: 3px;
 }
 
 .headerLeft {
   display: flex;
   flex-direction: column;
+  padding-top: 7px;
 }
 
 .logo {
@@ -91,8 +96,7 @@ body {
 
 .content {
   width: 100%;
-  background-color: #f7f8fa;
-  padding: 25px 20px 80px 20px;
+  padding: 0px 20px 24px 20px;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
@@ -106,6 +110,7 @@ body {
   border-radius: 16px;
   background-color: #ffffff;
   width: 350px;
+  height: 132px;
   padding: 17px 22px;
   box-sizing: border-box;
   display: flex;
@@ -122,7 +127,7 @@ body {
 .summaryAmount {
   display: flex;
   align-items: baseline;
-  margin-top: 6.5px;
+  margin-top: 8.5px;
   color: #16181d;
 }
 

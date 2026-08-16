@@ -36,7 +36,8 @@ body {
 /* 상단 헤더 영역 */
 .header {
   width: 100%;
-  padding: 44px 16px 19.75px 16px;
+  margin-top: 40px;
+  padding-right: 16px;
   display: flex;
   align-items: center;
   justify-content: space-between;

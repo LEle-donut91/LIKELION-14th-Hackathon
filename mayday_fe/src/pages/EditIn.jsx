@@ -279,12 +279,11 @@ function EditIn() {
       {/* 헤더 영역 */}
       <header className={styles.headerWrapper}>
         <Header text="수입 기록 수정" />
-        <img
-          className={styles.deleteIconBtn}
-          alt="삭제하기"
-          src={EditDeleteIcon}
-          onClick={handleDelete}
-        />
+        
+        {/* 삭제 버튼 */}
+        <button className={styles.deleteBtn}>
+          <img onClick={handleDelete} src={EditDeleteIcon} />
+        </button>
       </header>
 
       {/* 메인 컨텐츠 */}

@@ -309,11 +309,11 @@ function EditEx() {
       {/* 헤더 영역 */}
       <div className={styles.header}>
         <Header text="경비 기록 수정" />
-        <img
-          className={styles.deleteBtn}
-          onClick={handleDelete}
-          src={EditDeleteIcon}
-        />
+
+        {/* 삭제 버튼 */}
+        <button className={styles.deleteBtn}>
+          <img onClick={handleDelete} src={EditDeleteIcon} />
+        </button>
       </div>
 
       {/* 메인 컨텐츠 */}

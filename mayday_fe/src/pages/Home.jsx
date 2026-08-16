@@ -7,6 +7,7 @@ import HomeExportIcon from "../assets/images/HomeExportIcon.svg";
 import HomeProfileIcon from "../assets/images/HomeProfileIcon.svg";
 import HomeRecordIcon from "../assets/images/HomeRecordIcon.svg";
 import NavBar from "../components/NavBar";
+import Header from "../components/Header";
 import { getHomeSummary } from "../api/homeApi";
 
 function Home() {
@@ -65,7 +66,7 @@ function Home() {
   } = homeData || {};
 
   return (
-    <div>
+    <div className={styles.home}>
       {/* 헤더 */}
       <header className={styles.header}>
         <div className={styles.headerLeft}>
