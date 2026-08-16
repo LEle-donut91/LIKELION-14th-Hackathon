@@ -191,7 +191,7 @@ function History() {
     try {
       const res = await historyApi.getLedgerSearch(
         Number(selectedYear),
-        searchTerm.trim()
+        searchTerm.trim(),
       );
       if (res.status === 200) {
         const transformed = transformApiData(res.data);
@@ -383,17 +383,18 @@ function History() {
                     ? `- ${item.amount}원`
                     : `+ ${item.amount}원`}
                 </strong>
-                {item.isQualified !== null && item.isQualified !== undefined && (
-                  <span
-                    className={`${styles.badge} ${
-                      item.isQualified
-                        ? styles.badgeQualified
-                        : styles.badgeUnqualified
-                    }`}
-                  >
-                    {item.isQualified ? "적격" : "부적격"}
-                  </span>
-                )}
+                {item.isQualified !== null &&
+                  item.isQualified !== undefined && (
+                    <span
+                      className={`${styles.badge} ${
+                        item.isQualified
+                          ? styles.badgeQualified
+                          : styles.badgeUnqualified
+                      }`}
+                    >
+                      {item.isQualified ? "적격" : "부적격"}
+                    </span>
+                  )}
               </div>
             </article>
           ))
