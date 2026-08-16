@@ -27,33 +27,39 @@ function MyPageModal({ isOpen, onClose, onWithdraw }) {
     setIsChecked(e.target.checked);
   };
 
-  // 탈퇴하기 클릭 핸들러
+  // 탈퇴하기 DELETE 요청 (API 연동)
   const handleWithdraw = async () => {
+    // 체크박스에 체크하지 않았거나, 이미 탈퇴 요청 중이면 아무 동작도 하지 않음
     if (!isChecked || isDeleting) return;
 
     try {
+      // 탈퇴 요청 중임을 나타내는 로딩 상태 true로 설정
       setIsDeleting(true);
 
-      // 백엔드로 탈퇴 요청 (DELETE /users/me)
+      // 백엔드로 탈퇴 요청 (DELETE)
       const res = await deleteUser();
 
+      // 백엔드에서 반환된 메시지 또는 기본 메시지로 알림
       alert(res?.message || "회원 탈퇴가 완료되었습니다.");
 
-      // 프론트 인증 정보 삭제
+      // LocalStorage에서 인증 정보 삭제
       localStorage.removeItem("accessToken");
 
       if (onWithdraw) {
         onWithdraw();
       }
 
-      onClose();
-      navigate("/login");
-    } catch (error) {
+      onClose(); // 모달 닫기
+      navigate("/login"); // 로그인 페이지로 이동
+
+    } catch (error) { // 에러 처리
       const errorMessage =
         error.response?.data?.message ||
         "회원 탈퇴 처리 중 오류가 발생했습니다.";
       alert(errorMessage);
+      
     } finally {
+      // 탈퇴 요청 완료 후 로딩 상태 false로 설정
       setIsDeleting(false);
     }
   };

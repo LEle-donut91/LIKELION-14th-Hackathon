@@ -19,7 +19,7 @@ function Mypage() {
   const currentYear = new Date().getFullYear();
   const previousYear = currentYear - 1;
 
-  // 마이페이지 요약 데이터 호출
+  // 마이페이지 요약 데이터 GET 요청 (API 연동)
   useEffect(() => {
     const fetchSummary = async () => {
       try {
@@ -39,7 +39,27 @@ function Mypage() {
     fetchSummary();
   }, [currentYear, navigate]);
 
-  // 1. 내보내기 클릭 핸들러
+  // 로그아웃 POST 요청 (API 연동)
+  const handleLogout = async () => {
+    const isConfirmed = window.confirm("로그아웃하시겠습니까?");
+    if (!isConfirmed) return;
+
+    try {
+      await postLogout(); // 백엔드에 로그아웃 요청 전송
+
+      // 로컬 스토리지에서 인증 정보 삭제
+      localStorage.removeItem("accessToken");
+      alert("로그아웃되었습니다.");
+
+      // 로그인 페이지로 이동
+      navigate("/login");
+      
+    } catch (error) {
+      console.warn("서버 로그아웃 처리 중 에러 발생:", error);
+    }
+  };
+
+  // 내보내기 클릭 핸들러
   const handleExportClick = () => {
     const count = Number(summaryData?.recordedCount);
     if (!count || count <= 0) {
@@ -51,24 +71,6 @@ function Mypage() {
         selectedYear: previousYear, // 직전년도 넘겨주기
       },
     });
-  };
-
-  // 2. 로그아웃 클릭 핸들러 (API 연동 적용)
-  const handleLogout = async () => {
-    const isConfirmed = window.confirm("로그아웃하시겠습니까?");
-    if (!isConfirmed) return;
-
-    try {
-      // 백엔드에 로그아웃 요청 전송
-      await postLogout();
-    } catch (error) {
-      console.warn("서버 로그아웃 처리 중 에러 발생:", error);
-    } finally {
-      // 성공/실패 여부와 관계없이 프론트엔드 인증 정보 삭제 후 로그인 이동
-      localStorage.removeItem("accessToken");
-      alert("로그아웃되었습니다.");
-      navigate("/login");
-    }
   };
 
   return (
