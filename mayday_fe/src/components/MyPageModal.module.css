@@ -1,3 +1,16 @@
+/* Pretendard 웹폰트 import (Figma 코드 기준) */
+@import url('https://fonts.googleapis.com/css2?family=Pretendard+Variable:ital,wght@0,500;0,600;0,700&display=swap');
+
+/* 폰트 기본 설정 */
+body {
+  font-family: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
+}
+
+/* 모든 요소 및 pseudo 클래스가 부모의 font-family를 상속받도록 설정 */
+*, ::before, ::after {
+  font-family: inherit;
+}
+
 /* 화면 전체 어두운 배경 */
 .overlay {
   position: fixed;
@@ -19,7 +32,6 @@
   box-sizing: border-box;
   font-size: 13px;
   color: #16181d;
-  font-family: Pretendard Variable, Arial, sans-serif;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -171,5 +183,4 @@
   justify-content: center;
   font-size: 15px;
   line-height: 120%;
-  font-family: inherit;
 }
