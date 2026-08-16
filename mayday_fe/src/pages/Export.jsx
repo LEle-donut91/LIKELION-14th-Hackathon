@@ -471,17 +471,16 @@ function Export() {
             </button>
           </div>
         </section>
-
-        {/* 하단 안내 및 다운로드 버튼 */}
-        <footer className={styles.footer}>
           <p className={styles.footerNotice}>
             파일은 미리보기와 같은 구성으로 저장돼요
             <br />
             홈택스 자동 제출은 제공하지 않아요
           </p>
+      </main>
+      {/* 하단 안내 및 다운로드 버튼 */}
+        <footer className={styles.footer}>
           <Button text="파일 다운로드" onClick={handleDownload} />
         </footer>
-      </main>
 
       {/* 미리보기 모달 */}
       <ExportModal

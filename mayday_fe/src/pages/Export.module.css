@@ -2,8 +2,9 @@
 
 /* 상단 영역 */
 .header {
-  margin-top: 39px;
-  margin-left: 11px;
+  padding-top: 39px;
+  padding-left: 11px;
+  background-color: #f7f8fa;
 }
 
 .title {
@@ -320,12 +321,12 @@
 
 /* 하단 안내 및 다운로드 영역 */
 .footer {
-  margin-top: 10px;
-  margin-bottom: 20px;
+  padding: 13px 20px 18px;
+  /* margin-top: 10px;
+  margin-bottom: 20px; */
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 16px;
   text-align: center;
 }
 
