@@ -411,7 +411,6 @@ function EditIn() {
                         : ""
                   }
                   onChange={handleChange}
-                  onKeyDown={(e) => handleKeyDown(e, "grossAmount")}
                   disabled={isLoading}
                   readOnly
                 />
@@ -436,7 +435,6 @@ function EditIn() {
                         : ""
                   }
                   onChange={handleChange}
-                  onKeyDown={(e) => handleKeyDown(e, "taxAmount")}
                   disabled={isLoading}
                   readOnly
                 />
