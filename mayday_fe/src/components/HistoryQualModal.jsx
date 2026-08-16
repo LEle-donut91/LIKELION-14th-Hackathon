@@ -52,7 +52,7 @@ function HistoryQualModal({ isOpen, onClose, value, onApply, records = [] }) {
             >
               <span className={styles.optionLabel}>{opt.label}</span>
               {isSelected ? (
-                <img src={HistoryCircleCheckedIcon}/>
+                <img src={HistoryCircleCheckedIcon} />
               ) : (
                 <span className={styles.optionCount}>
                   {optionCounts[opt.id] ?? 0}건

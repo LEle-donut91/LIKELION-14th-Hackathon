@@ -40,15 +40,15 @@ function ExportModal({
 
   // 모달이 다시 열릴 때 스크롤 위치 및 스크롤바 초기화
   useEffect(() => {
-      if (isOpen) {
-        setScrollRatio(0);
-        setIsThumbDragging(false);
-        setIsTableDragging(false);
-        if (tableScrollRef.current) {
-          tableScrollRef.current.scrollLeft = 0;
-        }
+    if (isOpen) {
+      setScrollRatio(0);
+      setIsThumbDragging(false);
+      setIsTableDragging(false);
+      if (tableScrollRef.current) {
+        tableScrollRef.current.scrollLeft = 0;
       }
-    }, [isOpen]);
+    }
+  }, [isOpen]);
 
   // 테이블 스크롤 시 커스텀 바 위치 동기화
   const handleScroll = () => {
@@ -76,7 +76,7 @@ function ExportModal({
       const deltaX = e.clientX - tableStartX.current;
       tableScrollRef.current.scrollLeft = tableStartScrollLeft.current - deltaX;
     },
-    [isTableDragging]
+    [isTableDragging],
   );
 
   const handleTableMouseUp = useCallback(() => {
@@ -110,11 +110,14 @@ function ExportModal({
     if (!trackRef.current || !tableScrollRef.current) return;
     const rect = trackRef.current.getBoundingClientRect();
     const clickX = e.clientX - rect.left;
-    
+
     // 클릭된 x위치를 thumb 중심으로 맞춤
-    const targetThumbLeft = Math.max(0, Math.min(maxThumbLeft, clickX - thumbWidth / 2));
+    const targetThumbLeft = Math.max(
+      0,
+      Math.min(maxThumbLeft, clickX - thumbWidth / 2),
+    );
     const ratio = targetThumbLeft / maxThumbLeft;
-    
+
     const { scrollWidth, clientWidth } = tableScrollRef.current;
     tableScrollRef.current.scrollLeft = ratio * (scrollWidth - clientWidth);
     setScrollRatio(ratio);
@@ -127,20 +130,20 @@ function ExportModal({
 
       const { scrollWidth, clientWidth } = tableScrollRef.current;
       const maxScroll = scrollWidth - clientWidth;
-      
+
       if (maxScroll <= 0) return;
 
       // 트랙의 이동 범위 대비 테이블 이동 비율 계산
       const scrollDelta = (deltaX / maxThumbLeft) * maxScroll;
       const newScrollLeft = Math.max(
         0,
-        Math.min(maxScroll, thumbStartScrollLeft.current + scrollDelta)
+        Math.min(maxScroll, thumbStartScrollLeft.current + scrollDelta),
       );
 
       tableScrollRef.current.scrollLeft = newScrollLeft;
       setScrollRatio(newScrollLeft / maxScroll);
     },
-    [isThumbDragging, maxThumbLeft]
+    [isThumbDragging, maxThumbLeft],
   );
 
   const handleThumbDragEnd = useCallback(() => {
@@ -211,7 +214,8 @@ function ExportModal({
         {/* 요약 정보 */}
         <div className={styles.subHeader}>
           <span className={styles.recordSummary}>
-            {headers.length}개 열 · 상위 {topRecordsCount}건 · 전체 {totalCount}건
+            {headers.length}개 열 · 상위 {topRecordsCount}건 · 전체 {totalCount}
+            건
           </span>
         </div>
 
@@ -236,15 +240,8 @@ function ExportModal({
                   const bgClass = isHighlight ? styles.highlightHeader : "";
 
                   return (
-                    <th
-                      key={idx}
-                      className={`${alignClass} ${bgClass}`}
-                    >
-                      {isHighlight ? (
-                        <b>{header}</b>
-                      ) : (
-                        header
-                      )}
+                    <th key={idx} className={`${alignClass} ${bgClass}`}>
+                      {isHighlight ? <b>{header}</b> : header}
                     </th>
                   );
                 })}
@@ -265,8 +262,8 @@ function ExportModal({
                       {row.qualified === null || row.qualified === undefined
                         ? "—"
                         : row.qualified
-                        ? "적격"
-                        : "부적격"}
+                          ? "적격"
+                          : "부적격"}
                     </td>
                   )}
                   {isEvidenceChecked && (

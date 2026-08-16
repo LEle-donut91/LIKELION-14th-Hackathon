@@ -19,9 +19,15 @@ export const getHomeSummary = async ({ year, month }) => {
   } catch (error) {
     if (error.response) {
       if (error.response.status === 401) {
-        alert(error.response.data.message || "인증이 필요합니다. 다시 로그인해주세요.");
+        alert(
+          error.response.data.message ||
+            "인증이 필요합니다. 다시 로그인해주세요.",
+        );
       } else {
-        alert(error.response.data.message || "데이터를 불러오는 중 오류가 발생했습니다.");
+        alert(
+          error.response.data.message ||
+            "데이터를 불러오는 중 오류가 발생했습니다.",
+        );
       }
     } else {
       console.error("네트워크 에러:", error.message);

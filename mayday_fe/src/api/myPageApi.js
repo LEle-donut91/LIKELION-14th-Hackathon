@@ -24,7 +24,9 @@ export const getMyPageSummary = async (year) => {
       qualifiedEvidenceCount: data.qualifiedEvidenceCount ?? 0,
 
       // 원 단위 금액을 만 원 단위로 전환 (예: 4,320,000 -> 432)
-      recognizedExpenseTenThousand: Math.floor((data.recognizedExpense ?? 0) / 10000),
+      recognizedExpenseTenThousand: Math.floor(
+        (data.recognizedExpense ?? 0) / 10000,
+      ),
 
       taxDDay: data.taxDDay,
       taxDueDate: data.taxDueDate,

@@ -6,7 +6,9 @@ import axiosRequests from "./axiosRequests";
  */
 export const getIncomeDetail = async (incomeId) => {
   try {
-    const response = await axiosInstance.get(axiosRequests.getIncomes(incomeId));
+    const response = await axiosInstance.get(
+      axiosRequests.getIncomes(incomeId),
+    );
     return response.data;
   } catch (error) {
     if (error.response && error.response.data) {
@@ -23,7 +25,7 @@ export const updateIncomeDetail = async (incomeId, payload) => {
   try {
     const response = await axiosInstance.patch(
       axiosRequests.patchIncomes(incomeId),
-      payload
+      payload,
     );
     return response.data;
   } catch (error) {
@@ -40,7 +42,7 @@ export const updateIncomeDetail = async (incomeId, payload) => {
 export const deleteIncomeDetail = async (incomeId) => {
   try {
     const response = await axiosInstance.delete(
-      axiosRequests.deleteIncomes(incomeId)
+      axiosRequests.deleteIncomes(incomeId),
     );
     return response.data;
   } catch (error) {
@@ -56,7 +58,9 @@ export const deleteIncomeDetail = async (incomeId) => {
  */
 export const getExpenseDetail = async (expenseId) => {
   try {
-    const response = await axiosInstance.get(axiosRequests.getExpense(expenseId));
+    const response = await axiosInstance.get(
+      axiosRequests.getExpense(expenseId),
+    );
     return response.data;
   } catch (error) {
     if (error.response && error.response.data) {
@@ -73,7 +77,7 @@ export const updateExpenseDetail = async (expenseId, payload) => {
   try {
     const response = await axiosInstance.patch(
       axiosRequests.patchExpense(expenseId),
-      payload
+      payload,
     );
     return response.data;
   } catch (error) {
@@ -90,7 +94,7 @@ export const updateExpenseDetail = async (expenseId, payload) => {
 export const deleteExpenseDetail = async (expenseId) => {
   try {
     const response = await axiosInstance.delete(
-      axiosRequests.deleteExpense(expenseId)
+      axiosRequests.deleteExpense(expenseId),
     );
     return response.data;
   } catch (error) {

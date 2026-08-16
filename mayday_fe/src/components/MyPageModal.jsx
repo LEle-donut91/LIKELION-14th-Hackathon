@@ -3,8 +3,8 @@ import { createPortal } from "react-dom";
 import { useNavigate } from "react-router-dom";
 import styles from "./MyPageModal.module.css";
 import MyPageModalIcon from "../assets/images/MyPageModalIcon.svg";
-import MyPageCheckedIcon from "../assets/images/MyPageCheckedIcon.svg"
-import HistoryUnCheckedIcon from "../assets/images/HistoryUnCheckedIcon.svg"
+import MyPageCheckedIcon from "../assets/images/MyPageCheckedIcon.svg";
+import HistoryUnCheckedIcon from "../assets/images/HistoryUnCheckedIcon.svg";
 import Button from "./Button"; // Button 공통 컴포넌트 import
 import { deleteUser } from "../api/myPageApi";
 
@@ -50,7 +50,8 @@ function MyPageModal({ isOpen, onClose, onWithdraw }) {
       navigate("/login");
     } catch (error) {
       const errorMessage =
-        error.response?.data?.message || "회원 탈퇴 처리 중 오류가 발생했습니다.";
+        error.response?.data?.message ||
+        "회원 탈퇴 처리 중 오류가 발생했습니다.";
       alert(errorMessage);
     } finally {
       setIsDeleting(false);
@@ -69,13 +70,9 @@ function MyPageModal({ isOpen, onClose, onWithdraw }) {
           <h3 className={styles.modalTitle}>정말 탈퇴하시겠어요?</h3>
           <span className={styles.modalDescription}>
             탈퇴하면{" "}
-            <b className={styles.highlight}>
-              계정의 개인정보와 모든 기록 정보
-            </b>
+            <b className={styles.highlight}>계정의 개인정보와 모든 기록 정보</b>
             (지출·수입 기록, 영수증 증빙, 온보딩 설정)가{" "}
-            <b className={styles.highlight}>
-              즉시 삭제되며 복구할 수 없어요.
-            </b>
+            <b className={styles.highlight}>즉시 삭제되며 복구할 수 없어요.</b>
           </span>
         </div>
 
@@ -84,7 +81,7 @@ function MyPageModal({ isOpen, onClose, onWithdraw }) {
           <p className={styles.noticeText}>
             신고에 필요한 기록이 있다면 탈퇴 전에{" "}
             <strong className={styles.noticeHighlight}>내보내기</strong>
-            <br/>로 파일을 먼저 보관해 주세요.
+            <br />로 파일을 먼저 보관해 주세요.
           </p>
         </div>
 
@@ -97,7 +94,11 @@ function MyPageModal({ isOpen, onClose, onWithdraw }) {
             onChange={handleCheckboxChange}
             disabled={isDeleting}
           />
-          {isChecked ? <img src={MyPageCheckedIcon} /> : <img src={HistoryUnCheckedIcon} />}
+          {isChecked ? (
+            <img src={MyPageCheckedIcon} />
+          ) : (
+            <img src={HistoryUnCheckedIcon} />
+          )}
           <span className={styles.checkboxLabel}>
             삭제되는 내용을 확인했어요
           </span>
