@@ -429,18 +429,23 @@ function History() {
                     ? `- ${item.amount}원`
                     : `+ ${item.amount}원`}
                 </strong>
-                {item.isQualified !== null &&
-                  item.isQualified !== undefined && (
-                    <span
-                      className={`${styles.badge} ${
-                        item.isQualified
-                          ? styles.badgeQualified
-                          : styles.badgeUnqualified
-                      }`}
-                    >
-                      {item.isQualified ? "적격" : "부적격"}
-                    </span>
-                  )}
+
+                {/* 수입일 때는 빈 <span> 공간을 남겨 높이 정렬을 유지 */}
+                {item.type === "expense" &&
+                item.isQualified !== null &&
+                item.isQualified !== undefined ? (
+                  <span
+                    className={`${styles.badge} ${
+                      item.isQualified
+                        ? styles.badgeQualified
+                        : styles.badgeUnqualified
+                    }`}
+                  >
+                    {item.isQualified ? "적격" : "부적격"}
+                  </span>
+                ) : (
+                  <span className={styles.badgePlaceholder} />
+                )}
               </div>
             </article>
           ))

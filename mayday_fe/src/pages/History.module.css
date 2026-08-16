@@ -264,7 +264,8 @@
   line-height: 120%;
 }
 
-.badge {
+.badge,
+.badgePlaceholder {
   font-size: 11px;
   font-weight: 700;
   border-radius: 6px;
@@ -276,6 +277,12 @@
   justify-content: center;
   line-height: 118%;
   box-sizing: border-box;
+}
+
+.badgePlaceholder {
+  /* 빈 공간 유지를 위한 투명 레이아웃 */
+  visibility: hidden;
+  display: inline-block;
 }
 
 /* 적격 뱃지 */
