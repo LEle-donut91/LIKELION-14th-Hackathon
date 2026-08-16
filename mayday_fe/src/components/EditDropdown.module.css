@@ -1,0 +1,124 @@
+/* Pretendard 웹폰트 import (Figma 코드 기준) */
+@import url("https://fonts.googleapis.com/css2?family=Pretendard+Variable:ital,wght@0,500;0,600;0,700&display=swap");
+
+/* 폰트 기본 설정 */
+body {
+  font-family:
+    "Pretendard Variable",
+    Pretendard,
+    -apple-system,
+    BlinkMacSystemFont,
+    system-ui,
+    Roboto,
+    "Helvetica Neue",
+    "Segoe UI",
+    "Apple SD Gothic Neo",
+    "Noto Sans KR",
+    "Malgun Gothic",
+    "Apple Color Emoji",
+    "Segoe UI Emoji",
+    "Segoe UI Symbol",
+    sans-serif;
+}
+
+/* 모든 요소 및 pseudo 클래스가 부모의 font-family를 상속받도록 설정 */
+*,
+::before,
+::after {
+  font-family: inherit;
+}
+
+.container {
+  position: relative;
+  width: 100%;
+  font-size: 14px;
+}
+
+/* 드롭다운 버튼 */
+.button {
+  width: 100%;
+  height: 50px;
+  background-color: #fff;
+  padding: 0 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  box-sizing: border-box;
+  border: 1px solid #d4d4d8;
+  border-radius: 12px;
+}
+
+.selectedText {
+  font-size: 15px;
+  font-weight: 600;
+  color: #101828;
+}
+
+.rotate {
+  transform: rotate(180deg);
+}
+
+/* 드롭다운 메뉴 팝업 목록 */
+.menuList {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  width: 100%;
+  max-height: 180px;
+  overflow-y: auto;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  background-color: #fff;
+  border: 1.1px solid #f3f4f6;
+  border-radius: 12px;
+  box-shadow:
+    0px 20px 25px -5px rgba(0, 0, 0, 0.1),
+    0px 8px 10px -6px rgba(0, 0, 0, 0.1);
+  z-index: 10;
+}
+
+/* 일반 항목 스타일 (li) */
+.menuItem {
+  height: 44px;
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1.1px solid #f3f4f6;
+  cursor: pointer;
+  color: #111;
+  box-sizing: border-box;
+}
+
+.menuItem:last-child {
+  border-bottom: none;
+}
+
+.menuItem:hover {
+  background-color: #f9fafb;
+}
+
+.itemText {
+  line-height: 118%;
+}
+
+.menuItem.selected {
+  height: 45.1px;
+  background-color: #f9fafb;
+  border-bottom: 1.1px solid #f9fafb;
+  color: #101828;
+}
+
+.menuItem.selected .itemText {
+  line-height: 20px;
+  font-weight: 600; /* 선택되면 글씨 굵게 */
+}
+
+/* 선택되었을 때 나타나는 아이콘 */
+.icon {
+  width: 14px;
+  height: 14px;
+  position: relative;
+}
