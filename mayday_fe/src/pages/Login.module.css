@@ -1,0 +1,78 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 0 24px;
+  justify-content: center;
+}
+.section {
+  margin-top: -60px;
+}
+.logo {
+  margin-bottom: 16px;
+}
+.loginIcon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.text {
+  font-size: 15px;
+  color: var(--text-secondary);
+  line-height: 1.5;
+  margin: 0 0 40px 0;
+  letter-spacing: -0.3px;
+}
+.inputWrap {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 18px;
+}
+.input {
+  width: 100%;
+  padding: 16px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  font-size: 15px;
+  color: var(--text);
+  outline: none;
+  transition: border-color 0.2s;
+}
+.input:focus {
+  border-color: var(--primary);
+}
+.input::placeholder {
+  color: var(--text-tertiary);
+}
+.errorMes {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 11px 13px;
+  background-color: #F8EEEE;
+  border-radius: 8px;
+  margin-bottom: 23px;
+}
+.errorMes span {
+  color: var(--danger);
+  font-size: 12px;
+  font-weight: 600;
+}
+.btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 14px;
+  margin-top: 24px;
+}
+.link {
+  font-size: 14px;
+  color: var(--primary);
+  cursor: pointer;
+  font-weight: 600;
+}
+.div {
+  color: var(--border);
+  font-size: 12px;
+}

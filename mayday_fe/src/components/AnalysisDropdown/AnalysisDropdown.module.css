@@ -1,0 +1,78 @@
+.container {
+  position: relative;
+  width: 100%;
+  font-family: Pretendard, Arial, sans-serif;
+  font-size: 15px;
+}
+.button {
+  width: 100%;
+  background-color: #fff;
+  padding: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  box-sizing: border-box;
+  border: 1px solid #E7E9EE;
+  border-radius: 12px;
+  outline: none;
+}
+.selectedText {
+  color: #16181D;
+  font-size: 15px;
+}
+.arrow {
+  width: 8px;
+  height: 8px;
+  border-right: 2px solid #9AA0AB;
+  border-bottom: 2px solid #9AA0AB;
+  transform: rotate(45deg);
+  transition: transform 0.2s ease;
+  margin-bottom: 4px;
+}
+.rotate {
+  transform: rotate(225deg);
+  margin-bottom: -4px;
+}
+.menuList {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  max-height: 240px;
+  overflow-y: auto;
+  margin: 0;
+  padding: 8px 0;
+  list-style: none;
+  background-color: #fff;
+  border: 1px solid #E7E9EE;
+  border-radius: 12px;
+  box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.08);
+  z-index: 100;
+}
+.menuItem {
+  height: 44px;
+  padding: 0 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  color: #16181D;
+  box-sizing: border-box;
+  transition: background-color 0.15s;
+}
+.menuItem:hover {
+  background-color: #F7F8FA;
+}
+.itemText {
+  line-height: 1.2;
+}
+.menuItem.selected {
+  background-color: #F9FAFB;
+}
+.menuItem.selected .itemText {
+  font-weight: 700;
+}
+.icon {
+  width: 14px;
+  height: 14px;
+}

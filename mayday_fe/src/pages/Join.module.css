@@ -1,0 +1,85 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+.content {
+  flex: 1;
+  padding: 24px;
+  overflow-y: auto;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.content::-webkit-scrollbar {
+  display: none;
+}
+.text {
+  font-size: 15px;
+  color: var(--text-secondary);
+  line-height: 1.5;
+  margin: 0 0 32px 0;
+  letter-spacing: -0.3px;
+}
+.inputWrap {
+  margin-bottom: 18px;
+}
+.input {
+  width: 100%;
+  padding: 17px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  font-size: 15px;
+  color: var(--text);
+  outline: none;
+  transition: border-color 0.2s;
+}
+.input:focus {
+  border-color: var(--primary);
+}
+.inputError {
+  border-color: var(--danger) !important;
+}
+.guide {
+  display: block;
+  font-size: 12px;
+  color: var(--text-tertiary);
+  margin-top: 8px;
+  padding-left: 4px;
+}
+.error {
+  display: block;
+  font-size: 12px;
+  color: var(--danger);
+  margin-top: 8px;
+  padding-left: 4px;
+}
+.check {
+  background-color: var(--background);
+  border-radius: 16px;
+  padding: 20px;
+  margin-top: 16px;
+  margin-bottom: 20px;
+}
+.Item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+  cursor: pointer;
+  font-size: 14px;
+  color: var(--text-secondary);
+  font-weight: 600;
+}
+.Item:last-child {
+  margin-bottom: 0;
+}
+.All {
+  font-weight: 700;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 16px;
+  font-size: 15px;
+  color: #3F4652;
+}
+.btn {
+  padding: 24px 24px 30px;
+}

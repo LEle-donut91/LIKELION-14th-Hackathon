@@ -1,10 +1,10 @@
 .defaultStyle {
   width: 100%;
-  background-color: var(--primary-1);
-  color: var(--bg-app);
+  background-color: var(--primary);
+  color: var(--surface);
   border: none;
   border-radius: 14px;
-  padding: 14px 0;
+  padding: 18px 0;
   font-size: 16px;
   font-weight: bold;
   cursor: pointer;

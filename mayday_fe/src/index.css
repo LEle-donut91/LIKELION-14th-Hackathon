@@ -1,32 +1,29 @@
 :root {
-  --bg-outer: #ececec;
-  --bg-app: #FFFFFF;
-  --primary-0: #111111;
-  --primary-1: #121212;
-  --primary-2: #3F3F46;
-  --gray-1: #D4D4D8;
-  --gray-2: #E4E4E7;
-  --text-1: #71717A;
-  --text-2: #A1A1AA;
-  --text-3: #52525B;
-  --border: #E5E5EA;
-  --badge-high: #F0FDF4;
-  --badge-high2: #00C950;
-  --badge-high-text: #008236;
-  --badge-mid: #FEFCE8;
-  --badge-mid2: #FDC700;
-  --badge-mid-text: #A65F00;
-  --badge-low: #FEF2F2;
-  --badge-low2: #FB2C36;
-  --badge-low-text: #C10007;
+  --primary: #3559c7;
+  --primary-pressed: #2a48a8;
+  --primary-tint: #eff2fb;
+  --text: #16181d;
+  --text-secondary: #6b7280;
+  --text-tertiary: #9aa0ab;
+  --border: #e7e9ee;
+  --surface: #ffffff;
+  --background: #f7f8fa;
+  --success: #2e7d5b;
+  --danger: #b4474c;
+  --warning: #9a6b1e;
   --font-family: 'Pretendard', sans-serif;
 }
 body {
   margin: 0;
   padding: 0px;
-  font-family: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Pretendard", sans-serif;
+  font-family: var(--font-family);
+  background-color: var(--background);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
 }
 * {
   box-sizing: border-box;
@@ -34,4 +31,11 @@ body {
 a {
   text-decoration: none;
   color: inherit;
+}
+button {
+  cursor: pointer;
+  font-family: var(--font-family);
+}
+input {
+  font-family: var(--font-family);
 }
