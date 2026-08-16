@@ -1,56 +1,74 @@
+/* 전체 Container */
 .container {
+  background-color: #f7f8fa;
+  font-family: 'Pretendard', sans-serif;
+}
+
+/* 상단 헤더 영역 */
+.header {
   width: 100%;
-  height: 100%;
-  background-color: #fafafa;
+  padding: 44px 16px 12.5px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #f7f8fa;
+  box-sizing: border-box;
+}
+
+/* 우측 상단 삭제 아이콘 */
+.deleteBtn {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  cursor: pointer;
+  object-fit: contain;
+  background-color: transparent;
+  border: none;
+}
+
+/* 메인 컨텐츠 영역 */
+.content {
+  flex: 1;
+  padding: 0 20px;
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
 }
 
-/* 상단 영역 */
-.header {
-  margin-top: 39px;
-  margin-left: 11px;
-}
-
-/* 메인 컨텐츠 영역 */
-.content {
-  padding: 16px 20px;
-  display: flex;
-  flex-direction: column;
-}
-
 .guideText {
-  margin: 0 0 16px 0;
-  font-size: 14px;
-  line-height: 1.18;
+  margin: 0 0 11.5px 0;
+  font-size: 13px;
+  line-height: 119%;
 }
 
 .guideText strong {
-  font-weight: bold;
+  font-weight: 700;
+  color: #16181d;
 }
 
 .guideText span {
-  color: #52525b;
+  font-weight: 500;
+  color: #6b7280;
 }
 
 /* 폼 카드 컨테이너 */
 .formCard {
-  background-color: #fff;
-  border: 1px solid #ececee;
-  border-radius: 20px;
-  padding: 21px;
+  box-shadow: 0px 1px 2px rgba(22, 24, 29, 0.05);
+  border-radius: 16px;
+  background-color: #ffffff;
+  padding: 18px;
   display: flex;
   flex-direction: column;
-  gap: 16px;
-  margin-bottom: 27px;
+  gap: 15px;
+  font-size: 12px;
+  color: #79808d;
   box-sizing: border-box;
 }
 
 .inputGroup {
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 5.5px;
   width: 100%;
 }
 
@@ -63,122 +81,128 @@
 .halfInputGroup {
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 5.5px;
   flex: 1;
 }
 
 .label {
+  line-height: 121%;
+  font-weight: 700;
+  color: #79808d;
   font-size: 12px;
-  font-weight: bold;
-  color: #a1a1aa;
-  line-height: 1.17;
 }
 
-/* Input & Select 커스텀 */
+/* Input & Select Box 커스텀 */
 .inputBox {
   height: 50px;
-  border: 1px solid #d4d4d8;
-  border-radius: 12px;
+  border-radius: 11px;
+  background-color: #ffffff;
+  border: 1px solid #e4e7ec;
   box-sizing: border-box;
   display: flex;
   align-items: center;
-  position: relative;
+  overflow: hidden;
 }
 
 .selectBox {
+  position: relative;
+  width: 100%;
   height: 50px;
   box-sizing: border-box;
-  display: flex;
-  align-items: center;
-  position: relative;
 }
 
-.input,
-.select {
+.input {
   width: 100%;
   height: 100%;
   border: none;
   background: transparent;
   padding: 0 15px;
-  font-size: 14px;
-  color: #111;
-  font-family: inherit;
+  font-family: 'Pretendard', sans-serif;
+  font-size: 15px;
+  color: #16181d;
   outline: none;
   box-sizing: border-box;
+  font-weight: 600;
 }
 
 .boldText {
-  font-weight: bold;
+  font-weight: 600;
+  font-size: 15px;
 }
 
-.select {
-  appearance: none;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  cursor: pointer;
-  padding-right: 35px;
+/* 커스텀 화살표 아이콘 */
+.arrowIcon {
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  width: 8px;
+  height: 8px;
+  border-right: 2px solid #71717a;
+  border-bottom: 2px solid #71717a;
+  box-sizing: border-box;
+  transform: rotate(45deg);
+  pointer-events: none;
 }
 
-/* 라디오 버튼 커스텀 */
+/* 라디오 버튼 (적격/부적격) 커스텀 */
 .radioGroup {
   display: flex;
-  gap: 8px;
-  height: 46px;
+  gap: 10px;
+  height: 50px;
 }
 
 .hiddenRadio {
   display: none;
 }
 
-.arrowIcon {
-  position: absolute;
-  right: 18px;
-  width: 8px;
-  height: 8px;
-  border-right: 2px solid #71717a;
-  border-bottom: 2px solid #71717a;
-  transform: rotate(45deg);
-  pointer-events: none;
-}
-
 .radioBtn {
   flex: 1;
-  height: 46px;
-  border: 1px solid #d4d4d8;
-  border-radius: 12px;
+  height: 50px;
+  border-radius: 10px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 13.5px;
-  color: #71717a;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: -0.3px;
   cursor: pointer;
-  user-select: none;
   box-sizing: border-box;
-  background-color: transparent;
+  background-color: #ffffff;
+  border: 1px solid #e4e7ec;
+  color: #8b919c;
   transition: all 0.2s ease;
 }
 
 .radioBtn.selected {
-  background-color: #111;
-  color: #fff;
-  font-weight: bold;
-  border-color: #111;
+  background-color: #ebeef9;
+  border: 1.5px solid #3559c7;
+  color: #2a479f;
 }
 
-/* 하단 버튼 */
+/* 하단 수정 저장하기 버튼 영역 */
 .btnGroup {
+  margin-top: 97.5px;
+  background-color: #ffffff;
+  border-top: 1px solid #e9ebf0;
+  margin-left: -20px;
+  margin-right: -20px;
+  padding: 13px 20px 18px 20px;
   display: flex;
-  flex-direction: column;
-  gap: 8.1px;
+  justify-content: center;
+  align-items: center;
 }
 
-.deleteBtn {
-  height: 52px;
-  background-color: transparent;
-  color: #71717a;
-  font-size: 14.5px;
-  font-weight: bold;
-  border: 1px solid #d4d4d8;
-  border-radius: 14px;
+.btnGroup > div {
+  width: 100%;
+  max-width: 350px;
+  height: 54px;
+  border-radius: 12px;
+  box-shadow: 0px 1px 2px rgba(22, 24, 29, 0.06);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: 700;
   cursor: pointer;
 }

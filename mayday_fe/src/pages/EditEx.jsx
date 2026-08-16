@@ -5,6 +5,7 @@ import Header from "../components/Header";
 import Button from "../components/Button";
 import EditDropdown from "../components/EditDropdown";
 import { getExpenseDetail, updateExpenseDetail, deleteExpenseDetail } from "../api/editApi";
+import EditDeleteIcon from "../assets/images/EditDeleteIcon.svg";
 
 // 증빙 유형 Enum <-> 한글 매핑
 const EVIDENCE_TYPE_MAP = {
@@ -284,6 +285,7 @@ function EditEx() {
     {/* 헤더 영역 */}
     <div className={styles.header}>
         <Header text="경비 기록 수정" />
+        <img className={styles.deleteBtn} onClick={handleDelete} src={EditDeleteIcon} />
     </div>
 
       {/* 메인 컨텐츠 */}
@@ -434,9 +436,6 @@ function EditEx() {
           <div onClick={handleSave}>
             <Button text="수정 저장하기" />
           </div>
-          <button className={styles.deleteBtn} onClick={handleDelete}>
-            이 기록 삭제하기
-          </button>
         </div>
       </main>
     </div>

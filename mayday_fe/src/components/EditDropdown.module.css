@@ -1,7 +1,7 @@
 .container {
   position: relative;
   width: 100%;
-  font-family: Pretendard, Arial, sans-serif;
+  font-family: 'Pretendard', sans-serif;
   font-size: 14px;
 }
 
@@ -21,6 +21,9 @@
 }
 
 .selectedText {
+  font-family: 'Pretendard', sans-serif;
+  font-size: 15px;
+  font-weight: 600;
   color: #101828;
 }
 
