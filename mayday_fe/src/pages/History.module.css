@@ -265,6 +265,7 @@ body {
   justify-content: center;
   margin-left: 12px;
   flex: 1;
+  min-width: 0; /* 부모 너비를 넘지 못하게 고정 */
 }
 
 .recordTitle {
@@ -273,6 +274,11 @@ body {
   color: #16181d;
   letter-spacing: -0.3px;
   line-height: 120%;
+
+  /* CSS 말줄임표 한 줄 처리 */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .recordDesc {
