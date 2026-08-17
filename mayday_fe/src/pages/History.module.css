@@ -333,7 +333,7 @@ body {
 /* 하단 안내 및 다운로드 영역 (너비 390px, 가로 가운데 고정) */
 .footer {
   position: fixed;
-  bottom: 0;
+  bottom: 4%;
   left: 50%;
   transform: translateX(-50%);
   width: 100%;
@@ -348,4 +348,5 @@ body {
   box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.05);
   box-sizing: border-box;
   z-index: 100;
+  border-radius: 0 0 20px 20px;
 }
