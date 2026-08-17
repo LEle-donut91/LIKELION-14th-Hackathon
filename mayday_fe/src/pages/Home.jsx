@@ -9,6 +9,7 @@ import HomeRecordIcon from "../assets/images/HomeRecordIcon.svg";
 import NavBar from "../components/NavBar";
 import Header from "../components/Header";
 import { getHomeSummary } from "../api/homeApi";
+import HomeIcon2 from "../assets/images/HomeIcon2.svg";
 
 function Home() {
   const navigate = useNavigate();
@@ -70,9 +71,10 @@ function Home() {
       {/* 헤더 */}
       <header className={styles.header}>
         <div className={styles.headerLeft}>
-          <b className={styles.logo}>
+          {/* <b className={styles.logo}>
             <span className={styles.logoText}>메이데이</span>
-          </b>
+          </b>*/}
+          <img src={HomeIcon2} style={{ width: '100px', paddingBottom: '5px' }}/>
           <div className={styles.dDayBadge}>
             <span className={styles.dDay}>
               5월 신고 마감일 D-{isLoading ? "로딩중..." : taxDDay}

@@ -23,7 +23,7 @@ function NavBar() {
         <div className={styles.centerButton}>
           <img src={addIcon} className={styles.addIcon} />
         </div>
-        <span className={styles.label} style={{ color: '#8B919C' }}>등록</span>
+        <span className={styles.label} style={{ color: '#111111' }}>등록</span>
       </Link>
 
       <Link to="/mypage" className={styles.navItem}>
