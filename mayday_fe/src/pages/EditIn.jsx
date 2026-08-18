@@ -78,6 +78,26 @@ const calculateAmounts = (
   return { netAmount: net, grossAmount: gross, taxAmount: tax };
 };
 
+// 날짜(화면 표시용): "YYYY.MM.DD" 형식으로 변환
+const formatDisplayDate = (rawDate) => {
+  if (!rawDate) return "";
+  const digits = String(rawDate).replace(/[^0-9]/g, "");
+  if (digits.length === 8) {
+    return `${digits.slice(0, 4)}.${digits.slice(4, 6)}.${digits.slice(6, 8)}`;
+  }
+  return rawDate;
+};
+
+// 날짜(API 전송용): "YYYY-MM-DD" 형식으로 변환
+const formatApiDate = (rawDate) => {
+  if (!rawDate) return "";
+  const digits = String(rawDate).replace(/[^0-9]/g, "");
+  if (digits.length === 8) {
+    return `${digits.slice(0, 4)}-${digits.slice(4, 6)}-${digits.slice(6, 8)}`;
+  }
+  return String(rawDate).replace(/\./g, "-");
+};
+
 // 수입 항목 드롭다운 메뉴 리스트
 const categoryItems = ["매출", "기타(수입)"];
 
@@ -114,16 +134,19 @@ function EditIn() {
         if (response.status === 200 && response.data) {
           const data = response.data;
 
+          // API 요청 후 Response로 들어온 "YYYY-MM-DD" => "YYYY.MM.DD" (UI 표시용)으로 변환
+          const formattedDisplayDate = formatDisplayDate(data.date);
+
           // GET으로 받아온 원본 거래처 / 날짜를 저장 (placeholder 용도)
           setInitialData({
             merchant: data.merchantName || "",
-            date: data.date || "",
+            date: formattedDisplayDate, // YYYY.MM.DD 형식으로 변환
           });
 
           setFormData({
             incomeId: data.incomeId,
             merchant: data.merchantName || "",
-            date: data.date || "",
+            date: formattedDisplayDate, // YYYY.MM.DD 형식으로 변환
             isWithholding: data.withholding ?? true,
             netAmount: data.amount || 0,
             grossAmount: data.grossAmount || 0,
@@ -149,8 +172,29 @@ function EditIn() {
     // 공제 없음일 때는 taxAmount 변경 무시
     if (!formData.isWithholding && name === "taxAmount") return;
 
-    // 금액 관련 3개 필드 변경 처리
-    if (["netAmount", "grossAmount", "taxAmount"].includes(name)) {
+    if (name === "date") {
+      // 숫자만 추출하고 최대 8자리로 제한
+      let onlyNumbers = value.replace(/[^0-9]/g, "");
+      if (onlyNumbers.length > 8) {
+        onlyNumbers = onlyNumbers.slice(0, 8);
+      }
+
+      // 실시간 YYYY.MM.DD 포맷팅 적용
+      let formattedDate = "";
+      if (onlyNumbers.length < 5) {
+        formattedDate = onlyNumbers;
+      } else if (onlyNumbers.length < 7) {
+        formattedDate = `${onlyNumbers.slice(0, 4)}.${onlyNumbers.slice(4)}`;
+      } else {
+        formattedDate = `${onlyNumbers.slice(0, 4)}.${onlyNumbers.slice(4, 6)}.${onlyNumbers.slice(6)}`;
+      }
+
+      setFormData((prev) => ({
+        ...prev,
+        date: formattedDate,
+      }));
+    } else if (["netAmount", "grossAmount", "taxAmount"].includes(name)) {
+      // 금액 관련 3개 필드 변경 처리
       const calculated = calculateAmounts(value, formData.isWithholding, name);
       setFormData((prev) => ({
         ...prev,
@@ -220,7 +264,7 @@ function EditIn() {
   const handleSave = async () => {
     if (
       !formData.merchant.trim() ||
-      !formData.date.trim() ||
+      !String(formData.date).trim() ||
       formData.netAmount === "" ||
       formData.netAmount === null
     ) {
@@ -228,17 +272,29 @@ function EditIn() {
       return;
     }
 
-    const dateRegex = /^\d{4}[.-]\d{2}[.-]\d{2}$/;
+    // 사용자가 입력한 날짜와 금액을 숫자만 추출하여 rawDateDigits(날짜)와 cleanNet(금액)에 저장
+    const rawDateDigits = String(formData.date).replace(/[^0-9]/g, "");
     const cleanNet = Number(formData.netAmount);
 
-    if (!dateRegex.test(formData.date) || isNaN(cleanNet)) {
-      alert("형식에 맞춰 내용을 입력해주세요");
+    // 입력한 금액이 숫자인지 확인
+    if (isNaN(cleanNet)) {
+      alert("금액을 숫자로 입력해주세요.");
       return;
     }
 
+    // 입력한 날짜가 정확히 8자리인지 먼저 확인
+    if (rawDateDigits.length !== 8) {
+      alert("날짜를 숫자 8자리(예: 20010101) 올바른 형식으로 입력해주세요.");
+      return;
+    }
+
+    // 8자리가 확인된 후 API 전송용 YYYY-MM-DD 변환
+    const requestDate = formatApiDate(formData.date);
+    const dateRegex = /^\d{4}-\d{2}-\d{2}$/;
+
     // API 요청 규격에 맞춘 Payload 생성
     const patchPayload = {
-      date: formData.date.replace(/\./g, "-"), // yyyy-mm-dd 서식 맞춤
+      date: requestDate, // yyyy-mm-dd 형태로 변환하여 전송
       merchantName: formData.merchant,
       amount: formData.grossAmount, // 공제 전 금액
       receivedAmount: cleanNet, // 실수령액
@@ -318,6 +374,7 @@ function EditIn() {
                   type="text"
                   name="date"
                   className={styles.input}
+                  maxLength={10}
                   value={isLoading ? "로딩중..." : formData.date}
                   placeholder={isLoading ? "로딩중..." : initialData.date}
                   onChange={handleChange}
