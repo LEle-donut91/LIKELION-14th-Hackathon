@@ -452,9 +452,6 @@ function Export() {
             </div>
             <span className={styles.arrowIcon} />
           </button>
-          <p className={styles.noticeText}>
-            체크한 항목이 열로 반영돼요 · 좌우로 밀어 전체 열 확인
-          </p>
         </section>
 
         {/* 파일 형식 섹션 */}

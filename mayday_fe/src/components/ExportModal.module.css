@@ -93,6 +93,7 @@ body {
 /* 서브 헤더 (건수 정보 & 안내) */
 .subHeader {
   display: flex;
+  justify-content: space-between;
   align-items: center;
   height: 14.5px;
   margin-bottom: 12px;
@@ -105,8 +106,12 @@ body {
   color: #8b919c;
 }
 
+
 .scrollHint {
-  display: none;
+  font-size: 12px;
+  line-height: 121%;
+  font-weight: 500;
+  color: #8b919c;
 }
 
 /* 표(Table) 스크롤 영역 */
@@ -234,7 +239,6 @@ body {
   position: absolute;
   top: 0;
   left: 0;
-  width: 143.1px;
   height: 8px;
   background-color: #3559c7;
   border-radius: 99px;
@@ -248,7 +252,6 @@ body {
 
 /* 하단 문구 및 안내 상자 */
 .noticeContainer {
-  width: 318px;
   min-height: 64.4px;
   border-radius: 10px;
   background-color: #f7f8fa;
