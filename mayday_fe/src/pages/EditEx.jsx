@@ -149,32 +149,6 @@ function EditEx() {
     }
   }, [expenseId]);
 
-  // onFocus 직전의 필드별 값 보관용 ref
-  const previousValuesRef = useRef({});
-
-  // 클릭(포커스) 시 직전 값을 기록하고 입력창을 비움 (onFocus 이벤트)
-  const handleFocus = (e) => {
-    const { name, value } = e.target;
-    previousValuesRef.current[name] = value; // 포커스 직전 값 저장
-
-    setFormData((prev) => ({
-      ...prev,
-      [name]: "",
-    }));
-  };
-
-  // 포커스 해제(블러) 시 아무것도 입력 안 한 상태면 '직전 값'으로 복구 (onBlur 이벤트)
-  const handleBlur = (e) => {
-    const { name, value } = e.target;
-    if (!value.trim()) {
-      const prevValue = previousValuesRef.current[name] || "";
-      setFormData((prev) => ({
-        ...prev,
-        [name]: prevValue,
-      }));
-    }
-  };
-
   const handleChange = (e) => {
     const { name, value } = e.target;
 
