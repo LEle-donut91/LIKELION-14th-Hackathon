@@ -110,6 +110,14 @@ body {
   margin: 16.5px 20px 0px;
 }
 
+/* 파일 형식 섹션 스타일 */
+.sectionFile {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 32.5px 20px 0px;
+}
+
 .sectionTitle {
   font-size: 15px;
   letter-spacing: -0.37px;
@@ -348,10 +356,10 @@ body {
 }
 
 .footerNotice {
-  margin-top: 14px;
+  margin-top: 11px;
+  margin-left: 20px;
   font-size: 12px;
   line-height: 20.4px;
   font-weight: 600;
   color: #a8adb7;
-  text-align: center;
 }

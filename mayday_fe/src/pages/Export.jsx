@@ -455,7 +455,7 @@ function Export() {
         </section>
 
         {/* 파일 형식 섹션 */}
-        <section className={styles.section}>
+        <section className={styles.sectionFile}>
           <h2 className={styles.sectionTitle}>파일 형식</h2>
           <div className={styles.formatGroup}>
             <button
