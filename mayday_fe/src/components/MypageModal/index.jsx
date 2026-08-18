@@ -2,11 +2,11 @@ import React, { useState, useEffect } from "react";
 import { createPortal } from "react-dom";
 import { useNavigate } from "react-router-dom";
 import styles from "./MyPageModal.module.css";
-import MyPageModalIcon from "../assets/images/MyPageModalIcon.svg";
-import MyPageCheckedIcon from "../assets/images/MyPageCheckedIcon.svg";
-import HistoryUnCheckedIcon from "../assets/images/HistoryUnCheckedIcon.svg";
-import Button from "./Button"; // Button 공통 컴포넌트 import
-import { deleteUser } from "../api/myPageApi";
+import MyPageModalIcon from "../../assets/images/MyPageModalIcon.svg";
+import MyPageCheckedIcon from "../../assets/images/MyPageCheckedIcon.svg";
+import HistoryUnCheckedIcon from "../../assets/images/HistoryUnCheckedIcon.svg";
+import Button from "../Button"; // Button 공통 컴포넌트 import
+import { deleteUser } from "../../api/myPageApi";
 
 function MyPageModal({ isOpen, onClose, onWithdraw }) {
   const [isChecked, setIsChecked] = useState(false);

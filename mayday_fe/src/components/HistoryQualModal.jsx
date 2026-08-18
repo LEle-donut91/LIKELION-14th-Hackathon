@@ -1,7 +1,7 @@
 /* 적격 여부 필터링하는 모달 (바텀 시트) */
 import React, { useState, useEffect, useMemo } from "react";
 import HistoryModal from "./HistoryModal";
-import styles from "./HistoryModal.module.css";
+import styles from "./HistoryModal/HistoryModal.module.css";
 import HistoryCircleCheckedIcon from "../assets/images/HistoryCircleCheckedIcon.svg";
 
 const QUALIFIED_OPTIONS = [

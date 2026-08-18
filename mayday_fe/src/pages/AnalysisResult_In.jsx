@@ -339,6 +339,7 @@ function AnalysisResult_In() {
                 selectedValue={current.category}
                 onSelect={(val) => handleDropdownChange("category", val)}
               />
+              <span className={styles.arrowIcon} />
             </div>
             <span className={styles.helperText}>매출 · 기타(수입) 중 선택</span>
           </div>

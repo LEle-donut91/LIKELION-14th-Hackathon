@@ -1,7 +1,7 @@
 /* 증빙 유형 필터링하는 모달 (바텀 시트) */
 import React, { useState, useEffect, useMemo } from "react";
 import HistoryModal from "./HistoryModal";
-import styles from "./HistoryModal.module.css";
+import styles from "./HistoryModal/HistoryModal.module.css";
 import HistorySquareCheckedIcon from "../assets/images/HistorySquareCheckedIcon.svg";
 import HistoryUnCheckedIcon from "../assets/images/HistoryUnCheckedIcon.svg";
 
