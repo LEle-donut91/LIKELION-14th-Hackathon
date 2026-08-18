@@ -196,7 +196,6 @@ function History() {
         const transformed = transformApiData(res.data);
         setSearchResults(transformed);
         setIsSearched(true);
-        alert(`${transformed.length}건이 검색되었습니다.`);
       }
     } catch (err) {
       alert(err.response?.data?.message || "검색 도중 오류가 발생했습니다.");
