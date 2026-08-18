@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "./Home.module.css";
 import HomeAiIcon from "../assets/images/HomeAiIcon.svg";
@@ -14,6 +14,9 @@ import HomeIcon2 from "../assets/images/HomeIcon2.svg";
 function Home() {
   const navigate = useNavigate();
 
+  // API 요청 중복 실행 방지용 플래그
+  const isFetchedRef = useRef(false);
+
   const [homeData, setHomeData] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -24,6 +27,10 @@ function Home() {
   const previousYear = currentYear - 1; // 직전년도
 
   useEffect(() => {
+    // API 요청 중복 실행 방지
+    if (isFetchedRef.current) return;
+    isFetchedRef.current = true;
+
     const fetchHomeSummary = async () => {
       try {
         setIsLoading(true);
