@@ -19,9 +19,6 @@ body {
     "Segoe UI Emoji",
     "Segoe UI Symbol",
     sans-serif;
-  margin: 0;
-  padding: 0;
-  background-color: #f7f8fa;
 }
 
 /* 모든 요소 및 pseudo 클래스가 부모의 font-family를 상속받도록 설정 */
@@ -31,16 +28,12 @@ body {
   font-family: inherit;
 }
 
-/* 최상위 레이아웃 (너비 390px, 가로 중앙 정렬) */
+/* 최상위 컨테이너 */
 .container {
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
-  max-width: 390px;
-  margin: 0 auto;
+  height: 100%;
   background-color: #f7f8fa;
-  box-sizing: border-box;
-  position: relative;
 }
 
 /* 상단 헤더 영역 */
@@ -65,17 +58,15 @@ body {
   border: none;
 }
 
-/* 메인 컨텐츠 영역 - 하단 고정 버튼 높이만큼 패딩 확보 */
 .content {
-  flex: 1;
-  padding: 0 20px calc(110px + env(safe-area-inset-bottom, 0px)) 20px;
-  display: flex;
-  flex-direction: column;
-  box-sizing: border-box;
+  flex: 1 1;
+  overflow-y: auto;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 
 .guideText {
-  margin: 0 0 12.5px 0;
+  margin: 0 20px 12.5px;
   font-size: 13px;
   line-height: 119%;
 }
@@ -102,6 +93,7 @@ body {
   font-size: 12px;
   color: #79808d;
   box-sizing: border-box;
+  margin: 0 20px;
 }
 
 .inputGroup {
@@ -217,25 +209,10 @@ body {
   color: #2a479f;
 }
 
-/* 하단 수정 저장하기 버튼 영역 (화면 하단 390px 중앙 고정) */
+/* 하단 수정 저장하기 버튼 영역*/
 .btnGroup {
-  position: fixed;
-  bottom: 4%;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 100%;
-  max-width: 390px;
+  padding: 12px 20px;
+  border-top: 1px solid #f0f0f0;
   background-color: #ffffff;
-  border-top: 1px solid #e9ebf0;
-  padding: 13px 20px calc(18px + env(safe-area-inset-bottom, 0px)) 20px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  box-sizing: border-box;
-  z-index: 100;
   border-radius: 0 0 20px 20px;
-}
-
-.btnGroup > div {
-  width: 100%;
 }
