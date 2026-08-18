@@ -217,6 +217,7 @@ function ExportModal({
             {headers.length}개 열 · 상위 {topRecordsCount}건 · 전체 {totalCount}
             건
           </span>
+          <span className={styles.scrollHint}>← 좌우로 밀어 확인 →</span>
         </div>
 
         {/* 테이블 영역 (마우스 드래그 스크롤 지원) */}
@@ -290,7 +291,10 @@ function ExportModal({
         >
           <div
             className={styles.scrollIndicatorThumb}
-            style={{ transform: `translateX(${thumbLeft}px)` }}
+            style={{
+              width: `${thumbWidth}px`,
+              transform: `translateX(${thumbLeft}px)`,
+            }}
             onMouseDown={handleThumbMouseDown}
             onTouchStart={handleThumbTouchStart}
           />

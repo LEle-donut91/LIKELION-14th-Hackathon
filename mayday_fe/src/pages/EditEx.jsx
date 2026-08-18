@@ -104,7 +104,7 @@ const calculateRemark = (amount, isQualified) => {
 function EditEx() {
   // API 요청 중복 실행 방지용 플래그
   const isFetchedRef = useRef(false);
-  
+
   const navigate = useNavigate();
   // URL Parameter에서 expenseId 파라미터를 추출
   const { expenseId } = useParams();
@@ -504,14 +504,14 @@ function EditEx() {
             </div>
           </div>
         </div>
-
-        {/* 버튼 영역 */}
-        <div className={styles.btnGroup}>
-          <div onClick={handleSave}>
-            <Button text="수정 저장하기" />
-          </div>
-        </div>
       </main>
+
+      {/* 버튼 영역 */}
+      <div className={styles.btnGroup}>
+        <div onClick={handleSave}>
+          <Button text="수정 저장하기" />
+        </div>
+      </div>
     </div>
   );
 }
