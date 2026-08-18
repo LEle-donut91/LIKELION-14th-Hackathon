@@ -8,6 +8,8 @@ import AnalysisWarning from "../assets/images/AnalysisWarning.svg"
 import AnalysisWarning2 from "../assets/images/AnalysisWarning2.svg"
 import AnalysisReason from "../assets/images/AnalysisReason.svg";
 
+import axiosInstance from '../api/axiosInstance';
+
 const EVIDENCE_TYPE_MAP = {
   TAX_INVOICE: "세금계산서",
   INVOICE: "계산서",
@@ -37,77 +39,32 @@ const evidenceItems = Object.values(EVIDENCE_TYPE_MAP);
 function AnalysisResult_Ex() {
   const navigate = useNavigate();
   const location = useLocation();
-  const rawItems = location.state?.items || [];
+
+  const rawAnalyzedData = location.state?.rawAnalyzedData || [];
 
   const [results, setResults] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [isAnalyzing, setIsAnalyzing] = useState(true);
   const previousValuesRef = useRef({});
 
   useEffect(() => {
-    const fetchAnalysis = async () => {
-      if (rawItems.length === 0) {
-        alert("분석할 항목이 없습니다.");
-        navigate(-1);
-        return;
-      }
-      const token = localStorage.getItem('accessToken');
-      const analyzedData = [];
-
-      for (const item of rawItems) {
-        try {
-          const res = await fetch('/expenses/analyze', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-              'Authorization': `Bearer ${token}`
-            },
-            body: JSON.stringify({
-              sourceType: item.type === 'image' ? 'OCR' : 'TEXT',
-              sourceId: item.sourceId,
-              rawText: item.rawText,
-              withholdingTaxApplied: false
-            })
-          });
-          const result = await res.json();
-
-          if (res.status === 200 && result.data) {
-            analyzedData.push({
-              analysisId: result.data.analysisId,
-              date: result.data.date.replace(/-/g, "."),
-              merchant: result.data.merchantName,
-              item: result.data.itemName,
-              amount: String(result.data.amount),
-              proofType: EVIDENCE_TYPE_MAP[result.data.evidenceType] || "해당 없음",
-              category: CATEGORY_MAP[result.data.category] || "기타(비용)",
-              qualifiedEvidence: result.data.qualifiedEvidence,
-              reason: result.data.reason
-            });
-          } else {
-            throw new Error(result.message);
-          }
-        } catch (error) {
-          console.error("AI 분석 실패:", error);
-          // [임시 시연용 Mock 데이터] API 실패 시에도 화면을 볼 수 있도록 처리
-          analyzedData.push({
-            analysisId: `ana_mock_${Date.now()}`,
-            date: "2026.08.03",
-            merchant: "한정식집",
-            item: "미팅",
-            amount: "84000",
-            proofType: "해당 없음",
-            category: "기업업무추진비",
-            qualifiedEvidence: false,
-            reason: "간이영수증은 적격증빙에 해당하지 않아 부적격으로 분류했어요."
-          });
-        }
-      }
-      setResults(analyzedData);
-      setIsAnalyzing(false);
-    };
-
-    fetchAnalysis();
-  }, [rawItems, navigate]);
+    if (rawAnalyzedData.length === 0) {
+      alert("분석된 항목이 없습니다.");
+      navigate('/record');
+      return;
+    }
+    const formattedData = rawAnalyzedData.map(data => ({
+      analysisId: data.analysisId,
+      date: data.date.replace(/-/g, "."),
+      merchant: data.merchantName,
+      item: data.itemName,
+      amount: String(data.amount),
+      proofType: EVIDENCE_TYPE_MAP[data.evidenceType] || "해당 없음",
+      category: CATEGORY_MAP[data.category] || "기타(비용)",
+      qualifiedEvidence: data.qualifiedEvidence,
+      reason: data.reason
+    }));
+    setResults(formattedData);
+  }, [rawAnalyzedData, navigate]);
 
   const handleFocus = (e) => {
     const { name, value } = e.target;
@@ -166,7 +123,6 @@ function AnalysisResult_Ex() {
   };
 
   const handleSaveAll = async () => {
-    const token = localStorage.getItem('accessToken');
     let successCount = 0;
 
     for (const current of results) {
@@ -195,27 +151,19 @@ function AnalysisResult_Ex() {
       };
 
       try {
-        const res = await fetch('/expenses', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`
-          },
-          body: JSON.stringify(patchPayload)
-        });
-        if (res.status === 201) {
+        const res = await axiosInstance.post('/expenses', patchPayload);
+        if (res.status === 200 || res.status === 201) {
           successCount++;
         } else {
-          // [임시 시연용] 백엔드 연결 전 테스트 통과 처리
-          successCount++; 
+          alert("저장에 실패한 항목이 있습니다.");
         }
       } catch (error) {
         console.error("저장 실패", error);
-        // [임시 시연용] 백엔드 연결 전 테스트 통과 처리
-        successCount++;
+        const errMsg = error.response?.data?.message || "서버와 통신 중 오류가 발생했습니다.";
+        alert(errMsg);
       }
     }
-    const totalSavedAmount = results.reduce((sum, item) => sum + Number(item.amount), 0);
+    const totalSavedAmount = successCount > 0 ? results.reduce((sum, item) => sum + Number(item.amount), 0) : 0;    
     navigate('/analysis-record', { 
       state: { 
         type: 'expense', 
@@ -255,7 +203,6 @@ function AnalysisResult_Ex() {
     );
   };
 
-  if (isAnalyzing) return <div className={styles.loadingContainer}>분석 중...</div>;
   if (!results.length) return null;
 
   const current = results[currentIndex];

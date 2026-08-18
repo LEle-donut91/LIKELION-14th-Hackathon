@@ -7,6 +7,8 @@ import AnalysisDropdown from "../components/AnalysisDropdown";
 import AnalysisReason from "../assets/images/AnalysisReason.svg";
 import AnalysisWarning2 from "../assets/images/AnalysisWarning2.svg";
 
+import axiosInstance from '../api/axiosInstance';
+
 const CATEGORY_MAP = {
   SALES: "매출",
   OTHER_INCOME: "기타(수입)",
@@ -44,78 +46,35 @@ const calculateAmounts = (valueStr, isWithholding, sourceField = "netAmount") =>
 function AnalysisResult_In() {
   const navigate = useNavigate();
   const location = useLocation();
-  const rawItems = location.state?.items || [];
-  const initialTaxSetting = location.state?.tax === '3.3';
+  const rawAnalyzedData = location.state?.rawAnalyzedData || [];
 
   const [results, setResults] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [isAnalyzing, setIsAnalyzing] = useState(true);
   const previousValuesRef = useRef({});
 
   useEffect(() => {
-    const fetchAnalysis = async () => {
-      if (rawItems.length === 0) {
-        alert("분석할 항목이 없습니다.");
-        navigate(-1);
-        return;
-      }
-      
-      const token = localStorage.getItem('accessToken');
-      const analyzedData = [];
-      for (const item of rawItems) {
-        try {
-          const res = await fetch('/expenses/analyze', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-              'Authorization': `Bearer ${token}`
-            },
-            body: JSON.stringify({
-              sourceType: item.type === 'image' ? 'OCR' : 'TEXT',
-              sourceId: item.sourceId,
-              rawText: item.rawText,
-              withholdingTaxApplied: initialTaxSetting
-            })
-          });
-          const result = await res.json();
-          if (res.status === 200 && result.data) {
-            const baseAmount = result.data.amount || 0;
-            const calculated = calculateAmounts(baseAmount, initialTaxSetting, "netAmount");
-            analyzedData.push({
-              analysisId: result.data.analysisId,
-              date: result.data.date.replace(/-/g, "."),
-              merchant: result.data.merchantName,
-              item: result.data.itemName || "수입",
-              isWithholding: initialTaxSetting,
-              ...calculated,
-              category: CATEGORY_MAP[result.data.category] || "매출",
-              reason: result.data.reason
-            });
-          } else {
-            throw new Error(result.message);
-          }
-        } catch (error) {
-          console.error("AI 분석 실패:", error);
-          // [임시 시연용 Mock 데이터]
-          const baseAmount = 967000;
-          const calculated = calculateAmounts(baseAmount, initialTaxSetting, "netAmount");
-          analyzedData.push({
-            analysisId: `ana_mock_${Date.now()}`,
-            date: "2026.08.02",
-            merchant: "크몽",
-            item: "디자인 용역",
-            isWithholding: initialTaxSetting,
-            ...calculated,
-            category: "매출",
-            reason: "원천징수 후 입금된 용역 대금으로 판단했어요."
-          });
-        }
-      }
-      setResults(analyzedData);
-      setIsAnalyzing(false);
-    };
-    fetchAnalysis();
-  }, [rawItems, initialTaxSetting, navigate]);
+    if (rawAnalyzedData.length === 0) {
+      alert("분석된 항목이 없습니다.");
+      navigate('/record');
+      return;
+    }
+    const formattedData = rawAnalyzedData.map(data => {
+      const baseAmount = data.amount || 0;
+      const isWithholding = !!data.isWithholding;
+      const calculated = calculateAmounts(baseAmount, isWithholding, "netAmount");
+      return {
+        analysisId: data.analysisId,
+        date: data.date.replace(/-/g, "."),
+        merchant: data.merchantName,
+        item: data.itemName || "수입",
+        isWithholding,
+        ...calculated,
+        category: CATEGORY_MAP[data.category] || "매출",
+        reason: data.reason
+      };
+    });
+    setResults(formattedData);
+  }, [rawAnalyzedData, navigate]);
 
   const handleFocus = (e) => {
     const { name, value } = e.target;
@@ -171,15 +130,16 @@ function AnalysisResult_In() {
     };
     setResults(updated);
   };
+
   const handleDropdownChange = (name, value) => {
     const updated = [...results];
     updated[currentIndex][name] = value;
     setResults(updated);
   };
+
   const handleKeyDown = (e, fieldName) => {
     const current = results[currentIndex];
     if (!current.isWithholding && fieldName === "taxAmount") return;
-
     if (e.key === "Backspace") {
       const input = e.target;
       const { selectionStart, selectionEnd, value } = input;
@@ -196,7 +156,6 @@ function AnalysisResult_In() {
   };
 
   const handleSaveAll = async () => {
-    const token = localStorage.getItem('accessToken');
     let successCount = 0;
     for (const current of results) {
       if (!current.merchant.trim() || !current.date.trim() || current.netAmount === "" || current.netAmount === null) {
@@ -222,27 +181,20 @@ function AnalysisResult_In() {
         remark: null,
       };
       try {
-        const res = await fetch('/incomes', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`
-          },
-          body: JSON.stringify(postPayload)
-        });
-        if (res.status === 201) {
+        const res = await axiosInstance.post('/incomes', postPayload);
+        if (res.status === 200 || res.status === 201) {
           successCount++;
         } else {
-          // [임시 시연용] 백엔드 연결 전 테스트 통과 처리
-          successCount++; 
+          alert("저장에 실패한 항목이 있습니다.");
         }
       } catch (error) {
         console.error("저장 실패", error);
-        // [임시 시연용] 백엔드 연결 전 테스트 통과 처리
-        successCount++;
+        const errMsg = error.response?.data?.message || "서버와 통신 중 오류가 발생했습니다.";
+        alert(errMsg);
       }
     }
-    const totalSavedAmount = results.reduce((sum, item) => sum + Number(item.netAmount), 0);
+  
+    const totalSavedAmount = successCount > 0 ? results.reduce((sum, item) => sum + Number(item.grossAmount), 0) : 0;
     navigate('/analysis-record', { 
       state: { 
         type: 'income', 
@@ -251,7 +203,7 @@ function AnalysisResult_In() {
       }
     });
   };
-  if (isAnalyzing) return <div className={styles.loadingContainer}>분석 중...</div>;
+
   if (!results.length) return null;
   const current = results[currentIndex];
 
