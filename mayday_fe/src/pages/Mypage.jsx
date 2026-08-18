@@ -63,11 +63,6 @@ function Mypage() {
 
   // 내보내기 클릭 핸들러
   const handleExportClick = () => {
-    const count = Number(summaryData?.recordedCount);
-    if (!count || count <= 0) {
-      alert("내보낼 기록이 없습니다.");
-      return;
-    }
     navigate("/export", {
       state: {
         selectedYear: previousYear, // 직전년도 넘겨주기
