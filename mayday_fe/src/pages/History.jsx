@@ -88,6 +88,8 @@ const transformApiData = (rawList = []) => {
 
     return {
       id: item.analysisId,
+      incomeId: item.incomeId,
+      expenseId: item.expenseId,
       year: year,
       title: `${item.merchantName} (${item.itemName})`,
       merchantName: item.merchantName,
@@ -410,14 +412,12 @@ function History() {
               className={styles.recordItem}
               onClick={() => {
                 // targetPath는 클릭 후 이동할 경로
-                // 현재 클릭한 항목의 ID를 경로 뒤에 붙임 (예: /edit_expense/ana_001)
-
-                // 1) 지출(expense)일 경우, EditEx.jsx로 이동 (예: /edit_expense/ana_001)
-                // 2) 수입(income)일 경우, EditIn.jsx로 이동 (예: /edit_income/ana_010)
+                // 1) 지출(expense)일 경우, EditEx.jsx로 이동 (예: /edit_expense/exp_001)
+                // 2) 수입(income)일 경우, EditIn.jsx로 이동 (예: /edit_income/inc_001)
                 const targetPath =
                   item.type === "expense"
-                    ? `/edit_expense/${item.id}`
-                    : `/edit_income/${item.id}`;
+                    ? `/edit_expense/${item.expenseId}`
+                    : `/edit_income/${item.incomeId}`;
                 navigate(targetPath);
               }}
             >
