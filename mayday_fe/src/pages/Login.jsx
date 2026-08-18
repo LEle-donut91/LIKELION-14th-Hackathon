@@ -22,15 +22,25 @@ function Login() {
         email,
         password
       });
-      if (response.status === 200) {
-        localStorage.setItem('accessToken', response.data.data.accessToken);
-        localStorage.setItem('refreshToken', response.data.data.refreshToken);
-        navigate('/home');
+
+      const token = response.data?.data?.accessToken || response.data?.accessToken;
+      const refreshToken = response.data?.data?.refreshToken || response.data?.refreshToken;
+
+      if (response.status === 200 || response.status === 201) {
+        if (token) {
+          localStorage.setItem('accessToken', token);
+          if (refreshToken) localStorage.setItem('refreshToken', refreshToken);
+          navigate('/home'); // 홈 화면으로 이동!
+        } else {
+          setErrorMessage('토큰을 발급받지 못했습니다. (백엔드 응답 확인 필요)');
+        }
       }
     } catch (error) {
       console.error(error);
       if (error.response && error.response.status === 401) {
         setErrorMessage('이메일 또는 비밀번호가 일치하지 않아요');
+      } else if (error.response && error.response.data && error.response.data.message) {
+        setErrorMessage(error.response.data.message);
       } else {
         setErrorMessage('서버와 통신 중 오류가 발생했습니다.');
       }
@@ -42,9 +52,16 @@ function Login() {
       const response = await axiosInstance.post(axiosRequests.demoLogin, {
         demoKey: "mayday-demo"
       });
-      if (response.status === 200) {
-        localStorage.setItem('accessToken', response.data.data.accessToken);
-        navigate('/home');
+
+      const token = response.data?.data?.accessToken || response.data?.accessToken;
+
+      if (response.status === 200 || response.status === 201) {
+        if (token) {
+          localStorage.setItem('accessToken', token);
+          navigate('/home');
+        } else {
+          alert("데모 토큰을 발급받지 못했습니다.");
+        }
       }
     } catch (error) {
       console.error(error);

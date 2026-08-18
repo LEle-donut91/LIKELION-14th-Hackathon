@@ -9,6 +9,8 @@ import RecordImg from '../assets/images/RecordImg.svg';
 import RecordTxt from '../assets/images/RecordTxt.svg';
 import RecordDel from '../assets/images/RecordDelete.svg';
 
+import axiosInstance from '../api/axiosInstance';
+
 function Record() {
   const navigate = useNavigate();
   const fileInputRef = useRef(null);
@@ -40,38 +42,25 @@ function Record() {
     if (!file) return;
     if (!limit()) return;
     setIsUploading(true);
-    const token = localStorage.getItem('accessToken');
     const formData = new FormData();
     formData.append('file', file);
     try {
-      const res = await fetch('/expenses/ocr', {
-        method: 'POST',
-        headers: { 'Authorization': `Bearer ${token}` },
-        body: formData
-      });
-      const result = await res.json();
-
-      if (res.status === 200) {
+      const res = await axiosInstance.post('/expenses/ocr', formData);
+      if (res.status === 200 || res.status === 201) {
+        const responseData = res.data?.data || res.data;
         setCurrentItems(prev => [...prev, {
           id: Date.now(),
           type: 'image',
-          sourceId: result.data.ocrId,
-          rawText: result.data.rawText,
-          name: file.name
+          sourceId: responseData.ocrId,
+          rawText: responseData.rawText,
+          name: file.name,
+          withholding: tab === 'income' ? tax === '3.3' : false
         }]);
-      } else {
-        throw new Error(result.message || 'OCR 추출 실패');
       }
     } catch (error) {
-      console.error(error);
-      // [임시 시연용 로직] 백엔드 연결 전 테스트를 위해 UI상에 항목 추가
-      setCurrentItems(prev => [...prev, {
-        id: Date.now(),
-        type: 'image',
-        sourceId: `mock_ocr_${Date.now()}`,
-        rawText: "Mock OCR 텍스트",
-        name: file.name
-      }]);
+      console.error("이미지 업로드 및 OCR 실패:", error);
+      const errMsg = error.response?.data?.message || "이미지 처리에 실패했습니다. 다시 시도해주세요.";
+      alert(errMsg);
     } finally {
       setIsUploading(false);
       e.target.value = null;
@@ -87,40 +76,26 @@ function Record() {
       if (!limit()) return;
       const token = localStorage.getItem('accessToken');
       try {
-        const res = await fetch('/expenses/text/parse', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`
-          },
-          body: JSON.stringify({
-            rawText: text,
-            typeHint: tab === 'expense' ? 'EXPENSE' : 'INCOME'
-          })
+        const res = await axiosInstance.post('/expenses/text/parse', {
+          rawText: text,
+          typeHint: tab === 'expense' ? 'EXPENSE' : 'INCOME'
         });
-        const result = await res.json();
+        if (res.status === 200 || res.status === 201) {
+          const responseData = res.data?.data || res.data;
 
-        if (res.status === 200) {
           setCurrentItems(prev => [...prev, {
             id: Date.now(),
             type: 'text',
-            sourceId: result.data.textInputId,
-            rawText: result.data.rawText,
-            name: text
+            sourceId: responseData.textInputId,
+            rawText: responseData.rawText,
+            name: text,
+            withholding: tab === 'income' ? tax === '3.3' : false
           }]);
-        } else {
-          throw new Error(result.message || '텍스트 분석 실패');
         }
       } catch (error) {
-        console.error(error);
-        // [임시 시연용 로직] 테스트용 통과 코드
-        setCurrentItems(prev => [...prev, {
-          id: Date.now(),
-          type: 'text',
-          sourceId: `mock_txt_${Date.now()}`,
-          rawText: text,
-          name: text
-        }]);
+        console.error("텍스트 분석 실패:", error);
+        const errMsg = error.response?.data?.message || "텍스트 분석에 실패했습니다. 다시 시도해주세요.";
+        alert(errMsg);
       } finally {
         setTextInput('');
       }
@@ -137,12 +112,10 @@ function Record() {
 
   const handleAnalyze = () => {
     if (currentItems.length === 0) return;
-    // 향후 /expenses/analyze 에 items 배열 데이터를 넘기는 로직 추가 가능
     navigate('/loading', { 
       state: { 
         items: currentItems, 
-        tab: tab, 
-        tax: tab === 'income' ? tax : null
+        tab: tab
       } 
     });
   };
