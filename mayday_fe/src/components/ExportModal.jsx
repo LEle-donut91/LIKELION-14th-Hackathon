@@ -291,7 +291,10 @@ function ExportModal({
         >
           <div
             className={styles.scrollIndicatorThumb}
-            style={{ transform: `translateX(${thumbLeft}px)` }}
+            style={{
+              width: `${thumbWidth}px`,
+              transform: `translateX(${thumbLeft}px)`,
+            }}
             onMouseDown={handleThumbMouseDown}
             onTouchStart={handleThumbTouchStart}
           />

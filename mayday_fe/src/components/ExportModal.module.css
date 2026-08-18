@@ -218,7 +218,7 @@ body {
   height: 8px;
   background-color: #e9ebf0;
   border-radius: 99px;
-  margin: 14px 0;
+  margin: 14px auto;
   cursor: pointer;
   overflow: hidden;
   user-select: none;
@@ -239,6 +239,7 @@ body {
   position: absolute;
   top: 0;
   left: 0;
+  width: 143.1px;
   height: 8px;
   background-color: #3559c7;
   border-radius: 99px;
@@ -272,7 +273,6 @@ body {
 
 .buttonWrapper {
   margin-top: 16px;
-  width: 318px;
 }
 
 .confirmBtn {
