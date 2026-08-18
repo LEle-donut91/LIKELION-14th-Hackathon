@@ -23,14 +23,16 @@ function Login() {
         password
       });
 
-      const token = response.data?.data?.accessToken || response.data?.accessToken;
-      const refreshToken = response.data?.data?.refreshToken || response.data?.refreshToken;
+      const token = response.data.accessToken;
+      const refreshToken = response.data.refreshToken;
 
       if (response.status === 200 || response.status === 201) {
         if (token) {
+          localStorage.removeItem('accessToken');
+          localStorage.removeItem('refreshToken');
           localStorage.setItem('accessToken', token);
           if (refreshToken) localStorage.setItem('refreshToken', refreshToken);
-          navigate('/home'); // 홈 화면으로 이동!
+          navigate('/home');
         } else {
           setErrorMessage('토큰을 발급받지 못했습니다. (백엔드 응답 확인 필요)');
         }
@@ -53,11 +55,11 @@ function Login() {
         demoKey: "mayday-demo"
       });
 
-      const token = response.data?.data?.accessToken || response.data?.accessToken;
-
+      const token = response.data.accessToken;
       if (response.status === 200 || response.status === 201) {
         if (token) {
-          localStorage.setItem('accessToken', token);
+          localStorage.removeItem('accessToken');
+          localStorage.setItem('accessToken', token); 
           navigate('/home');
         } else {
           alert("데모 토큰을 발급받지 못했습니다.");
