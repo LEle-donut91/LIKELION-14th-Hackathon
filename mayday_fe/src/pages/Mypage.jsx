@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "./MyPage.module.css";
-import MyPageModal from "../components/MyPageModal";
+import MyPageModal from "../components/MypageModal";
 import MyPageDeleteIcon from "../assets/images/MyPageDeleteIcon.svg";
 import MyPageDownloadIcon from "../assets/images/MyPageDownloadIcon.svg";
 import MyPageFolderIcon from "../assets/images/MyPageFolderIcon.svg";

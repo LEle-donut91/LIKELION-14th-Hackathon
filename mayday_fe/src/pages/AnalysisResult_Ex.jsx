@@ -287,6 +287,7 @@ function AnalysisResult_Ex() {
                 selectedValue={current.proofType}
                 onSelect={(val) => handleDropdownChange("proofType", val)}
               />
+              <span className={styles.arrowIcon} />
             </div>
           </div>
           <div className={styles.inputGroup}>
@@ -298,6 +299,7 @@ function AnalysisResult_Ex() {
                 selectedValue={current.category}
                 onSelect={(val) => handleDropdownChange("category", val)}
               />
+              <span className={styles.arrowIcon} />
             </div>
           </div>
           <div className={styles.inputGroup}>

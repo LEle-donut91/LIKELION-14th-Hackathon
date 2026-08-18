@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import styles from "./EditDropdown.module.css";
-import EditDropdownIcon from "../assets/images/EditDropdownIcon.svg";
+import EditDropdownIcon from "../../assets/images/EditDropdownIcon.svg";
 
 function EditDropdown({
   placeholder = "선택해주세요",
@@ -9,7 +9,7 @@ function EditDropdown({
   onSelect,
 }) {
   const [isOpen, setIsOpen] = useState(false);
-
+  const dropdownRef = useRef(null);
   const toggleDropdown = () => setIsOpen(!isOpen);
 
   const handleSelect = (item) => {
@@ -17,8 +17,18 @@ function EditDropdown({
     setIsOpen(false); // 선택 후 닫기
   };
 
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setIsOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
   return (
-    <div className={styles.container}>
+    <div className={styles.container} ref={dropdownRef}>
       {/* 드롭다운 헤더 (현재 선택된 값 표시) */}
       <button
         type="button"

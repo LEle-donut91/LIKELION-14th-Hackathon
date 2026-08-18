@@ -1,6 +1,6 @@
 import React from "react";
 import styles from "./HistoryModal.module.css";
-import Button from "../components/Button";
+import Button from "../Button";
 
 function HistoryModal({
   isOpen,

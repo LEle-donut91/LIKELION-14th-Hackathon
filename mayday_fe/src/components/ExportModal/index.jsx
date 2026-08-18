@@ -1,8 +1,8 @@
 import React, { useState, useRef, useEffect, useCallback } from "react";
 import ReactDOM from "react-dom";
 import styles from "./ExportModal.module.css";
-import ExportModalCancelIcon from "../assets/images/ExportModalCancelIcon.svg";
-import Button from "./Button";
+import ExportModalCancelIcon from "../../assets/images/ExportModalCancelIcon.svg";
+import Button from "../Button";
 
 // null, undefined, 빈 문자열("")일 경우 '—' 반환
 const formatValue = (val) => {
