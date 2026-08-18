@@ -2,7 +2,8 @@ import React, { useState, useEffect, useRef } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import styles from "./AnalysisResult_In.module.css";
 import Header from "../components/Header";
-import AnalysisDropdown from "../components/AnalysisDropdown";
+import EditDropdown from "../components/EditDropdown";
+//import AnalysisDropdown from "../components/AnalysisDropdown";
 
 import AnalysisReason from "../assets/images/AnalysisReason.svg";
 import AnalysisWarning2 from "../assets/images/AnalysisWarning2.svg";
@@ -332,7 +333,7 @@ function AnalysisResult_In() {
           <div className={styles.field}>
             <label className={styles.label}>수입 항목</label>
             <div className={styles.selectWrapper}>
-              <AnalysisDropdown
+              <EditDropdown
                 placeholder="수입 항목 선택"
                 items={categoryItems}
                 selectedValue={current.category}
