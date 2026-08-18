@@ -2,7 +2,8 @@ import React, { useState, useEffect, useRef } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import styles from "./AnalysisResult_Ex.module.css";
 import Header from "../components/Header";
-import AnalysisDropdown from "../components/AnalysisDropdown";
+import EditDropdown from "../components/EditDropdown";
+//import AnalysisDropdown from "../components/AnalysisDropdown";
 
 import AnalysisWarning from "../assets/images/AnalysisWarning.svg"
 import AnalysisWarning2 from "../assets/images/AnalysisWarning2.svg"
@@ -280,7 +281,8 @@ function AnalysisResult_Ex() {
           <div className={styles.inputGroup}>
             <label className={styles.label}>증빙 유형</label>
             <div className={styles.selectWrapper}>
-              <AnalysisDropdown
+              <EditDropdown
+                placeholder="증빙 유형 선택"
                 items={evidenceItems}
                 selectedValue={current.proofType}
                 onSelect={(val) => handleDropdownChange("proofType", val)}
@@ -290,7 +292,8 @@ function AnalysisResult_Ex() {
           <div className={styles.inputGroup}>
             <label className={styles.label}>경비 항목</label>
             <div className={styles.selectWrapper}>
-              <AnalysisDropdown
+              <EditDropdown
+                placeholder="경비 항목 선택"
                 items={categoryItems}
                 selectedValue={current.category}
                 onSelect={(val) => handleDropdownChange("category", val)}

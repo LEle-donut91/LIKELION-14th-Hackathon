@@ -9,6 +9,7 @@ import MyPageProfileIcon from "../assets/images/MyPageProfileIcon.svg";
 import NavBar from "../components/NavBar";
 import { getMyPageSummary, postLogout } from "../api/myPageApi";
 import Header from "../components/Header";
+import HomeIcon2 from "../assets/images/HomeIcon2.svg";
 
 function Mypage() {
   const navigate = useNavigate();
@@ -81,7 +82,9 @@ function Mypage() {
     <div className={styles.myPage}>
       {/* 헤더 */}
       <header className={styles.headerContainer}>
-        <p className={styles.text}>마이페이지</p>
+        <div className={styles.headerLeft}>
+          <img src={HomeIcon2} style={{ width: '100px' }} />
+        </div>
       </header>
 
       {/* 메인 콘텐츠 */}
