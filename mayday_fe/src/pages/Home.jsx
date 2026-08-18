@@ -7,7 +7,6 @@ import HomeExportIcon from "../assets/images/HomeExportIcon.svg";
 import HomeProfileIcon from "../assets/images/HomeProfileIcon.svg";
 import HomeRecordIcon from "../assets/images/HomeRecordIcon.svg";
 import NavBar from "../components/NavBar";
-import Header from "../components/Header";
 import { getHomeSummary } from "../api/homeApi";
 import HomeIcon2 from "../assets/images/HomeIcon2.svg";
 
