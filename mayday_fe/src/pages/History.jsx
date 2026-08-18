@@ -314,7 +314,7 @@ function History() {
 
   return (
     <div className={styles.history}>
-      <Header text="내보내기" />
+      <Header text="기록 조회" />
       <main className={styles.content}>
         <nav className={styles.yearTabGroup}>
           {availableYears.map((year) => (
