@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import styles from "./EditIn.module.css";
 import Header from "../components/Header";
@@ -102,6 +102,9 @@ const formatApiDate = (rawDate) => {
 const categoryItems = ["매출", "기타(수입)"];
 
 function EditIn() {
+  // API 요청 중복 실행 방지용 플래그
+  const isFetchedRef = useRef(false);
+
   const navigate = useNavigate();
   // URL Parameter에서 incomeId 추출
   const { incomeId } = useParams();
@@ -127,6 +130,10 @@ function EditIn() {
 
   // 초기 API 서버 상세 데이터 로드
   useEffect(() => {
+    // API 요청 중복 실행 방지
+    if (isFetchedRef.current) return;
+    isFetchedRef.current = true;
+
     const fetchIncomeDetail = async () => {
       setIsLoading(true);
       try {

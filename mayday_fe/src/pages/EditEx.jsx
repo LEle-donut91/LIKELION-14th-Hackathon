@@ -102,6 +102,9 @@ const calculateRemark = (amount, isQualified) => {
 };
 
 function EditEx() {
+  // API 요청 중복 실행 방지용 플래그
+  const isFetchedRef = useRef(false);
+  
   const navigate = useNavigate();
   // URL Parameter에서 expenseId 파라미터를 추출
   const { expenseId } = useParams();
@@ -130,6 +133,10 @@ function EditEx() {
 
   // 초기 API 서버 상세 데이터 로드
   useEffect(() => {
+    // API 요청 중복 실행 방지
+    if (isFetchedRef.current) return;
+    isFetchedRef.current = true;
+
     const fetchExpenseDetail = async () => {
       setIsLoading(true);
       try {
