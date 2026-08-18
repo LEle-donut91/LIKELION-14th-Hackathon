@@ -11,6 +11,26 @@ import {
 } from "../api/editApi";
 import EditDeleteIcon from "../assets/images/EditDeleteIcon.svg";
 
+// 날짜(화면 표시용): "YYYY.MM.DD" 형식으로 변환
+const formatDisplayDate = (rawDate) => {
+  if (!rawDate) return "";
+  const digits = String(rawDate).replace(/[^0-9]/g, "");
+  if (digits.length === 8) {
+    return `${digits.slice(0, 4)}.${digits.slice(4, 6)}.${digits.slice(6, 8)}`;
+  }
+  return rawDate;
+};
+
+// 날짜(API 전송용): "YYYY-MM-DD" 형식으로 변환
+const formatApiDate = (rawDate) => {
+  if (!rawDate) return "";
+  const digits = String(rawDate).replace(/[^0-9]/g, "");
+  if (digits.length === 8) {
+    return `${digits.slice(0, 4)}-${digits.slice(4, 6)}-${digits.slice(6, 8)}`;
+  }
+  return String(rawDate).replace(/\./g, "-");
+};
+
 // 증빙 유형 Enum <-> 한글 매핑
 const EVIDENCE_TYPE_MAP = {
   TAX_INVOICE: "세금계산서",
@@ -118,17 +138,22 @@ function EditEx() {
         if (response && response.data) {
           const data = response.data;
 
+          // API 요청 후 Response로 들어온 "YYYY-MM-DD" => "YYYY.MM.DD" (UI 표시용)으로 변환
+          const formattedDisplayDate = formatDisplayDate(data.date);
+
+          // Placeholder용 초기 데이터 설정
           setInitialData({
             merchantName: data.merchantName,
-            date: data.date,
+            date: formattedDisplayDate, // YYYY.MM.DD 형식으로 변환
             amount: data.amount,
             itemName: data.itemName,
           });
 
+          // 사용자 입력용 초기 데이터 설정
           setFormData({
             analysisId: data.analysisId,
             merchant: data.merchantName,
-            date: data.date,
+            date: formattedDisplayDate,
             amount: data.amount,
             item: data.itemName,
             proofType: EVIDENCE_TYPE_MAP[data.evidenceType],
@@ -152,7 +177,28 @@ function EditEx() {
   const handleChange = (e) => {
     const { name, value } = e.target;
 
-    if (name === "amount") {
+    if (name === "date") {
+      // 숫자만 추출하고 최대 8자리로 제한
+      let onlyNumbers = value.replace(/[^0-9]/g, "");
+      if (onlyNumbers.length > 8) {
+        onlyNumbers = onlyNumbers.slice(0, 8);
+      }
+
+      // 실시간 YYYY.MM.DD 포맷팅 적용
+      let formattedDate = "";
+      if (onlyNumbers.length < 5) {
+        formattedDate = onlyNumbers;
+      } else if (onlyNumbers.length < 7) {
+        formattedDate = `${onlyNumbers.slice(0, 4)}.${onlyNumbers.slice(4)}`;
+      } else {
+        formattedDate = `${onlyNumbers.slice(0, 4)}.${onlyNumbers.slice(4, 6)}.${onlyNumbers.slice(6)}`;
+      }
+
+      setFormData((prev) => ({
+        ...prev,
+        date: formattedDate,
+      }));
+    } else if (name === "amount") {
       // '원', 쉼표 등 숫자가 아닌 모든 문자 제거 후 저장
       const onlyNumbers = value.replace(/[^0-9]/g, "");
       setFormData((prev) => ({
@@ -214,7 +260,7 @@ function EditEx() {
     // input 태그에 값이 비어있는지 확인
     if (
       !formData.merchant.trim() ||
-      !formData.date.trim() ||
+      !String(formData.date).trim() ||
       !String(formData.amount).trim() ||
       !formData.item.trim()
     ) {
@@ -222,17 +268,29 @@ function EditEx() {
       return;
     }
 
-    const dateRegex = /^\d{4}[.-]\d{2}[.-]\d{2}$/;
+    // 사용자가 입력한 날짜와 금액을 숫자만 추출하여 rawDateDigits(날짜)와 cleanAmount(금액)에 저장
+    const rawDateDigits = String(formData.date).replace(/[^0-9]/g, "");
     const cleanAmount = Number(
       String(formData.amount)
         .replace(/[^0-9]/g, "")
         .trim(),
     );
 
-    if (!dateRegex.test(formData.date) || isNaN(cleanAmount)) {
-      alert("형식에 맞춰 내용을 입력해주세요");
+    // 입력한 금액이 숫자인지 확인
+    if (isNaN(cleanAmount)) {
+      alert("금액을 숫자로 입력해주세요.");
       return;
     }
+
+    // 입력한 날짜가 정확히 8자리인지 먼저 확인
+    if (rawDateDigits.length !== 8) {
+      alert("날짜를 숫자 8자리(예: 20010101) 올바른 형식으로 입력해주세요.");
+      return;
+    }
+
+    // 8자리가 확인된 후 API 전송용 YYYY-MM-DD 변환
+    const requestDate = formatApiDate(formData.date);
+    const dateRegex = /^\d{4}-\d{2}-\d{2}$/;
 
     // Remark 값 설정
     const calculatedRemark = calculateRemark(
@@ -242,7 +300,7 @@ function EditEx() {
 
     // API 명세서 규격에 맞춘 Payload 생성
     const patchPayload = {
-      date: formData.date.replace(/\./g, "-"),
+      date: requestDate, // yyyy-mm-dd 형태로 변환하여 전송
       merchantName: formData.merchant,
       itemName: formData.item,
       amount: cleanAmount,
@@ -323,6 +381,7 @@ function EditEx() {
                   type="text"
                   name="date"
                   className={styles.input}
+                  maxLength={10}
                   value={isLoading ? "로딩중..." : formData.date}
                   placeholder={isLoading ? "로딩중..." : initialData.date}
                   onChange={handleChange}
