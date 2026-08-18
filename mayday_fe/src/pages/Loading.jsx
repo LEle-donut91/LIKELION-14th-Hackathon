@@ -3,45 +3,65 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import styles from './Loading.module.css';
 
 import LoadingIcon from '../assets/images/Loading.svg';
+import axiosInstance from '../api/axiosInstance';
 
 function Loading() {
   const navigate = useNavigate();
   const location = useLocation();
+  const { items, tab } = location.state || {};
   const [progress, setProgress] = useState(0);
-  const tabType = location.state?.tab || 'expense';
 
   useEffect(() => {
-    const total = 4000;
-    const update = 30;
-    const step = 100 / (total / update);
-
-    const timer = setInterval(() => {
-      setProgress((prev) => {
-        if (prev >= 100) {
-          clearInterval(timer);
-          return 100;
+    let isCancelled = false;
+    const performAnalysis = async () => {
+      if (!items || items.length === 0) {
+        navigate('/record');
+        return;
+      }
+      const rawAnalyzedData = [];
+      const total = items.length;
+      for (let i = 0; i < total; i++) {
+        const item = items[i];
+        try {
+          const endpoint = '/expenses/analyze';
+          const payload = {
+            sourceType: item.type === 'image' ? 'OCR' : 'TEXT',
+            sourceId: item.sourceId,
+            rawText: item.rawText,
+            withholdingTaxApplied: item.withholding
+          };
+          const res = await axiosInstance.post(endpoint, payload);
+          if (res.status === 200 || res.status === 201) {
+            const responseData = res.data?.data || res.data;
+            rawAnalyzedData.push({
+              ...responseData,
+              isWithholding: item.withholding
+            });
+          }
+        } catch (error) {
+          console.error("AI 분석 실패:", error);
         }
-        return prev + step;
-      });
-    }, update);
-
-    return () => clearInterval(timer);
-  }, []);
-
-  useEffect(() => {
-    if (progress >= 100) {
-      const navTimer = setTimeout(() => {
-        if (tabType === 'expense') {
-          navigate('/analysis-result-ex', { state: location.state });
-        } else if (tabType === 'income') {
-          navigate('/analysis-result-in', { state: location.state });
-        } else {
-          navigate('/analysis-result-ex', { state: location.state });
+        if (!isCancelled) {
+           setProgress(Math.round(((i + 1) / total) * 100));
         }
-      }, 300);
-      return () => clearTimeout(navTimer);
-    }
-  }, [progress, navigate, location.state]);
+      }
+      if (isCancelled) return;
+      if (rawAnalyzedData.length === 0) {
+        alert("데이터 분석에 실패했습니다. 다시 시도해주세요.");
+        navigate('/record');
+        return;
+      }
+      setTimeout(() => {
+         if (tab === 'expense') {
+           navigate('/analysis-result-ex', { state: { rawAnalyzedData } });
+         } else {
+           navigate('/analysis-result-in', { state: { rawAnalyzedData } });
+         }
+      }, 400);
+    };
+    performAnalysis();
+    return () => { isCancelled = true; };
+  }, [items, tab, navigate]);
 
   let bottomText = "입력한 정보를 읽는 중...";
   if (progress >= 33 && progress < 66) {

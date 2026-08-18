@@ -6,6 +6,8 @@ import styles from "./AnalysisRecord.module.css";
 import AnalysisRecordIcon from "../assets/images/AnalysisRecordIcon.svg";
 import AnalysisRecordTime from "../assets/images/AnalysisRecordTime.svg";
 
+import axiosInstance from '../api/axiosInstance';
+
 function AnalysisRecord() {
   const navigate = useNavigate();
   const location = useLocation();
@@ -20,50 +22,36 @@ function AnalysisRecord() {
     ? "AI가 정리한 내용이 올해 장부에 반영됐어요.\n기록 조회에서 언제든 수정할 수 있어요."
     : "수입 기록이 올해 장부에 반영됐어요.\n기록 조회에서 언제든 수정할 수 있어요.";
   const amountLabel = isExpense ? "저장한 비용" : "저장한 수입";
+
+  const finalSavedAmount = savedCount > 0 ? savedAmount : 0;
   const [accumulatedCount, setAccumulatedCount] = useState(0);
   const [dDayText, setDDayText] = useState("");
+  const [isLoadingCount, setIsLoadingCount] = useState(true);
 
   useEffect(() => {
-    const today = new Date();
-    today.setHours(0, 0, 0, 0); 
-    let targetYear = today.getFullYear();
-    let targetDate = new Date(targetYear, 4, 31); 
-
-    if (today > targetDate) {
-      targetYear += 1;
-      targetDate = new Date(targetYear, 4, 31);
-    }
-    const diffTime = targetDate - today;
-    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-    if (diffDays === 0) {
-      setDDayText("D-Day");
-    } else {
-      setDDayText(`D-${diffDays}`);
-    }
-  }, []);
-
-  useEffect(() => {
-    const fetchAccumulatedRecords = async () => {
+    const fetchHomeSummary = async () => {
+      setIsLoadingCount(true);
       try {
-        // [TODO] 백엔드 누적 기록 API가 완성되면 아래 주석을 풀고 연동하세요!
-        /*
-        const token = localStorage.getItem('accessToken');
-        const res = await fetch('/records/summary', {
-          headers: { 'Authorization': `Bearer ${token}` }
-        });
-        const result = await res.json();
-        if (res.status === 200) {
-          setAccumulatedCount(result.data.totalRecords);
+        const res = await axiosInstance.get('/home/summary');
+        if (res.status === 200 && res.data?.data) {
+          const summaryData = res.data.data;
+          if (summaryData.taxDDay === 0) {
+            setDDayText("D-Day");
+          } else {
+            setDDayText(`D-${summaryData.taxDDay}`);
+          }
+          const aiClassifiedCount = summaryData.aiClassifiedRecords || 0; 
+          setAccumulatedCount(aiClassifiedCount + savedCount);
         }
-        */
-
-        // 임시 더미 데이터 (지금 방금 저장한 건수 + 기존 159건)
-        setAccumulatedCount(159 + savedCount);
       } catch (error) {
-        console.error("누적 기록 조회 실패:", error);
+        console.error("홈 요약 정보 조회 실패:", error);
+        setDDayText("D-Day 계산 불가");
+        setAccumulatedCount(savedCount);
+      } finally {
+        setIsLoadingCount(false);
       }
     };
-    fetchAccumulatedRecords();
+    fetchHomeSummary();
   }, [savedCount]);
 
   return (
@@ -81,7 +69,7 @@ function AnalysisRecord() {
           </div>
           <div className={styles.summaryRow}>
             <span className={styles.summaryLabel}>{amountLabel}</span>
-            <span className={styles.summaryValue}>{Number(savedAmount).toLocaleString()}원</span>
+            <span className={styles.summaryValue}>{Number(finalSavedAmount).toLocaleString()}원</span>
           </div>
           <div className={styles.divider}></div>
           <div className={styles.summaryRow}>
