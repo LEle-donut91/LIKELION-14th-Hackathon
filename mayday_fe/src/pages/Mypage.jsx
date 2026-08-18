@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "./MyPage.module.css";
 import MyPageModal from "../components/MyPageModal";
@@ -14,6 +14,9 @@ function Mypage() {
   const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false);
 
+  // API 요청 중복 실행 방지용 플래그
+  const isFetchedRef = useRef(false);
+
   // API 응답 데이터를 담을 state
   const [summaryData, setSummaryData] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -23,6 +26,10 @@ function Mypage() {
 
   // 마이페이지 요약 데이터 GET 요청 (API 연동)
   useEffect(() => {
+    // API 요청 중복 실행 방지
+    if (isFetchedRef.current) return;
+    isFetchedRef.current = true;
+
     const fetchSummary = async () => {
       try {
         setIsLoading(true);
@@ -63,11 +70,6 @@ function Mypage() {
 
   // 내보내기 클릭 핸들러
   const handleExportClick = () => {
-    const count = Number(summaryData?.recordedCount);
-    if (!count || count <= 0) {
-      alert("내보낼 기록이 없습니다.");
-      return;
-    }
     navigate("/export", {
       state: {
         selectedYear: previousYear, // 직전년도 넘겨주기

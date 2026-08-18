@@ -1,5 +1,5 @@
-import { useState, useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import { useState, useEffect, useRef } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import * as XLSX from "xlsx";
 import styles from "./Export.module.css";
 import ExportModal from "../components/ExportModal";
@@ -114,6 +114,11 @@ function getFilteredPreviewData(rawData, filterState) {
 }
 
 function Export() {
+  const navigate = useNavigate();
+
+  // API 요청 여부 플래그 (API 요청 중복 실행 방지용)
+  const isFetchedRef = useRef(false);
+
   // 2. location에서 state 추출
   const location = useLocation();
   const targetYear = location.state?.selectedYear;
@@ -149,6 +154,10 @@ function Export() {
 
   // 서버 API 데이터 조회
   useEffect(() => {
+    if (isFetchedRef.current) return; // 이미 요청을 보냈다면 API 호출 자체를 하지 않고 중단
+
+    isFetchedRef.current = true; // API 요청 여부 플래그를 true로 설정 (API 요청 완료)
+
     const fetchExportData = async () => {
       setIsLoading(true);
       setErrorMessage("");
@@ -156,6 +165,13 @@ function Export() {
         const response = await getExportPreview(targetYear);
         if (response.status === 200 && response.data) {
           const { summary, items } = response.data;
+
+          // 전체 기록 건수가 0이면 즉시 "내보낼 기록이 없습니다." alert 후 이전 페이지로 이동
+          if (summary?.totalRecordsCount === 0) {
+              alert("내보낼 기록이 없습니다.");
+              navigate(-1);
+          }
+
           setExportSummary(summary);
           setRawPreviewItems(items || []);
         }
@@ -169,7 +185,7 @@ function Export() {
     };
 
     fetchExportData();
-  }, [targetYear]);
+  }, [targetYear, navigate]);
 
   // 2. 필터링 및 건수 재계산 함수 호출
   const { headers, filteredRows, summary, noticeText } = getFilteredPreviewData(

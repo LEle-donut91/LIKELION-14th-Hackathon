@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo, useCallback } from "react";
+import { useState, useEffect, useMemo, useCallback, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "./History.module.css";
 import { historyApi } from "../api/historyApi";
@@ -114,6 +114,10 @@ const renderCategoryIcon = (category) => {
 function History() {
   const navigate = useNavigate();
 
+  // API 요청 중복 실행 방지용 플래그
+  const isFetchedYearsRef = useRef(false); // 연도탭 조회
+  const isFetchedSearchRef = useRef(false); // 검색 조회
+
   // 서버 연동 데이터 상태 management
   const [availableYears, setAvailableYears] = useState([]);
   const [selectedYear, setSelectedYear] = useState("");
@@ -135,6 +139,10 @@ function History() {
 
   // 초기 연도 목록 조회
   useEffect(() => {
+    // 중복 GET 요청 방지
+    if (isFetchedYearsRef.current) return;
+    isFetchedYearsRef.current = true;
+
     const fetchYears = async () => {
       try {
         const res = await historyApi.getLedgerYears();
@@ -183,6 +191,10 @@ function History() {
 
   // 검색 아이콘 클릭 또는 엔터 입력 시
   const handleSearch = async () => {
+    // 중복 GET 요청 방지
+    if (isFetchedSearchRef.current) return;
+    isFetchedSearchRef.current = true;
+
     if (!searchTerm.trim()) {
       alert("값을 입력해주세요");
       return;
@@ -196,7 +208,6 @@ function History() {
         const transformed = transformApiData(res.data);
         setSearchResults(transformed);
         setIsSearched(true);
-        alert(`${transformed.length}건이 검색되었습니다.`);
       }
     } catch (err) {
       alert(err.response?.data?.message || "검색 도중 오류가 발생했습니다.");
@@ -209,6 +220,9 @@ function History() {
     setSearchTerm(value);
     if (!value.trim()) {
       setIsSearched(false);
+
+      // 검색 종료 후 전체 목록으로 돌아올 때 중복 요청 방지 플래그 초기화
+      isFetchedSearchRef.current = false;
     }
   };
 
@@ -314,7 +328,7 @@ function History() {
 
   return (
     <div className={styles.history}>
-      <Header text="내보내기" />
+      <Header text="기록 조회" />
       <main className={styles.content}>
         <nav className={styles.yearTabGroup}>
           {availableYears.map((year) => (
