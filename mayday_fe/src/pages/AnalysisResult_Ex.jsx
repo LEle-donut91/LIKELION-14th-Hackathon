@@ -114,12 +114,24 @@ function AnalysisResult_Ex() {
   const handleDropdownChange = (name, value) => {
     const updated = [...results];
     updated[currentIndex][name] = value;
+    if (name === "proofType") {
+      if (value === "해당 없음") {
+        updated[currentIndex].qualifiedEvidence = false;
+      } else {
+        updated[currentIndex].qualifiedEvidence = true;
+      }
+    }
     setResults(updated);
   };
 
   const handleQualifiedChange = (value) => {
     const updated = [...results];
     updated[currentIndex].qualifiedEvidence = value;
+    if (value === true) {
+      updated[currentIndex].proofType = "세금계산서";
+    } else {
+      updated[currentIndex].proofType = "해당 없음";
+    }
     setResults(updated);
   };
 
