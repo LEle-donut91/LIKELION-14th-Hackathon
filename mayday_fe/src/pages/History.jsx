@@ -263,7 +263,7 @@ function History() {
 
         {isFiltered ? (
           /* 1) 필터 적용 시: X 아이콘 */
-          <img src={HistoryDeleteIcon} alt="X" />
+          <img src={HistoryDeleteIcon} alt="X" onClick={(e) => { e.stopPropagation(); setQualifiedFilter("all"); }}/>
         ) : (
           /* 2) 필터 미적용 시: 아래 화살표 아이콘 */
           <img src={HistoryArrowIcon} alt="Arrow" />
@@ -291,7 +291,7 @@ function History() {
         )}
         {isFiltered ? (
           /* 1) 필터 적용 시: X 아이콘 */
-          <img src={HistoryDeleteIcon} alt="X" />
+          <img src={HistoryDeleteIcon} alt="X" onClick={(e) => { e.stopPropagation(); setEvidenceFilter([]); }}/>
         ) : (
           /* 2) 필터 미적용 시: 아래 화살표 아이콘 */
           <img src={HistoryArrowIcon} alt="Arrow" />
@@ -319,7 +319,7 @@ function History() {
         )}
         {isFiltered ? (
           /* 1) 필터 적용 시: X 아이콘 */
-          <img src={HistoryDeleteIcon} alt="X" />
+          <img src={HistoryDeleteIcon} alt="X" onClick={(e) => { e.stopPropagation(); setSelectedCategory([]); }} />
         ) : (
           /* 2) 필터 미적용 시: 아래 화살표 아이콘 */
           <img src={HistoryArrowIcon} alt="Arrow" />
