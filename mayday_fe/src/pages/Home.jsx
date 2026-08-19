@@ -111,7 +111,7 @@ function Home() {
             <b className={styles.expenseAmount}>
               {isLoading ? "로딩중..." : yearlyExpense.toLocaleString()}
             </b>
-            {!isLoading && <div className={styles.currency}>원</div>}
+            {!isLoading && <div className={styles.currency} style={{ marginLeft: '10px' }}>원</div>}
           </div>
 
           <div className={styles.summaryDescription}>
