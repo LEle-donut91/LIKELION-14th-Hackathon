@@ -145,6 +145,7 @@ body {
   font-weight: 600;
   color: #3f4652;
   margin-left: 2px;
+  margin-top: 10px;
 }
 
 .summaryDescription {
@@ -246,6 +247,7 @@ body {
   display: flex;
   align-items: center;
   gap: 9px;
+  margin-top: 20px;
 }
 
 .incomeDot {
@@ -274,6 +276,7 @@ body {
   line-height: 120%;
   color: #157e00;
   font-weight: 700;
+  margin-top: 20px;
 }
 
 .amountValueExpense {
@@ -281,6 +284,7 @@ body {
   line-height: 120%;
   color: #16181d;
   font-weight: 700;
+  margin-top: 20px;
 }
 
 /* =========================
