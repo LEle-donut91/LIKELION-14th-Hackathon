@@ -235,8 +235,16 @@ function History() {
 
   // 필터링 적용
   const filteredRecords = targetRecords.filter((item) => {
-    if (qualifiedFilter === "qualified" && !item.isQualified) return false;
-    if (qualifiedFilter === "unqualified" && item.isQualified) return false;
+    // "적격" 필터링 -> 수입(income) 항목 제외 & 부적격 항목 제외
+    if (qualifiedFilter === "qualified" && (item.type === "income" || !item.isQualified)) {
+      return false;
+    }
+    
+    // "부적격" 필터링 => 수입(income) 항목 제외 & 적격 항목 제외
+    if (qualifiedFilter === "unqualified" && (item.type === "income" || item.isQualified)) {
+      return false;
+    }
+
     if (
       evidenceFilter.length > 0 &&
       !evidenceFilter.includes(item.evidenceType)
