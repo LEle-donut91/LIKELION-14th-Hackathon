@@ -24,10 +24,10 @@
   flex-direction: column;
 }
 /* 내부 스크롤바 숨김 처리 (깔끔한 UI용) */
-.contentArea::-webkit-scrollbar {
+/*.contentArea::-webkit-scrollbar {
   display: none;
 }
 .contentArea {
   -ms-overflow-style: none;
   scrollbar-width: none;
-}
+}*/
