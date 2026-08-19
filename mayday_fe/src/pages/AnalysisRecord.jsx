@@ -6,7 +6,7 @@ import styles from "./AnalysisRecord.module.css";
 import AnalysisRecordIcon from "../assets/images/AnalysisRecordIcon.svg";
 import AnalysisRecordTime from "../assets/images/AnalysisRecordTime.svg";
 
-import axiosInstance from '../api/axiosInstance';
+import { getMyPageSummary } from '../api/myPageApi';
 
 function AnalysisRecord() {
   const navigate = useNavigate();
@@ -32,19 +32,17 @@ function AnalysisRecord() {
     const fetchHomeSummary = async () => {
       setIsLoadingCount(true);
       try {
-        const res = await axiosInstance.get('/home/summary');
-        if (res.status === 200 && res.data?.data) {
-          const summaryData = res.data.data;
-          if (summaryData.taxDDay === 0) {
-            setDDayText("D-Day");
-          } else {
-            setDDayText(`D-${summaryData.taxDDay}`);
-          }
-          const aiClassifiedCount = summaryData.aiClassifiedRecords || 0; 
-          setAccumulatedCount(aiClassifiedCount + savedCount);
+        const currentYear = new Date().getFullYear();
+        const summaryData = await getMyPageSummary(currentYear);
+        if (summaryData.taxDDay === 0) {
+          setDDayText("D-Day");
+        } else {
+          setDDayText(`D-${summaryData.taxDDay}`);
         }
+        const currentTotal = summaryData.recordedCount || 0; 
+        setAccumulatedCount(currentTotal);
       } catch (error) {
-        console.error("홈 요약 정보 조회 실패:", error);
+        console.error("요약 정보 조회 실패:", error);
         setDDayText("D-Day 계산 불가");
         setAccumulatedCount(savedCount);
       } finally {
