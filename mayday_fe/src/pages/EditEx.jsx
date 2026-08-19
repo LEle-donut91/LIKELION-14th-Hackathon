@@ -249,17 +249,29 @@ function EditEx() {
 
   // Dropdown 전용 값 변경 함수
   const handleDropdownChange = (name, value) => {
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
+    setFormData((prev) => {
+      const updated = { ...prev, [name]: value };
+      if (name === "proofType") {
+        if (value === "해당 없음") {
+          updated.qualifiedEvidence = false;
+        } else {
+          updated.qualifiedEvidence = true; 
+        }
+      }
+      return updated;
+    });
   };
 
   const handleQualifiedChange = (value) => {
-    setFormData((prev) => ({
-      ...prev,
-      qualifiedEvidence: value,
-    }));
+    setFormData((prev) => {
+      const updated = { ...prev, qualifiedEvidence: value };
+      if (value === true) {
+        updated.proofType = "세금계산서";
+      } else {
+        updated.proofType = "해당 없음";
+      }
+      return updated;
+    });
   };
 
   // PATCH 요청 (수정)
