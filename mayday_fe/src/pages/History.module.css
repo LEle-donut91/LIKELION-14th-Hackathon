@@ -50,11 +50,28 @@ body {
   align-items: center;
   height: 47.5px;
   border-bottom: 1px solid #e7e9ee;
-  padding-left: 22px;
-  gap: 22px;
+  padding: 0 22px;
+  gap: 20px;
   background-color: #f7f8fa;
   box-sizing: border-box;
   flex-shrink: 0;
+
+  /* 가로 스크롤 핵심 속성 */
+  overflow-x: auto;
+  white-space: nowrap; /* 자식 요소 줄바꿈 방지 */
+
+  -webkit-overflow-scrolling: touch;
+
+  /* Firefox용 스크롤바 숨김 */
+  scrollbar-width: none;
+
+  /* IE / Edge(구버전)용 스크롤바 숨김 */
+  -ms-overflow-style: none;
+}
+
+/* Chrome, Safari, Opera, Edge(신버전)용 스크롤바 숨김 */
+.yearTabGroup::-webkit-scrollbar {
+  display: none;
 }
 
 .yearTab {
@@ -69,6 +86,7 @@ body {
   justify-content: center;
   height: 100%;
   box-sizing: border-box;
+  flex-shrink: 0; /* 탭 버튼 글자가 찌그러지는 현상 방지 */
 }
 
 .activeYear {

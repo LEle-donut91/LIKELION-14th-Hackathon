@@ -113,8 +113,64 @@ const renderCategoryIcon = (category) => {
   return <img src={iconSrc} alt={category} className={styles.categoryImg} />;
 };
 
+const useDraggableScroll = () => {
+  const ref = useRef(null);
+
+  useEffect(() => {
+    const slider = ref.current;
+    if (!slider) return;
+
+    let isDown = false;
+    let startX = 0;
+    let scrollLeft = 0;
+
+    // 브라우저 기본 드래그 커서 변경 동작 방지
+    const handleDragStart = (e) => {
+      e.preventDefault();
+    };
+
+    const handleMouseDown = (e) => {
+      isDown = true;
+      slider.style.userSelect = "none"; // 드래그 중 텍스트 선택 방지
+      startX = e.pageX - slider.offsetLeft;
+      scrollLeft = slider.scrollLeft;
+    };
+
+    const handleMouseLeave = () => {
+      isDown = false;
+    };
+
+    const handleMouseUp = () => {
+      isDown = false;
+    };
+
+    const handleMouseMove = (e) => {
+      if (!isDown) return;
+      e.preventDefault();
+      const x = e.pageX - slider.offsetLeft;
+      const walk = (x - startX) * 1.5; // 배율 조정으로 스크롤 속도 제어
+      slider.scrollLeft = scrollLeft - walk;
+    };
+
+    slider.addEventListener("mousedown", handleMouseDown);
+    slider.addEventListener("mouseleave", handleMouseLeave);
+    slider.addEventListener("mouseup", handleMouseUp);
+    slider.addEventListener("mousemove", handleMouseMove);
+
+    return () => {
+      slider.removeEventListener("mousedown", handleMouseDown);
+      slider.removeEventListener("mouseleave", handleMouseLeave);
+      slider.removeEventListener("mouseup", handleMouseUp);
+      slider.removeEventListener("mousemove", handleMouseMove);
+    };
+  }, []);
+
+  return ref;
+};
+
 function History() {
   const navigate = useNavigate();
+  const scrollRef = useDraggableScroll(); // Ref 생성
 
   // API 요청 중복 실행 방지용 플래그
   const isFetchedYearsRef = useRef(false); // 연도탭 조회
@@ -235,8 +291,16 @@ function History() {
 
   // 필터링 적용
   const filteredRecords = targetRecords.filter((item) => {
-    if (qualifiedFilter === "qualified" && !item.isQualified) return false;
-    if (qualifiedFilter === "unqualified" && item.isQualified) return false;
+    // "적격" 필터링 -> 수입(income) 항목 제외 & 부적격 항목 제외
+    if (qualifiedFilter === "qualified" && (item.type === "income" || !item.isQualified)) {
+      return false;
+    }
+    
+    // "부적격" 필터링 => 수입(income) 항목 제외 & 적격 항목 제외
+    if (qualifiedFilter === "unqualified" && (item.type === "income" || item.isQualified)) {
+      return false;
+    }
+
     if (
       evidenceFilter.length > 0 &&
       !evidenceFilter.includes(item.evidenceType)
@@ -332,7 +396,7 @@ function History() {
     <div className={styles.history}>
       <Header text="기록 조회" />
       <main className={styles.content}>
-        <nav className={styles.yearTabGroup}>
+        <nav className={styles.yearTabGroup} ref={scrollRef}>
           {availableYears.map((year) => (
             <button
               key={year}
