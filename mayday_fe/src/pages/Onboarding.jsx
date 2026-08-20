@@ -8,15 +8,15 @@ function Onboarding() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const token = localStorage.getItem('accessToken');
-    if (token) {
-      navigate('/home', { replace: true });
-    } else {
-      const timer = setTimeout(() => {
-        navigate('/login'); 
-      }, 3000);
-      return () => clearTimeout(timer); 
-    }
+    const timer = setTimeout(() => {
+      const token = localStorage.getItem('accessToken');
+      if (token) {
+        navigate('/home', { replace: true });
+      } else {
+        navigate('/login', { replace: true }); 
+      }
+    }, 3000);
+    return () => clearTimeout(timer);
   }, [navigate]);
 
   return (
