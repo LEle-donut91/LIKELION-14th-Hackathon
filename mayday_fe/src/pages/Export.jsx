@@ -50,10 +50,23 @@ function getFilteredPreviewData(rawData, filterState) {
   // 적격/부적격 필터링 (qualifiedEvidence 기준)
   if (isQualifiedGroupChecked) {
     const { qualified, unqualified } = qualifiedOptions;
-    if (qualified && !unqualified) {
-      filteredRows = rawData.filter((row) => row.qualifiedEvidence === true);
+
+    if (!qualified && !unqualified) {
+      // 1. "적격 여부"만 체크 -> 적격 지출 + 부적격 지출 + 모든 수입
+      filteredRows = rawData;
+    } else if (qualified && !unqualified) {
+      // 2. "적격"만 체크 -> 적격 지출
+      filteredRows = rawData.filter(
+        (row) => row.type === "EXPENSE" && row.qualifiedEvidence === true
+      );
     } else if (!qualified && unqualified) {
-      filteredRows = rawData.filter((row) => row.qualifiedEvidence === false);
+      // 3. "부적격"만 체크 -> 부적격 지출
+      filteredRows = rawData.filter(
+        (row) => row.type === "EXPENSE" && row.qualifiedEvidence === false
+      );
+    } else if (qualified && unqualified) {
+      // 4. "적격" + "부적격" 둘 다 체크 -> 적격 지출 + 부적격 지출
+      filteredRows = rawData.filter((row) => row.type === "EXPENSE");
     }
   }
 
