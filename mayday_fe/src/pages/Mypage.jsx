@@ -37,10 +37,7 @@ function Mypage() {
         const data = await getMyPageSummary(currentYear);
         setSummaryData(data);
       } catch (error) {
-        if (error.response && error.response.status === 401) {
-          alert("인증이 필요합니다. 다시 로그인해주세요.");
-          navigate("/login");
-        }
+        console.error("마이페이지 요약 정보 로드 실패:", error);
       } finally {
         setIsLoading(false);
       }

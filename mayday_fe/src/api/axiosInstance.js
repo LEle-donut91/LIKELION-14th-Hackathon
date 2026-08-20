@@ -36,6 +36,8 @@ axiosInstance.interceptors.response.use(
   (error) => {
     // 401 Unauthorized 에러 발생 시 처리
     if (error.response && error.response.status === 401) {
+      alert("인증이 필요합니다. 다시 로그인해주세요.");
+
       // 1. localStorage에서 토큰 삭제
       localStorage.removeItem('accessToken');
 
