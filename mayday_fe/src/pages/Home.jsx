@@ -215,7 +215,7 @@ function Home() {
               <img src={HomeExportIcon} className={styles.aiIcon} alt="" />
               <b className={styles.actionTitle}>내보내기</b>
               <div className={styles.actionDescription}>
-                직전 년도 기록 내보내기
+                직전 연도 기록 내보내기
               </div>
             </div>
           </div>
