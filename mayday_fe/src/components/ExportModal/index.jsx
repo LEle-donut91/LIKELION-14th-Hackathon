@@ -260,11 +260,9 @@ function ExportModal({
 
                   {isQualifiedGroupChecked && (
                     <td className={styles.highlightCell}>
-                      {row.qualified === null || row.qualified === undefined
-                        ? "—"
-                        : row.qualified
-                          ? "적격"
-                          : "부적격"}
+                      {/* 적격 여부 필드 */}
+                      {/* Export.jsx에서 넘겨받은 데이터를 그대로 사용 */}
+                      {formatValue(row.qualified)} 
                     </td>
                   )}
                   {isEvidenceChecked && (

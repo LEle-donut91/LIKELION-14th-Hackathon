@@ -75,6 +75,14 @@ function getFilteredPreviewData(rawData, filterState) {
       ? Number(expenseVal).toLocaleString("ko-KR")
       : "";
 
+    // 적격 여부(qualifiedEvidence)가 null이면 "—" true/false면 "적격"/"부적격"으로 변환
+    const qualified =
+      item.qualifiedEvidence === null
+        ? "—"
+        : item.qualifiedEvidence
+        ? "적격"
+        : "부적격";
+
     return {
       ...item,
       date: formattedDate,
@@ -83,7 +91,7 @@ function getFilteredPreviewData(rawData, filterState) {
       client: item.merchantName,
       income,
       expense,
-      qualified: item.qualifiedEvidence,
+      qualified,
       evidence: EVIDENCE_TYPE_MAP[item.evidenceType] || item.evidenceType,
     };
   });
@@ -238,7 +246,7 @@ function Export() {
       ];
 
       if (isQualifiedGroupChecked) {
-        rowData.push(row.qualifiedEvidence ? "적격" : "부적격");
+        rowData.push(row.qualified);
       }
       if (isEvidenceChecked) {
         rowData.push(row.evidence);
