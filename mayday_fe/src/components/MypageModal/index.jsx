@@ -40,7 +40,7 @@ function MyPageModal({ isOpen, onClose, onWithdraw }) {
       const res = await deleteUser();
 
       // 백엔드에서 반환된 메시지 또는 기본 메시지로 알림
-      alert(res?.message || "회원 탈퇴가 완료되었습니다.");
+      alert("회원 탈퇴가 완료되었습니다.");
 
       // LocalStorage에서 인증 정보 삭제
       localStorage.removeItem("accessToken");
