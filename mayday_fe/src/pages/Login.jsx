@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from './Login.module.css';
 import Button from '../components/Button';
+import Scrollbar from '../components/ScrollBar';
 
 import loginIcon from '../assets/images/LoginIcon.svg';
 import loginError from '../assets/images/Loginerror.svg';
@@ -76,30 +77,33 @@ function Login() {
   };
 
   return (
-    <div className={styles.container}>
-      <div className={styles.section}>
-        <div className={styles.logo}>
-          <img src={loginIcon} className={styles.loginIcon} alt="login icon" />
-        </div>
-        <p className={styles.text}>영수증만 올리면 AI가 경비를 정리해요.<br />5월 종합소득세 신고 준비를 미리 끝내세요.</p>
-        <div className={styles.inputWrap}>
-          <input type="email" placeholder="이메일" className={styles.input} value={email} onChange={(e)=>setEmail(e.target.value)} />
-          <input type="password" placeholder="비밀번호" className={styles.input} value={password} onChange={(e)=>setPassword(e.target.value)} />
-        </div>
-        {errorMessage && (
-          <div className={styles.errorMes}>
-             <img src={loginError} alt="error icon" />
-             <span>{errorMessage}</span>
+    <Scrollbar>
+      <div className={styles.container}>
+        <div className={styles.section}>
+          <div className={styles.logo}>
+            <img src={loginIcon} className={styles.loginIcon} alt="login icon" />
           </div>
-        )}
-        <Button text="로그인" onClick={handleLogin} />
-        <div className={styles.btn}>
-          <span className={styles.link} style={{ color: '#3F4652' }} onClick={() => navigate('/join')}>회원가입</span>
-          <span className={styles.div}>|</span>
-          <span className={styles.link} onClick={handleDemoLogin}>심사위원용 데모 로그인</span>
+          <p className={styles.text}>영수증만 올리면 AI가 경비를 정리해요.<br />5월 종합소득세 신고 준비를 미리 끝내세요.</p>
+          <div className={styles.inputWrap}>
+            <input type="email" placeholder="이메일" className={styles.input} value={email} onChange={(e)=>setEmail(e.target.value)} />
+            <input type="password" placeholder="비밀번호" className={styles.input} value={password} onChange={(e)=>setPassword(e.target.value)} />
+          </div>
+          {errorMessage && (
+            <div className={styles.errorMes}>
+              <img src={loginError} alt="error icon" />
+              <span>{errorMessage}</span>
+            </div>
+          )}
+          <Button text="로그인" onClick={handleLogin} />
+          <div className={styles.btn}>
+            <span className={styles.link} style={{ color: '#3F4652' }} onClick={() => navigate('/join')}>회원가입</span>
+            <span className={styles.div}>|</span>
+            <span className={styles.link} onClick={handleDemoLogin}>심사위원용 데모 로그인</span>
+          </div>
         </div>
       </div>
-    </div>
+
+    </Scrollbar>
   );
 }
 

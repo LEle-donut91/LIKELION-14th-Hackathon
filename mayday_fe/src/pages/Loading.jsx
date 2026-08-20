@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import styles from './Loading.module.css';
+import Scrollbar from '../components/ScrollBar';
 
 import LoadingIcon from '../assets/images/Loading.svg';
 import LoadingWarning from '../assets/images/LoadingWarning.svg';
@@ -76,28 +77,30 @@ function Loading() {
   const strokeDashoffset = circumference - (progress / 100) * circumference;
 
   return (
-    <div className={styles.container}>
-      <div className={styles.Wrap}>
-        <div className={styles.progressContainer}>
-          <svg className={styles.progressSvg} width="140" height="140" viewBox="0 0 140 140">
-            <circle className={styles.progressTrack} cx="70" cy="70" r={radius} />
-            <circle className={styles.progressFill} cx="70" cy="70" r={radius} style={{ strokeDasharray: circumference, strokeDashoffset: strokeDashoffset, }} />
-          </svg>
-          <div className={styles.iconWrapper}>
-            <img src={LoadingIcon} className={styles.icon} />
+    <Scrollbar>
+      <div className={styles.container}>
+        <div className={styles.Wrap}>
+          <div className={styles.progressContainer}>
+            <svg className={styles.progressSvg} width="140" height="140" viewBox="0 0 140 140">
+              <circle className={styles.progressTrack} cx="70" cy="70" r={radius} />
+              <circle className={styles.progressFill} cx="70" cy="70" r={radius} style={{ strokeDasharray: circumference, strokeDashoffset: strokeDashoffset, }} />
+            </svg>
+            <div className={styles.iconWrapper}>
+              <img src={LoadingIcon} className={styles.icon} />
+            </div>
           </div>
+          <div className={styles.textContainer}>
+            <p className={styles.text}>잠시만 기다려 주세요...</p>
+            <h2 className={styles.title}>메이데이가 거래 내역을<br />분석하고 있어요</h2>
+          </div>
+          <p className={styles.texts}>{bottomText}</p>
         </div>
-        <div className={styles.textContainer}>
-          <p className={styles.text}>잠시만 기다려 주세요...</p>
-          <h2 className={styles.title}>메이데이가 거래 내역을<br />분석하고 있어요</h2>
+        <div className={styles.warning}>
+          <img src={LoadingWarning} className={styles.warningIcon} />
+          <span className={styles.warningText}>AI 분석 결과는 실제 적격·비적격 여부와 다를 수 있어요.</span>
         </div>
-        <p className={styles.texts}>{bottomText}</p>
       </div>
-      <div className={styles.warning}>
-        <img src={LoadingWarning} className={styles.warningIcon} />
-        <span className={styles.warningText}>AI 분석 결과는 실제 적격·비적격 여부와 다를 수 있어요.</span>
-      </div>
-    </div>
+    </Scrollbar>
   );
 }
 

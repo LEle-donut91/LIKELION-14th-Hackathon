@@ -6,6 +6,8 @@ import Button from "../components/Button";
 import EditDropdown from "../components/EditDropdown";
 import EditDeleteIcon from "../assets/images/EditDeleteIcon.svg";
 import EditInfoIcon from "../assets/images/EditInfoIcon.svg";
+import Scrollbar from '../components/ScrollBar';
+
 import {
   getIncomeDetail,
   updateIncomeDetail,
@@ -348,190 +350,192 @@ function EditIn() {
           <img onClick={handleDelete} src={EditDeleteIcon} />
         </button>
       </header>
+      <Scrollbar>
+        {/* 메인 컨텐츠 */}
+        <main className={styles.content}>
+          <p className={styles.guideText}>
+            <strong>모든 항목을 눌러 수정</strong>
+            <span>할 수 있어요.</span>
+          </p>
 
-      {/* 메인 컨텐츠 */}
-      <main className={styles.content}>
-        <p className={styles.guideText}>
-          <strong>모든 항목을 눌러 수정</strong>
-          <span>할 수 있어요.</span>
-        </p>
+          <section className={styles.formCard}>
+            {/* 거래처 & 날짜 */}
+            <div className={styles.row}>
+              <div className={styles.col}>
+                <label className={styles.label}>거래처</label>
+                <div className={styles.inputBox}>
+                  <input
+                    type="text"
+                    name="merchant"
+                    className={styles.input}
+                    value={isLoading ? "로딩중..." : formData.merchant}
+                    placeholder={isLoading ? "로딩중..." : initialData.merchant}
+                    onChange={handleChange}
+                    disabled={isLoading}
+                  />
+                </div>
+              </div>
 
-        <section className={styles.formCard}>
-          {/* 거래처 & 날짜 */}
-          <div className={styles.row}>
-            <div className={styles.col}>
-              <label className={styles.label}>거래처</label>
-              <div className={styles.inputBox}>
-                <input
-                  type="text"
-                  name="merchant"
-                  className={styles.input}
-                  value={isLoading ? "로딩중..." : formData.merchant}
-                  placeholder={isLoading ? "로딩중..." : initialData.merchant}
-                  onChange={handleChange}
-                  disabled={isLoading}
-                />
+              <div className={styles.col}>
+                <label className={styles.label}>날짜</label>
+                <div className={styles.inputBox}>
+                  <input
+                    type="text"
+                    name="date"
+                    className={styles.input}
+                    maxLength={10}
+                    value={isLoading ? "로딩중..." : formData.date}
+                    placeholder={isLoading ? "로딩중..." : initialData.date}
+                    onChange={handleChange}
+                    disabled={isLoading}
+                  />
+                </div>
               </div>
             </div>
 
-            <div className={styles.col}>
-              <label className={styles.label}>날짜</label>
-              <div className={styles.inputBox}>
-                <input
-                  type="text"
-                  name="date"
-                  className={styles.input}
-                  maxLength={10}
-                  value={isLoading ? "로딩중..." : formData.date}
-                  placeholder={isLoading ? "로딩중..." : initialData.date}
-                  onChange={handleChange}
-                  disabled={isLoading}
-                />
+            {/* 3.3% 원천징수 여부 */}
+            <div className={styles.field}>
+              <label className={styles.label}>3.3% 원천징수(공제) 여부</label>
+              <div className={styles.radioGroup}>
+                <label
+                  className={`${styles.radioBtn} ${
+                    formData.isWithholding === true ? styles.selected : ""
+                  }`}
+                >
+                  <input
+                    type="radio"
+                    name="isWithholding"
+                    checked={formData.isWithholding === true}
+                    onChange={() => handleWithholdingChange(true)}
+                    className={styles.hiddenRadio}
+                    disabled={isLoading}
+                  />
+                  <span>3.3% 공제</span>
+                </label>
+
+                <label
+                  className={`${styles.radioBtn} ${
+                    formData.isWithholding === false ? styles.selected : ""
+                  }`}
+                >
+                  <input
+                    type="radio"
+                    name="isWithholding"
+                    checked={formData.isWithholding === false}
+                    onChange={() => handleWithholdingChange(false)}
+                    className={styles.hiddenRadio}
+                    disabled={isLoading}
+                  />
+                  <span>공제 없음</span>
+                </label>
               </div>
             </div>
-          </div>
 
-          {/* 3.3% 원천징수 여부 */}
-          <div className={styles.field}>
-            <label className={styles.label}>3.3% 원천징수(공제) 여부</label>
-            <div className={styles.radioGroup}>
-              <label
-                className={`${styles.radioBtn} ${
-                  formData.isWithholding === true ? styles.selected : ""
-                }`}
-              >
-                <input
-                  type="radio"
-                  name="isWithholding"
-                  checked={formData.isWithholding === true}
-                  onChange={() => handleWithholdingChange(true)}
-                  className={styles.hiddenRadio}
-                  disabled={isLoading}
-                />
-                <span>3.3% 공제</span>
-              </label>
-
-              <label
-                className={`${styles.radioBtn} ${
-                  formData.isWithholding === false ? styles.selected : ""
-                }`}
-              >
-                <input
-                  type="radio"
-                  name="isWithholding"
-                  checked={formData.isWithholding === false}
-                  onChange={() => handleWithholdingChange(false)}
-                  className={styles.hiddenRadio}
-                  disabled={isLoading}
-                />
-                <span>공제 없음</span>
-              </label>
-            </div>
-          </div>
-
-          {/* 받은 금액 (실수령액) */}
-          <div className={styles.field}>
-            <div className={styles.labelWithBadge}>
-              <label className={styles.label}>받은 금액 (실수령액)</label>
-              <span className={styles.badgePrimary}>주 입력</span>
-            </div>
-            <div className={`${styles.inputBox} ${styles.highlightBox}`}>
-              <input
-                type="text"
-                name="netAmount"
-                className={`${styles.input} ${styles.boldInput}`}
-                value={
-                  isLoading
-                    ? "로딩중..."
-                    : formData.netAmount !== ""
-                      ? `${Number(formData.netAmount).toLocaleString()}원`
-                      : ""
-                }
-                onChange={handleChange}
-                onKeyDown={(e) => handleKeyDown(e, "netAmount")}
-                disabled={isLoading}
-              />
-            </div>
-          </div>
-
-          {/* 공제 전 금액 & 원천징수 세액 */}
-          <div className={styles.row}>
-            <div className={styles.col}>
+            {/* 받은 금액 (실수령액) */}
+            <div className={styles.field}>
               <div className={styles.labelWithBadge}>
-                <label className={styles.label}>공제 전 금액</label>
-                <span className={styles.badgeAuto}>자동</span>
+                <label className={styles.label}>받은 금액 (실수령액)</label>
+                <span className={styles.badgePrimary}>주 입력</span>
               </div>
-              <div className={`${styles.inputBox} ${styles.disabledBox}`}>
+              <div className={`${styles.inputBox} ${styles.highlightBox}`}>
                 <input
                   type="text"
-                  name="grossAmount"
-                  className={styles.input}
+                  name="netAmount"
+                  className={`${styles.input} ${styles.boldInput}`}
                   value={
                     isLoading
                       ? "로딩중..."
-                      : formData.grossAmount !== ""
-                        ? `${Number(formData.grossAmount).toLocaleString()}원`
+                      : formData.netAmount !== ""
+                        ? `${Number(formData.netAmount).toLocaleString()}원`
                         : ""
                   }
                   onChange={handleChange}
+                  onKeyDown={(e) => handleKeyDown(e, "netAmount")}
                   disabled={isLoading}
-                  readOnly
                 />
               </div>
             </div>
 
-            <div className={styles.col}>
-              <div className={styles.labelWithBadge}>
-                <label className={styles.label}>원천징수 세액</label>
-                <span className={styles.badgeAuto}>자동</span>
+            {/* 공제 전 금액 & 원천징수 세액 */}
+            <div className={styles.row}>
+              <div className={styles.col}>
+                <div className={styles.labelWithBadge}>
+                  <label className={styles.label}>공제 전 금액</label>
+                  <span className={styles.badgeAuto}>자동</span>
+                </div>
+                <div className={`${styles.inputBox} ${styles.disabledBox}`}>
+                  <input
+                    type="text"
+                    name="grossAmount"
+                    className={styles.input}
+                    value={
+                      isLoading
+                        ? "로딩중..."
+                        : formData.grossAmount !== ""
+                          ? `${Number(formData.grossAmount).toLocaleString()}원`
+                          : ""
+                    }
+                    onChange={handleChange}
+                    disabled={isLoading}
+                    readOnly
+                  />
+                </div>
               </div>
-              <div className={`${styles.inputBox} ${styles.disabledBox}`}>
-                <input
-                  type="text"
-                  name="taxAmount"
-                  className={styles.input}
-                  value={
-                    isLoading
-                      ? "로딩중..."
-                      : formData.taxAmount !== ""
-                        ? `${Number(formData.taxAmount).toLocaleString()}원`
-                        : ""
-                  }
-                  onChange={handleChange}
-                  disabled={isLoading}
-                  readOnly
+
+              <div className={styles.col}>
+                <div className={styles.labelWithBadge}>
+                  <label className={styles.label}>원천징수 세액</label>
+                  <span className={styles.badgeAuto}>자동</span>
+                </div>
+                <div className={`${styles.inputBox} ${styles.disabledBox}`}>
+                  <input
+                    type="text"
+                    name="taxAmount"
+                    className={styles.input}
+                    value={
+                      isLoading
+                        ? "로딩중..."
+                        : formData.taxAmount !== ""
+                          ? `${Number(formData.taxAmount).toLocaleString()}원`
+                          : ""
+                    }
+                    onChange={handleChange}
+                    disabled={isLoading}
+                    readOnly
+                  />
+                </div>
+              </div>
+            </div>
+
+            {/* 안내 텍스트 */}
+            <div className={styles.infoNoticeCard}>
+              <img className={styles.infoIcon} src={EditInfoIcon} />
+              <p className={styles.subGuideText}>
+                {formData.isWithholding
+                  ? "받은 금액을 입력하면 3.3% 원천징수 기준으로 나머지 금액이 자동 계산돼요."
+                  : "원천징수가 없어 세액은 0원이에요."}
+              </p>
+            </div>
+
+            {/* 항목 선택 */}
+            <div className={styles.field}>
+              <label className={styles.label}>항목</label>
+              <div className={styles.selectWrapper}>
+                <EditDropdown
+                  placeholder="수입 항목 선택"
+                  items={categoryItems}
+                  selectedValue={isLoading ? "로딩중..." : formData.category}
+                  onSelect={(val) => handleDropdownChange("category", val)}
                 />
+                {/* 커스텀 화살표 아이콘 추가 */}
+                <span className={styles.arrowIcon} />
               </div>
+              <span className={styles.helperText}>매출 · 기타(수입) 중 선택</span>
             </div>
-          </div>
-
-          {/* 안내 텍스트 */}
-          <div className={styles.infoNoticeCard}>
-            <img className={styles.infoIcon} src={EditInfoIcon} />
-            <p className={styles.subGuideText}>
-              {formData.isWithholding
-                ? "받은 금액을 입력하면 3.3% 원천징수 기준으로 나머지 금액이 자동 계산돼요."
-                : "원천징수가 없어 세액은 0원이에요."}
-            </p>
-          </div>
-
-          {/* 항목 선택 */}
-          <div className={styles.field}>
-            <label className={styles.label}>항목</label>
-            <div className={styles.selectWrapper}>
-              <EditDropdown
-                placeholder="수입 항목 선택"
-                items={categoryItems}
-                selectedValue={isLoading ? "로딩중..." : formData.category}
-                onSelect={(val) => handleDropdownChange("category", val)}
-              />
-              {/* 커스텀 화살표 아이콘 추가 */}
-              <span className={styles.arrowIcon} />
-            </div>
-            <span className={styles.helperText}>매출 · 기타(수입) 중 선택</span>
-          </div>
-        </section>
-      </main>
+          </section>
+        </main>
+      </Scrollbar>
+      
       {/* 하단 버튼 영역 */}
       <div className={styles.btnGroup}>
         <Button text="수입 저장하기" onClick={handleSave} />

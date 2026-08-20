@@ -7,7 +7,7 @@ import HomeExportIcon from "../assets/images/HomeExportIcon.svg";
 import HomeProfileIcon from "../assets/images/HomeProfileIcon.svg";
 import HomeRecordIcon from "../assets/images/HomeRecordIcon.svg";
 import NavBar from "../components/NavBar";
-import Header from "../components/Header";
+import Scrollbar from '../components/ScrollBar';
 import { getHomeSummary } from "../api/homeApi";
 import HomeIcon2 from "../assets/images/HomeIcon2.svg";
 
@@ -101,124 +101,127 @@ function Home() {
         </div>
       </header>
 
-      {/* 메인 콘텐츠 */}
-      <main className={styles.content}>
-        {/* 올해 기록한 비용 */}
-        <section className={styles.expenseSummary}>
-          <div className={styles.summaryTitle}>올해 정리한 경비</div>
+      <Scrollbar>
+        {/* 메인 콘텐츠 */}
+        <main className={styles.content}>
+          {/* 올해 기록한 비용 */}
+          <section className={styles.expenseSummary}>
+            <div className={styles.summaryTitle}>올해 정리한 경비</div>
 
-          <div className={styles.summaryAmount}>
-            <b className={styles.expenseAmount}>
-              {isLoading ? "로딩중..." : yearlyExpense.toLocaleString()}
-            </b>
-            {!isLoading && <div className={styles.currency} style={{ marginLeft: '10px' }}>원</div>}
-          </div>
+            <div className={styles.summaryAmount}>
+              <b className={styles.expenseAmount}>
+                {isLoading ? "로딩중..." : yearlyExpense.toLocaleString()}
+              </b>
+              {!isLoading && <div className={styles.currency} style={{ marginLeft: '10px' }}>원</div>}
+            </div>
 
-          <div className={styles.summaryDescription}>
-            <div className={styles.dotIcon} />
-            <span>
-              {isLoading
-                ? "로딩중..."
-                : `이번 달 AI가 ${aiFoundExpense.toLocaleString()}원을 기록했어요`}
-            </span>
-          </div>
-        </section>
-
-        {/* 올해 수입과 비용 */}
-        <section className={styles.incomeExpense}>
-          <b className={styles.sectionTitle}>올해 수입과 비용</b>
-
-          <div className={styles.ratioBar}>
-            {/* recordedIncomeRatio 값에 따라 width 조절 */}
-            <div
-              className={styles.incomeBar}
-              style={{ width: `${isLoading ? 0 : recordedIncomeRatio}%` }}
-            />
-            <div
-              className={styles.expenseBar}
-              style={{ width: `${isLoading ? 0 : recordedExpenseRatio}%` }}
-            />
-          </div>
-
-          <div className={styles.ratioLabels}>
-            <span className={styles.incomeLabel}>
-              수입 {isLoading ? "로딩중..." : `${recordedIncomeRatio}%`}
-            </span>
-            <span className={styles.expenseLabel}>
-              비용 {isLoading ? "로딩중..." : `${recordedExpenseRatio}%`}
-            </span>
-          </div>
-
-          <div className={styles.amountList}>
-            <div className={styles.incomeAmount}>
-              <div className={styles.incomeDotRow}>
-                <div className={styles.incomeDot} />
-                <span className={styles.incomeText}>기록한 수입</span>
-              </div>
-              <b className={styles.amountValueIncome}>
+            <div className={styles.summaryDescription}>
+              <div className={styles.dotIcon} />
+              <span>
                 {isLoading
                   ? "로딩중..."
-                  : `${recordedIncome.toLocaleString()}원`}
-              </b>
+                  : `이번 달 AI가 ${aiFoundExpense.toLocaleString()}원을 기록했어요`}
+              </span>
+            </div>
+          </section>
+
+          {/* 올해 수입과 비용 */}
+          <section className={styles.incomeExpense}>
+            <b className={styles.sectionTitle}>올해 수입과 비용</b>
+
+            <div className={styles.ratioBar}>
+              {/* recordedIncomeRatio 값에 따라 width 조절 */}
+              <div
+                className={styles.incomeBar}
+                style={{ width: `${isLoading ? 0 : recordedIncomeRatio}%` }}
+              />
+              <div
+                className={styles.expenseBar}
+                style={{ width: `${isLoading ? 0 : recordedExpenseRatio}%` }}
+              />
             </div>
 
-            <div className={styles.expenseAmountRow}>
-              <div className={styles.expenseDotRow}>
-                <div className={styles.expenseDot} />
-                <span className={styles.expenseText}>기록한 비용</span>
+            <div className={styles.ratioLabels}>
+              <span className={styles.incomeLabel}>
+                수입 {isLoading ? "로딩중..." : `${recordedIncomeRatio}%`}
+              </span>
+              <span className={styles.expenseLabel}>
+                비용 {isLoading ? "로딩중..." : `${recordedExpenseRatio}%`}
+              </span>
+            </div>
+
+            <div className={styles.amountList}>
+              <div className={styles.incomeAmount}>
+                <div className={styles.incomeDotRow}>
+                  <div className={styles.incomeDot} />
+                  <span className={styles.incomeText}>기록한 수입</span>
+                </div>
+                <b className={styles.amountValueIncome}>
+                  {isLoading
+                    ? "로딩중..."
+                    : `${recordedIncome.toLocaleString()}원`}
+                </b>
               </div>
-              <b className={styles.amountValueExpense}>
-                {isLoading
-                  ? "로딩중..."
-                  : `${recordedExpense.toLocaleString()}원`}
+
+              <div className={styles.expenseAmountRow}>
+                <div className={styles.expenseDotRow}>
+                  <div className={styles.expenseDot} />
+                  <span className={styles.expenseText}>기록한 비용</span>
+                </div>
+                <b className={styles.amountValueExpense}>
+                  {isLoading
+                    ? "로딩중..."
+                    : `${recordedExpense.toLocaleString()}원`}
+                </b>
+              </div>
+            </div>
+          </section>
+
+          {/* 2x2 그리드 영역 */}
+          <div className={styles.gridContainer}>
+            {/* 최근 기록 */}
+            <div
+              className={styles.recentRecords}
+              onClick={() => navigate("/history")}
+            >
+              <img src={HomeHistoryIcon} className={styles.aiIcon} alt="" />
+              <b className={styles.cardTitle}>최근 기록 내역</b>
+              <div className={styles.cardDescription}>기록 내역 바로가기</div>
+            </div>
+
+            {/* AI 분류 */}
+            <div className={styles.aiRecords}>
+              <img src={HomeAiIcon} className={styles.aiIcon} alt="" />
+              <b className={styles.aiCount}>
+                {isLoading ? "로딩중..." : `${aiClassifiedRecords}건`}
               </b>
+              <div className={styles.aiDescription}>이번 달 AI가 분류한 기록</div>
+            </div>
+
+            {/* 경비 기록 */}
+            <div
+              className={styles.expenseRecordCard}
+              onClick={() => navigate("/record")}
+            >
+              <img src={HomeRecordIcon} className={styles.aiIcon} alt="" />
+              <b className={styles.actionTitle}>경비 기록</b>
+              <div className={styles.actionDescription}>
+                촬영 · 업로드로 바로 분석
+              </div>
+            </div>
+
+            {/* 내보내기 */}
+            <div className={styles.exportCard} onClick={handleNavigateToExport}>
+              <img src={HomeExportIcon} className={styles.aiIcon} alt="" />
+              <b className={styles.actionTitle}>내보내기</b>
+              <div className={styles.actionDescription}>
+                직전 년도 기록 내보내기
+              </div>
             </div>
           </div>
-        </section>
-
-        {/* 2x2 그리드 영역 */}
-        <div className={styles.gridContainer}>
-          {/* 최근 기록 */}
-          <div
-            className={styles.recentRecords}
-            onClick={() => navigate("/history")}
-          >
-            <img src={HomeHistoryIcon} className={styles.aiIcon} alt="" />
-            <b className={styles.cardTitle}>최근 기록 내역</b>
-            <div className={styles.cardDescription}>기록 내역 바로가기</div>
-          </div>
-
-          {/* AI 분류 */}
-          <div className={styles.aiRecords}>
-            <img src={HomeAiIcon} className={styles.aiIcon} alt="" />
-            <b className={styles.aiCount}>
-              {isLoading ? "로딩중..." : `${aiClassifiedRecords}건`}
-            </b>
-            <div className={styles.aiDescription}>이번 달 AI가 분류한 기록</div>
-          </div>
-
-          {/* 경비 기록 */}
-          <div
-            className={styles.expenseRecordCard}
-            onClick={() => navigate("/record")}
-          >
-            <img src={HomeRecordIcon} className={styles.aiIcon} alt="" />
-            <b className={styles.actionTitle}>경비 기록</b>
-            <div className={styles.actionDescription}>
-              촬영 · 업로드로 바로 분석
-            </div>
-          </div>
-
-          {/* 내보내기 */}
-          <div className={styles.exportCard} onClick={handleNavigateToExport}>
-            <img src={HomeExportIcon} className={styles.aiIcon} alt="" />
-            <b className={styles.actionTitle}>내보내기</b>
-            <div className={styles.actionDescription}>
-              직전 년도 기록 내보내기
-            </div>
-          </div>
-        </div>
-      </main>
+        </main>
+      </Scrollbar>
+      
       <NavBar />
     </div>
   );

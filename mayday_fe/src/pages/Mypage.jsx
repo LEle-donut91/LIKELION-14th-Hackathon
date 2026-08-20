@@ -8,7 +8,7 @@ import MyPageFolderIcon from "../assets/images/MyPageFolderIcon.svg";
 import MyPageProfileIcon from "../assets/images/MyPageProfileIcon.svg";
 import NavBar from "../components/NavBar";
 import { getMyPageSummary, postLogout } from "../api/myPageApi";
-import Header from "../components/Header";
+import Scrollbar from '../components/ScrollBar';
 import HomeIcon2 from "../assets/images/HomeIcon2.svg";
 
 function Mypage() {
@@ -86,120 +86,122 @@ function Mypage() {
           <img src={HomeIcon2} style={{ width: '100px' }} />
         </div>
       </header>
+      <Scrollbar>
+        {/* 메인 콘텐츠 */}
+        <main className={styles.mainContent}>
+          {/* 프로필 카드 */}
+          <section className={styles.profileCard}>
+            <img
+              src={MyPageProfileIcon}
+              className={styles.profileAvatar}
+              alt=""
+            />
+            <div className={styles.profileInfo}>
+              <strong className={styles.userEmail}>
+                {isLoading ? "로딩중..." : summaryData?.email}
+              </strong>
+              <p className={styles.dDayNotice}>
+                5월 종합소득세 신고 마감까지 D-
+                {isLoading ? "..." : summaryData?.taxDDay}
+              </p>
+            </div>
+          </section>
 
-      {/* 메인 콘텐츠 */}
-      <main className={styles.mainContent}>
-        {/* 프로필 카드 */}
-        <section className={styles.profileCard}>
-          <img
-            src={MyPageProfileIcon}
-            className={styles.profileAvatar}
-            alt=""
-          />
-          <div className={styles.profileInfo}>
-            <strong className={styles.userEmail}>
-              {isLoading ? "로딩중..." : summaryData?.email}
-            </strong>
-            <p className={styles.dDayNotice}>
-              5월 종합소득세 신고 마감까지 D-
-              {isLoading ? "..." : summaryData?.taxDDay}
-            </p>
-          </div>
-        </section>
+          {/* 통계 카드 */}
+          <section className={styles.statsCard}>
+            <div className={styles.statGroup}>
+              <strong className={styles.statNum}>
+                {isLoading ? "로딩중..." : `${summaryData?.recordedCount}건`}
+              </strong>
+              <span className={styles.statLabel}>올해 기록</span>
+            </div>
+            <div className={styles.divider} />
+            <div className={styles.statGroup}>
+              <strong className={styles.statNum}>
+                {isLoading
+                  ? "로딩중..."
+                  : `${summaryData?.qualifiedEvidenceCount}건`}
+              </strong>
+              <span className={styles.statLabel}>적격 증빙</span>
+            </div>
+            <div className={styles.divider} />
+            <div className={styles.statGroup}>
+              <strong className={styles.statNum}>
+                {isLoading
+                  ? "로딩중..."
+                  : `${summaryData?.recognizedExpenseTenThousand?.toLocaleString()}만 원`}
+              </strong>
+              <span className={styles.statLabel}>인정 경비</span>
+            </div>
+          </section>
 
-        {/* 통계 카드 */}
-        <section className={styles.statsCard}>
-          <div className={styles.statGroup}>
-            <strong className={styles.statNum}>
-              {isLoading ? "로딩중..." : `${summaryData?.recordedCount}건`}
-            </strong>
-            <span className={styles.statLabel}>올해 기록</span>
-          </div>
-          <div className={styles.divider} />
-          <div className={styles.statGroup}>
-            <strong className={styles.statNum}>
-              {isLoading
-                ? "로딩중..."
-                : `${summaryData?.qualifiedEvidenceCount}건`}
-            </strong>
-            <span className={styles.statLabel}>적격 증빙</span>
-          </div>
-          <div className={styles.divider} />
-          <div className={styles.statGroup}>
-            <strong className={styles.statNum}>
-              {isLoading
-                ? "로딩중..."
-                : `${summaryData?.recognizedExpenseTenThousand?.toLocaleString()}만 원`}
-            </strong>
-            <span className={styles.statLabel}>인정 경비</span>
-          </div>
-        </section>
+          {/* 기록 관리 섹션 */}
+          <section className={styles.menuSection}>
+            <h2 className={styles.sectionTitle}>기록 관리</h2>
+            <div className={styles.menuCard}>
+              <button
+                className={styles.menuItem}
+                onClick={() => navigate("/history")}
+              >
+                <img src={MyPageFolderIcon} className={styles.menuIcon} alt="" />
+                <div className={styles.menuTextBox}>
+                  <strong className={styles.menuTitle}>기록 조회</strong>
+                  <span className={styles.menuSubTitle}>
+                    연도별 장부 · 검색 · 필터
+                  </span>
+                </div>
+                <div className={styles.arrowIcon} />
+              </button>
 
-        {/* 기록 관리 섹션 */}
-        <section className={styles.menuSection}>
-          <h2 className={styles.sectionTitle}>기록 관리</h2>
-          <div className={styles.menuCard}>
-            <button
-              className={styles.menuItem}
-              onClick={() => navigate("/history")}
-            >
-              <img src={MyPageFolderIcon} className={styles.menuIcon} alt="" />
-              <div className={styles.menuTextBox}>
-                <strong className={styles.menuTitle}>기록 조회</strong>
-                <span className={styles.menuSubTitle}>
-                  연도별 장부 · 검색 · 필터
-                </span>
-              </div>
-              <div className={styles.arrowIcon} />
-            </button>
+              <button className={styles.menuItem} onClick={handleExportClick}>
+                <img
+                  src={MyPageDownloadIcon}
+                  className={styles.menuIcon}
+                  alt=""
+                />
+                <div className={styles.menuTextBox}>
+                  <strong className={styles.menuTitle}>내보내기</strong>
+                  <span className={styles.menuSubTitle}>
+                    미리보기 · CSV · 엑셀
+                  </span>
+                </div>
+                <div className={styles.arrowIcon} />
+              </button>
+            </div>
+          </section>
 
-            <button className={styles.menuItem} onClick={handleExportClick}>
-              <img
-                src={MyPageDownloadIcon}
-                className={styles.menuIcon}
-                alt=""
-              />
-              <div className={styles.menuTextBox}>
-                <strong className={styles.menuTitle}>내보내기</strong>
-                <span className={styles.menuSubTitle}>
-                  미리보기 · CSV · 엑셀
-                </span>
-              </div>
-              <div className={styles.arrowIcon} />
-            </button>
-          </div>
-        </section>
+          {/* 계정 섹션 */}
+          <section className={styles.menuSection}>
+            <h2 className={styles.sectionTitle}>계정</h2>
+            <div className={styles.menuCard}>
+              {/* 회원 탈퇴 버튼 클릭 시 모달 열기 */}
+              <button
+                className={styles.menuItem}
+                onClick={() => setIsModalOpen(true)}
+              >
+                <img src={MyPageDeleteIcon} className={styles.menuIcon} alt="" />
+                <div className={styles.menuTextBox}>
+                  <strong className={styles.menuTitle}>회원 탈퇴</strong>
+                  <span className={styles.menuSubTitle}>
+                    저장했던 기록이 모두 삭제돼요
+                  </span>
+                </div>
+                <div className={styles.arrowIcon} />
+              </button>
+            </div>
+          </section>
 
-        {/* 계정 섹션 */}
-        <section className={styles.menuSection}>
-          <h2 className={styles.sectionTitle}>계정</h2>
-          <div className={styles.menuCard}>
-            {/* 회원 탈퇴 버튼 클릭 시 모달 열기 */}
-            <button
-              className={styles.menuItem}
-              onClick={() => setIsModalOpen(true)}
-            >
-              <img src={MyPageDeleteIcon} className={styles.menuIcon} alt="" />
-              <div className={styles.menuTextBox}>
-                <strong className={styles.menuTitle}>회원 탈퇴</strong>
-                <span className={styles.menuSubTitle}>
-                  저장했던 기록이 모두 삭제돼요
-                </span>
-              </div>
-              <div className={styles.arrowIcon} />
-            </button>
-          </div>
-        </section>
-
-        {/* 로그아웃 */}
-        <button
-          type="button"
-          className={styles.logoutButton}
-          onClick={handleLogout}
-        >
-          로그아웃
-        </button>
-      </main>
+          {/* 로그아웃 */}
+          <button
+            type="button"
+            className={styles.logoutButton}
+            onClick={handleLogout}
+          >
+            로그아웃
+          </button>
+        </main>
+      </Scrollbar>
+      
       <NavBar />
 
       {/* 모달 상태에 따른 조건부 렌더링 */}
