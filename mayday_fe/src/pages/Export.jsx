@@ -88,13 +88,23 @@ function getFilteredPreviewData(rawData, filterState) {
       ? Number(expenseVal).toLocaleString("ko-KR")
       : "";
 
-    // 적격 여부(qualifiedEvidence)가 null이면 "—" true/false면 "적격"/"부적격"으로 변환
-    const qualified =
-      item.qualifiedEvidence === null
-        ? "—"
-        : item.qualifiedEvidence
-        ? "적격"
-        : "부적격";
+    // 수입이면 isIncome이 true (지출이면 false)
+    const isIncome = item.type === "INCOME";
+
+    // 적격 여부 (수입이면 "—"로 설정)
+    const qualified = isIncome
+      ? "—"
+      : item.qualifiedEvidence
+      ? "적격"
+      : "부적격";
+
+    // 증빙 유형 (수입이면 "—"로 설정)
+    const evidence = isIncome
+      ? "—"
+      : EVIDENCE_TYPE_MAP[item.evidenceType] || item.evidenceType || "—";
+
+    // 비고 (수입이면 "—"로 설정)
+    const remark = isIncome ? "—" : item.remark || "";
 
     return {
       ...item,
@@ -105,7 +115,8 @@ function getFilteredPreviewData(rawData, filterState) {
       income,
       expense,
       qualified,
-      evidence: EVIDENCE_TYPE_MAP[item.evidenceType] || item.evidenceType,
+      evidence,
+      remark,
     };
   });
 
