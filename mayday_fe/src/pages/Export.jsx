@@ -356,7 +356,7 @@ function Export() {
         <section className={styles.section}>
           <div className={styles.sectionContainer}>
           <h2 className={styles.sectionTitle}>함께 내보낼 항목</h2>
-          <span className={styles.optionSubtext}>
+          <span className={styles.obtionText}>
                 간편장부 서식 외 항목
           </span>
           </div>
@@ -404,7 +404,7 @@ function Export() {
                         <img src={HistoryUnCheckedIcon} />
                       )}
                     </span>
-                    <span>적격</span>
+                    <span className={styles.itemLabel}>적격</span>
                     <span className={styles.itemDescription}>
                       지출 적격만 분류
                     </span>
@@ -427,7 +427,7 @@ function Export() {
                         <img src={HistoryUnCheckedIcon} />
                       )}
                     </span>
-                    <span>부적격</span>
+                    <span className={styles.itemLabel}>부적격</span>
                     <span className={styles.itemDescription}>
                       지출 부적격만 분류
                     </span>

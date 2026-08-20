@@ -119,7 +119,7 @@
   cursor: pointer;
   user-select: none;
   font-size: 15px;
-  padding: 6px 16px;
+  padding: 6px 13px 6px 16px;
 }
 
 .optionHeader img {
@@ -152,11 +152,21 @@
   margin-left: auto;
 }
 
+.obtionText {
+  font-size: 12px;
+  line-height: 121%;
+  font-weight: 500;
+  color: #a8adb7;
+  margin-left: auto;
+  padding-right: 6px;
+}
+
+
 /* 하위 선택 리스트 */
 .subOptionList {
   list-style: none;
-  padding: 0 0 0 11px;
-  margin: 0 0 6px 11px;
+  padding: 0;
+  margin: 0;
   display: flex;
   flex-direction: column;
   gap: 0px;
@@ -169,27 +179,26 @@
 .subOptionItem {
   display: flex;
   align-items: center;
-  height: 42px;
-  gap: 11px;
-  font-size: 13px;
-  color: #3f4652;
+  gap: 12px;
   cursor: pointer;
   user-select: none;
+  font-size: 15px;
+  padding: 11px 22px 11px 40px;
 }
 
 .subOptionItemRemark {
   display: flex;
   align-items: center;
-  height: 42px;
-  gap: 11px;
-  font-size: 13px;
-  color: #3f4652;
+  gap: 12px;
   cursor: pointer;
   user-select: none;
+  font-size: 15px;
+  padding: 11px 22px 11px 40px;
   border-top: 1px solid #e9ebf0;
 }
 
 .itemLabel {
+  font-size: 13px;
   line-height: 119%;
   font-weight: 600;
   color: #3f4652;
