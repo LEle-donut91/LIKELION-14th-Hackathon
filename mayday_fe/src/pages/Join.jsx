@@ -28,6 +28,14 @@ function Join() {
   };
 
   useEffect(() => {
+    if (email && !isValidEmail(email)) {
+      setEmailError('올바른 이메일 형식이 아니에요.');
+    } else if (email && isValidEmail(email)) {
+      setEmailError('');
+    }
+  }, [email]);
+
+  useEffect(() => {
     const pwdRegex = /^(?=.*[a-zA-Z])(?=.*[0-9]).{8,}$/;
     if (password && !pwdRegex.test(password)) {
       setPasswordError('영문·숫자 포함 8자 이상이어야 합니다.');
@@ -81,7 +89,7 @@ function Join() {
         <p className={styles.text}>계정을 만들면 기록이 연도 단위로<br />안전하게 보관돼요.</p>
 
         <div className={styles.inputWrap}>
-          <input type="email" placeholder="이메일" className={`${styles.input} ${emailError ? styles.inputError : ''}`} value={email} onChange={e => {setEmail(e.target.value); setEmailError('');}} />
+          <input type="email" placeholder="이메일" className={`${styles.input} ${emailError ? styles.inputError : ''}`} value={email} onChange={e => {setEmail(e.target.value)}} />
           {emailError && <span className={styles.error}>{emailError}</span>}
         </div>
         <div className={styles.inputWrap}>
