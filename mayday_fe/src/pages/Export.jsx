@@ -354,10 +354,19 @@ function Export() {
 
         {/* 내보낼 항목 섹션 */}
         <section className={styles.section}>
+          <div className={styles.sectionContainer}>
           <h2 className={styles.sectionTitle}>함께 내보낼 항목</h2>
+          <span className={styles.optionSubtext}>
+                간편장부 서식 외 항목
+          </span>
+          </div>
           <div className={styles.optionsBox}>
             {/* 상위: 적격 여부 */}
-            <label className={styles.optionHeader}>
+            <label 
+              className={`${styles.optionHeader} ${
+                isQualifiedGroupChecked ? styles.activeOptionHeader : ""
+              }`}
+            >
               <input
                 type="checkbox"
                 className={styles.visuallyHidden}
@@ -372,7 +381,7 @@ function Export() {
               )}
               <strong className={styles.optionTitle}>적격 여부</strong>
               <span className={styles.optionSubtext}>
-                간편장부 서식 외 항목
+                수입·지출 포함
               </span>
             </label>
 
@@ -426,7 +435,7 @@ function Export() {
                 </li>
 
                 <li>
-                  <label className={styles.subOptionItem}>
+                  <label className={styles.subOptionItemRemark}>
                     <input
                       type="checkbox"
                       className={styles.visuallyHidden}
@@ -466,7 +475,7 @@ function Export() {
               )}
               <strong className={styles.optionTitle}>증빙 유형</strong>
               <span className={styles.optionSubtext}>
-                간편장부 서식 외 항목
+                수입·지출 포함
               </span>
             </label>
           </div>
