@@ -72,6 +72,10 @@
   padding-top: 10px;
 }
 
+.sectionContainer {
+  display: flex;
+}
+
 /* 섹션 공통 스타일 */
 .section {
   display: flex;
@@ -102,7 +106,6 @@
   box-shadow: 0px 1px 2px rgba(22, 24, 29, 0.05);
   border-radius: 16px;
   background-color: #ffffff;
-  padding: 6px 16px;
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
@@ -116,6 +119,7 @@
   cursor: pointer;
   user-select: none;
   font-size: 15px;
+  padding: 6px 13px 6px 16px;
 }
 
 .optionHeader img {
@@ -123,6 +127,10 @@
   height: 22px;
   flex-shrink: 0;
   display: block;
+}
+
+.activeOptionHeader {
+  border-bottom: 1px solid #e9ebf0;
 }
 
 .dividerTop {
@@ -144,12 +152,21 @@
   margin-left: auto;
 }
 
+.obtionText {
+  font-size: 12px;
+  line-height: 121%;
+  font-weight: 500;
+  color: #a8adb7;
+  margin-left: auto;
+  padding-right: 6px;
+}
+
+
 /* 하위 선택 리스트 */
 .subOptionList {
   list-style: none;
-  padding: 0 0 0 11px;
-  margin: 0 0 6px 11px;
-  border-left: 2px solid #e9ebf0;
+  padding: 0;
+  margin: 0;
   display: flex;
   flex-direction: column;
   gap: 0px;
@@ -162,15 +179,26 @@
 .subOptionItem {
   display: flex;
   align-items: center;
-  height: 42px;
-  gap: 11px;
-  font-size: 13px;
-  color: #3f4652;
+  gap: 12px;
   cursor: pointer;
   user-select: none;
+  font-size: 15px;
+  padding: 11px 22px 11px 40px;
+}
+
+.subOptionItemRemark {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  user-select: none;
+  font-size: 15px;
+  padding: 11px 22px 11px 40px;
+  border-top: 1px solid #e9ebf0;
 }
 
 .itemLabel {
+  font-size: 13px;
   line-height: 119%;
   font-weight: 600;
   color: #3f4652;
