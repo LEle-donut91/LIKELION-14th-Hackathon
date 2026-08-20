@@ -378,7 +378,7 @@ function EditEx() {
           <div className={styles.formCard}>
             {/* 상호명 */}
             <div className={styles.inputGroup}>
-              <label className={styles.label}>상호명</label>
+              <label className={styles.label}>거래처</label>
               <div className={styles.inputBox}>
                 <input
                   type="text"
