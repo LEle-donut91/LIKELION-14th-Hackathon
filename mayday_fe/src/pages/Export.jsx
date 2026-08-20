@@ -50,10 +50,23 @@ function getFilteredPreviewData(rawData, filterState) {
   // 적격/부적격 필터링 (qualifiedEvidence 기준)
   if (isQualifiedGroupChecked) {
     const { qualified, unqualified } = qualifiedOptions;
-    if (qualified && !unqualified) {
-      filteredRows = rawData.filter((row) => row.qualifiedEvidence === true);
+
+    if (!qualified && !unqualified) {
+      // 1. "적격 여부"만 체크 -> 적격 지출 + 부적격 지출 + 모든 수입
+      filteredRows = rawData;
+    } else if (qualified && !unqualified) {
+      // 2. "적격"만 체크 -> 적격 지출
+      filteredRows = rawData.filter(
+        (row) => row.type === "EXPENSE" && row.qualifiedEvidence === true
+      );
     } else if (!qualified && unqualified) {
-      filteredRows = rawData.filter((row) => row.qualifiedEvidence === false);
+      // 3. "부적격"만 체크 -> 부적격 지출
+      filteredRows = rawData.filter(
+        (row) => row.type === "EXPENSE" && row.qualifiedEvidence === false
+      );
+    } else if (qualified && unqualified) {
+      // 4. "적격" + "부적격" 둘 다 체크 -> 적격 지출 + 부적격 지출
+      filteredRows = rawData.filter((row) => row.type === "EXPENSE");
     }
   }
 
@@ -75,6 +88,24 @@ function getFilteredPreviewData(rawData, filterState) {
       ? Number(expenseVal).toLocaleString("ko-KR")
       : "";
 
+    // 수입이면 isIncome이 true (지출이면 false)
+    const isIncome = item.type === "INCOME";
+
+    // 적격 여부 (수입이면 "—"로 설정)
+    const qualified = isIncome
+      ? "—"
+      : item.qualifiedEvidence
+      ? "적격"
+      : "부적격";
+
+    // 증빙 유형 (수입이면 "—"로 설정)
+    const evidence = isIncome
+      ? "—"
+      : EVIDENCE_TYPE_MAP[item.evidenceType] || item.evidenceType || "—";
+
+    // 비고 (수입이면 "—"로 설정)
+    const remark = isIncome ? "—" : item.remark || "";
+
     return {
       ...item,
       date: formattedDate,
@@ -83,8 +114,9 @@ function getFilteredPreviewData(rawData, filterState) {
       client: item.merchantName,
       income,
       expense,
-      qualified: item.qualifiedEvidence,
-      evidence: EVIDENCE_TYPE_MAP[item.evidenceType] || item.evidenceType,
+      qualified,
+      evidence,
+      remark,
     };
   });
 
@@ -238,7 +270,7 @@ function Export() {
       ];
 
       if (isQualifiedGroupChecked) {
-        rowData.push(row.qualifiedEvidence ? "적격" : "부적격");
+        rowData.push(row.qualified);
       }
       if (isEvidenceChecked) {
         rowData.push(row.evidence);
@@ -364,6 +396,9 @@ function Export() {
                       )}
                     </span>
                     <span>적격</span>
+                    <span className={styles.itemDescription}>
+                      지출 적격만 분류
+                    </span>
                   </label>
                 </li>
 
@@ -384,6 +419,9 @@ function Export() {
                       )}
                     </span>
                     <span>부적격</span>
+                    <span className={styles.itemDescription}>
+                      지출 부적격만 분류
+                    </span>
                   </label>
                 </li>
 
