@@ -498,7 +498,11 @@ function History() {
                   </span>
                 </div>
                 <div className={styles.recordRight}>
-                  <strong className={styles.recordAmount}>
+                  <strong
+                    className={`${styles.recordAmount} ${
+                      item.type === "income" ? styles.recordAmountIncome : ""
+                    }`}
+                  >
                     {item.type === "expense"
                       ? `- ${item.amount}원`
                       : `+ ${item.amount}원`}

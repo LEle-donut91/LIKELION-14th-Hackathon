@@ -288,6 +288,11 @@
   line-height: 120%;
 }
 
+/* 수입 금액 전용 컬러 */
+.recordAmountIncome {
+  color: #157E00;
+}
+
 .badge,
 .badgePlaceholder {
   font-size: 11px;
