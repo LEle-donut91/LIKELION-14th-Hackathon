@@ -372,6 +372,9 @@ function Export() {
                       )}
                     </span>
                     <span>적격</span>
+                    <span className={styles.itemDescription}>
+                      지출 적격만 분류
+                    </span>
                   </label>
                 </li>
 
@@ -392,6 +395,9 @@ function Export() {
                       )}
                     </span>
                     <span>부적격</span>
+                    <span className={styles.itemDescription}>
+                      지출 부적격만 분류
+                    </span>
                   </label>
                 </li>
 
