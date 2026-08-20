@@ -8,6 +8,7 @@ import RecordIcon from '../assets/images/RecordIcon.svg';
 import RecordImg from '../assets/images/RecordImg.svg';
 import RecordTxt from '../assets/images/RecordTxt.svg';
 import RecordDel from '../assets/images/RecordDelete.svg';
+import RecordWarning from '../assets/images/RecordWarning.svg';
 
 import axiosInstance from '../api/axiosInstance';
 
@@ -23,13 +24,10 @@ function Record() {
   const [isUploading, setIsUploading] = useState(false);
   const currentItems = tab === 'expense' ? expenseItems : incomeItems;
   const setCurrentItems = tab === 'expense' ? setExpenseItems : setIncomeItems;
+  const isFull = currentItems.length >= 10;
 
   const limit = () => {
-    if (currentItems.length >= 10) {
-      alert("최대 입력 개수는 10개입니다.");
-      return false;
-    }
-    return true;
+    return currentItems.length < 10;
   }
 
   const handleImage = () => {
@@ -142,25 +140,35 @@ function Record() {
         )}
 
         <input type="file" ref={fileInputRef} style={{ display: 'none' }} accept="image/*" onChange={handleFileUpload} />
-
-        <div className={styles.uploadBox} onClick={handleImage}>
-          <div className={styles.uploadIcon}><img src={RecordIcon} /></div>
-          <div className={styles.uploadTitle}>{tab === 'expense' ? '영수증 업로드' : '정산서 · 영수증 업로드'}</div>
-          <div className={styles.uploadText}>{tab === 'expense' ? '영수증 · 카드전표 · 세금계산서 이미지' : '플랫폼 정산 내역 · 입금 확인증 이미지'}</div>
+        
+        <div className={`${styles.uploadBox} ${isFull ? styles.uploadBoxDisabled : ''}`} onClick={isFull ? undefined : handleImage}>
+          <div className={styles.uploadIcon}><img src={RecordIcon} style={{ opacity: isFull ? 0.3 : 1 }} /></div>
+          <div className={styles.uploadTitle}>{isFull ? '업로드가 가득 찼어요' : (tab === 'expense' ? '영수증 업로드' : '정산서 · 영수증 업로드')}</div>
+          <div className={styles.uploadText}>{isFull ? '분석하거나 항목을 지운 뒤 추가할 수 있어요' : (tab === 'expense' ? '영수증 · 카드전표 · 세금계산서 이미지' : '플랫폼 정산 내역 · 입금 확인증 이미지')}</div>
         </div>
 
-        <div className={styles.textBox}>
+        <div className={`${styles.textBox} ${isFull ? styles.textBoxDisabled : ''}`}>
           <div className={styles.textTitle}>{tab === 'expense' ? '문자 · 결제내역 붙여넣기' : '문자 · 입금내역 붙여넣기'}</div>
           <textarea 
-            className={styles.textarea} 
-            placeholder={tab === 'expense' ? "결제 문자나 카카오톡 내역을 복사해서 붙여 넣어 주세요" : "입금 문자나 정산 알림을 복사해서 붙여 넣어 주세요"}
+            className={`${styles.textarea} ${isFull ? styles.textareaDisabled : ''}`} 
+            placeholder={isFull ? '붙여넣기는 최대 10개까지 가능해요.' : (tab === 'expense' ? "결제 문자나 카카오톡 내역을 복사해서 붙여 넣어 주세요" : "입금 문자나 정산 알림을 복사해서 붙여 넣어 주세요")}
             value={textInput}
-            onChange={(e)=>setTextInput(e.target.value)} onKeyDown={handleText}
+            onChange={(e)=>setTextInput(e.target.value)} onKeyDown={handleText} disabled={isFull}
           />
         </div>
 
+        {isFull && (
+          <div className={styles.info}>
+            <img src={RecordWarning} />
+            <span>한 번에 10건까지 분석할 수 있어요</span>
+          </div>
+        )}
+
         <div className={styles.listHeader}>
-          <span className={styles.listTitle}>추가된 항목 {currentItems.length}건</span>
+          <div className={styles.listWrap}>
+            <span className={styles.listTitle}>추가된 항목</span>
+            <span className={styles.countBadge}>{currentItems.length}/10건</span>
+          </div>
           <span className={styles.listStatus}>분석 전이에요</span>
         </div>
         
@@ -176,7 +184,7 @@ function Record() {
                   <img src={item.type === 'image' ? RecordImg : RecordTxt } />
                 </div>
                 <div className={styles.itemInfo}>
-                  <div className={styles.itemName}>{item.type === 'image' ? turnText(item.name) : turnText(item.name)}</div>
+                  <div className={styles.itemName}>{turnText(item.name)}</div>
                   <div className={styles.itemSub}>{item.type === 'image' ? '이미지' : '텍스트'}</div>
                 </div>
                 <button className={styles.deleteBtn} onClick={() => handleDeleteItem(item.id)}>
