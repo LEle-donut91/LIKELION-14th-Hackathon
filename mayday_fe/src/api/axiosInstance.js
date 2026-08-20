@@ -28,4 +28,26 @@ axiosInstance.interceptors.request.use(
   },
 );
 
+// Response Interceptor (401 에러 통합 처리)
+axiosInstance.interceptors.response.use(
+  (response) => {
+    return response;
+  },
+  (error) => {
+    // 401 Unauthorized 에러 발생 시 처리
+    if (error.response && error.response.status === 401) {
+      // 1. localStorage에서 토큰 삭제
+      localStorage.removeItem('accessToken');
+
+      // 2. 로그인 페이지로 강제 이동 (SPA 리디렉션)
+      // window.location.href를 사용하면 전역적으로 확실하게 리디렉션
+      if (window.location.pathname !== '/login') {
+        window.location.href = '/login';
+      }
+    }
+
+    return Promise.reject(error);
+  }
+);
+
 export default axiosInstance;
