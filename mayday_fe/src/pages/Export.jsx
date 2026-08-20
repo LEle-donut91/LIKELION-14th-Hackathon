@@ -3,9 +3,9 @@ import { useLocation, useNavigate } from "react-router-dom";
 import * as XLSX from "xlsx";
 import styles from "./Export.module.css";
 import ExportModal from "../components/ExportModal";
-import headerIcon from "../assets/images/HeaderIcon.svg";
 import Header from "../components/Header";
 import Button from "../components/Button";
+import Scrollbar from '../components/ScrollBar';
 import { getExportPreview } from "../api/exportApi";
 import HistorySquareCheckedIcon from "../assets/images/HistorySquareCheckedIcon.svg";
 import HistoryUnCheckedIcon from "../assets/images/HistoryUnCheckedIcon.svg";
@@ -315,234 +315,235 @@ function Export() {
   return (
     <div className={styles.export}>
       <Header text="내보내기" />
-
-      <main className={styles.content}>
-
-        {/* 요약 정보 카드 */}
-        <section className={styles.summaryCard}>
-          <div className={styles.summaryRow}>
-            <span>내보낼 기록</span>
-            <strong>
-              {isLoading
-                ? "로딩중..."
-                : `${exportSummary.exportYear || targetYear || ""}년`}
-            </strong>
-          </div>
-          <div className={styles.summaryRow}>
-            <span>기록 수</span>
-            <strong>
-              {isLoading ? "로딩중..." : `${exportSummary.totalRecordsCount}건`}
-            </strong>
-          </div>
-          <div className={`${styles.incomeRow} ${styles.dividerRow}`}>
-            <span>수입</span>
-            <strong>
-              {isLoading
-                ? "로딩중..."
-                : `${exportSummary.totalIncome?.toLocaleString("ko-KR")}원`}
-            </strong>
-          </div>
-          <div className={styles.summaryRow}>
-            <span>지출</span>
-            <strong>
-              {isLoading
-                ? "로딩중..."
-                : `${exportSummary.totalExpense?.toLocaleString("ko-KR")}원`}
-            </strong>
-          </div>
-        </section>
-
-        {/* 내보낼 항목 섹션 */}
-        <section className={styles.section}>
-          <div className={styles.sectionContainer}>
-          <h2 className={styles.sectionTitle}>함께 내보낼 항목</h2>
-          <span className={styles.obtionText}>
-                간편장부 서식 외 항목
-          </span>
-          </div>
-          <div className={styles.optionsBox}>
-            {/* 상위: 적격 여부 */}
-            <label 
-              className={`${styles.optionHeader} ${
-                isQualifiedGroupChecked ? styles.activeOptionHeader : ""
-              }`}
-            >
-              <input
-                type="checkbox"
-                className={styles.visuallyHidden}
-                checked={isQualifiedGroupChecked}
-                onChange={handleToggleQualifiedGroup}
-                disabled={isLoading}
-              />
-              {isQualifiedGroupChecked ? (
-                <img src={HistorySquareCheckedIcon} />
-              ) : (
-                <img src={HistoryUnCheckedIcon} />
-              )}
-              <strong className={styles.optionTitle}>적격 여부</strong>
-              <span className={styles.optionSubtext}>
-                수입·지출 포함
-              </span>
-            </label>
-
-            {/* 하위 항목 목록 */}
-            {isQualifiedGroupChecked && (
-              <ul className={styles.subOptionList}>
-                <li>
-                  <label className={styles.subOptionItem}>
-                    <input
-                      type="checkbox"
-                      className={styles.visuallyHidden}
-                      checked={qualifiedOptions.qualified}
-                      onChange={() => handleToggleSubOption("qualified")}
-                      disabled={isLoading}
-                    />
-                    <span className={styles.subCheckboxWrapper}>
-                      {qualifiedOptions.qualified ? (
-                        <img src={HistorySquareCheckedIcon} />
-                      ) : (
-                        <img src={HistoryUnCheckedIcon} />
-                      )}
-                    </span>
-                    <span className={styles.itemLabel}>적격</span>
-                    <span className={styles.itemDescription}>
-                      지출 적격만 분류
-                    </span>
-                  </label>
-                </li>
-
-                <li>
-                  <label className={styles.subOptionItem}>
-                    <input
-                      type="checkbox"
-                      className={styles.visuallyHidden}
-                      checked={qualifiedOptions.unqualified}
-                      onChange={() => handleToggleSubOption("unqualified")}
-                      disabled={isLoading}
-                    />
-                    <span className={styles.subCheckboxWrapper}>
-                      {qualifiedOptions.unqualified ? (
-                        <img src={HistorySquareCheckedIcon} />
-                      ) : (
-                        <img src={HistoryUnCheckedIcon} />
-                      )}
-                    </span>
-                    <span className={styles.itemLabel}>부적격</span>
-                    <span className={styles.itemDescription}>
-                      지출 부적격만 분류
-                    </span>
-                  </label>
-                </li>
-
-                <li>
-                  <label className={styles.subOptionItemRemark}>
-                    <input
-                      type="checkbox"
-                      className={styles.visuallyHidden}
-                      checked={qualifiedOptions.remark}
-                      onChange={() => handleToggleSubOption("remark")}
-                      disabled={isLoading}
-                    />
-                    <span className={styles.subCheckboxWrapper}>
-                      {qualifiedOptions.remark ? (
-                        <img src={HistorySquareCheckedIcon} />
-                      ) : (
-                        <img src={HistoryUnCheckedIcon} />
-                      )}
-                    </span>
-                    <span className={styles.itemLabel}>비고</span>
-                    <span className={styles.itemDescription}>
-                      증빙불비 · 감가상각 검토 분류
-                    </span>
-                  </label>
-                </li>
-              </ul>
-            )}
-
-            {/* 상위: 증빙 유형 */}
-            <label className={`${styles.optionHeader} ${styles.dividerTop}`}>
-              <input
-                type="checkbox"
-                className={styles.visuallyHidden}
-                checked={isEvidenceChecked}
-                onChange={handleToggleEvidence}
-                disabled={isLoading}
-              />
-              {isEvidenceChecked ? (
-                <img src={HistorySquareCheckedIcon} />
-              ) : (
-                <img src={HistoryUnCheckedIcon} />
-              )}
-              <strong className={styles.optionTitle}>증빙 유형</strong>
-              <span className={styles.optionSubtext}>
-                수입·지출 포함
-              </span>
-            </label>
-          </div>
-          <p className={styles.noticeText}>
-            체크를 해제하면 하위 항목도 함께 빠져요
-          </p>
-        </section>
-
-        {/* 미리보기 섹션 */}
-        <section className={styles.section}>
-          <h2 className={styles.sectionTitle}>미리보기</h2>
-          <button
-            type="button"
-            className={styles.previewButton}
-            onClick={() => setIsPreviewOpen(true)}
-            disabled={isLoading}
-          >
-            <div>
-              <strong className={styles.previewTitle}>표로 미리보기</strong>
-              <div className={styles.previewSummary}>{previewSummary}</div>
+      <Scrollbar>
+        <main className={styles.content}>
+          {/* 요약 정보 카드 */}
+          <section className={styles.summaryCard}>
+            <div className={styles.summaryRow}>
+              <span>내보낼 기록</span>
+              <strong>
+                {isLoading
+                  ? "로딩중..."
+                  : `${exportSummary.exportYear || targetYear || ""}년`}
+              </strong>
             </div>
-            <span className={styles.arrowIcon} />
-          </button>
-        </section>
+            <div className={styles.summaryRow}>
+              <span>기록 수</span>
+              <strong>
+                {isLoading ? "로딩중..." : `${exportSummary.totalRecordsCount}건`}
+              </strong>
+            </div>
+            <div className={`${styles.incomeRow} ${styles.dividerRow}`}>
+              <span>수입</span>
+              <strong>
+                {isLoading
+                  ? "로딩중..."
+                  : `${exportSummary.totalIncome?.toLocaleString("ko-KR")}원`}
+              </strong>
+            </div>
+            <div className={styles.summaryRow}>
+              <span>지출</span>
+              <strong>
+                {isLoading
+                  ? "로딩중..."
+                  : `${exportSummary.totalExpense?.toLocaleString("ko-KR")}원`}
+              </strong>
+            </div>
+          </section>
 
-        {/* 파일 형식 섹션 */}
-        <section className={styles.sectionFile}>
-          <h2 className={styles.sectionTitle}>파일 형식</h2>
-          <div className={styles.formatGroup}>
+          {/* 내보낼 항목 섹션 */}
+          <section className={styles.section}>
+            <div className={styles.sectionContainer}>
+            <h2 className={styles.sectionTitle}>함께 내보낼 항목</h2>
+            <span className={styles.obtionText}>
+                  간편장부 서식 외 항목
+            </span>
+            </div>
+            <div className={styles.optionsBox}>
+              {/* 상위: 적격 여부 */}
+              <label 
+                className={`${styles.optionHeader} ${
+                  isQualifiedGroupChecked ? styles.activeOptionHeader : ""
+                }`}
+              >
+                <input
+                  type="checkbox"
+                  className={styles.visuallyHidden}
+                  checked={isQualifiedGroupChecked}
+                  onChange={handleToggleQualifiedGroup}
+                  disabled={isLoading}
+                />
+                {isQualifiedGroupChecked ? (
+                  <img src={HistorySquareCheckedIcon} />
+                ) : (
+                  <img src={HistoryUnCheckedIcon} />
+                )}
+                <strong className={styles.optionTitle}>적격 여부</strong>
+                <span className={styles.optionSubtext}>
+                  수입·지출 포함
+                </span>
+              </label>
+
+              {/* 하위 항목 목록 */}
+              {isQualifiedGroupChecked && (
+                <ul className={styles.subOptionList}>
+                  <li>
+                    <label className={styles.subOptionItem}>
+                      <input
+                        type="checkbox"
+                        className={styles.visuallyHidden}
+                        checked={qualifiedOptions.qualified}
+                        onChange={() => handleToggleSubOption("qualified")}
+                        disabled={isLoading}
+                      />
+                      <span className={styles.subCheckboxWrapper}>
+                        {qualifiedOptions.qualified ? (
+                          <img src={HistorySquareCheckedIcon} />
+                        ) : (
+                          <img src={HistoryUnCheckedIcon} />
+                        )}
+                      </span>
+                      <span className={styles.itemLabel}>적격</span>
+                      <span className={styles.itemDescription}>
+                        지출 적격만 분류
+                      </span>
+                    </label>
+                  </li>
+
+                  <li>
+                    <label className={styles.subOptionItem}>
+                      <input
+                        type="checkbox"
+                        className={styles.visuallyHidden}
+                        checked={qualifiedOptions.unqualified}
+                        onChange={() => handleToggleSubOption("unqualified")}
+                        disabled={isLoading}
+                      />
+                      <span className={styles.subCheckboxWrapper}>
+                        {qualifiedOptions.unqualified ? (
+                          <img src={HistorySquareCheckedIcon} />
+                        ) : (
+                          <img src={HistoryUnCheckedIcon} />
+                        )}
+                      </span>
+                      <span className={styles.itemLabel}>부적격</span>
+                      <span className={styles.itemDescription}>
+                        지출 부적격만 분류
+                      </span>
+                    </label>
+                  </li>
+
+                  <li>
+                    <label className={styles.subOptionItemRemark}>
+                      <input
+                        type="checkbox"
+                        className={styles.visuallyHidden}
+                        checked={qualifiedOptions.remark}
+                        onChange={() => handleToggleSubOption("remark")}
+                        disabled={isLoading}
+                      />
+                      <span className={styles.subCheckboxWrapper}>
+                        {qualifiedOptions.remark ? (
+                          <img src={HistorySquareCheckedIcon} />
+                        ) : (
+                          <img src={HistoryUnCheckedIcon} />
+                        )}
+                      </span>
+                      <span className={styles.itemLabel}>비고</span>
+                      <span className={styles.itemDescription}>
+                        증빙불비 · 감가상각 검토 분류
+                      </span>
+                    </label>
+                  </li>
+                </ul>
+              )}
+
+              {/* 상위: 증빙 유형 */}
+              <label className={`${styles.optionHeader} ${styles.dividerTop}`}>
+                <input
+                  type="checkbox"
+                  className={styles.visuallyHidden}
+                  checked={isEvidenceChecked}
+                  onChange={handleToggleEvidence}
+                  disabled={isLoading}
+                />
+                {isEvidenceChecked ? (
+                  <img src={HistorySquareCheckedIcon} />
+                ) : (
+                  <img src={HistoryUnCheckedIcon} />
+                )}
+                <strong className={styles.optionTitle}>증빙 유형</strong>
+                <span className={styles.optionSubtext}>
+                  수입·지출 포함
+                </span>
+              </label>
+            </div>
+            <p className={styles.noticeText}>
+              체크를 해제하면 하위 항목도 함께 빠져요
+            </p>
+          </section>
+
+          {/* 미리보기 섹션 */}
+          <section className={styles.section}>
+            <h2 className={styles.sectionTitle}>미리보기</h2>
             <button
-              className={`${styles.formatCard} ${
-                fileFormat === "xlsx" ? styles.activeFormat : ""
-              }`}
-              onClick={() => setFileFormat("xlsx")}
+              type="button"
+              className={styles.previewButton}
+              onClick={() => setIsPreviewOpen(true)}
               disabled={isLoading}
             >
-              {fileFormat === "xlsx" ? (
-                <strong>엑셀 (.xlsx)</strong>
-              ) : (
-                <span className={styles.formatTitle}>엑셀 (.xlsx)</span>
-              )}
-              <span className={styles.subText}>신고 준비에 추천</span>
+              <div>
+                <strong className={styles.previewTitle}>표로 미리보기</strong>
+                <div className={styles.previewSummary}>{previewSummary}</div>
+              </div>
+              <span className={styles.arrowIcon} />
             </button>
+          </section>
 
-            {/* CSV 카드 */}
-            <button
-              className={`${styles.formatCard} ${
-                fileFormat === "csv" ? styles.activeFormat : ""
-              }`}
-              onClick={() => setFileFormat("csv")}
-              disabled={isLoading}
-            >
-              {fileFormat === "csv" ? (
-                <strong>CSV (.csv)</strong>
-              ) : (
-                <span className={styles.formatTitle}>CSV (.csv)</span>
-              )}
-              <span className={styles.subText}>범용 형식</span>
-            </button>
-          </div>
-        </section>
-        <p className={styles.footerNotice}>
-          파일은 미리보기와 같은 구성으로 저장돼요
-          <br />
-          홈택스 자동 제출은 제공하지 않아요
-        </p>
-      </main>
+          {/* 파일 형식 섹션 */}
+          <section className={styles.sectionFile}>
+            <h2 className={styles.sectionTitle}>파일 형식</h2>
+            <div className={styles.formatGroup}>
+              <button
+                className={`${styles.formatCard} ${
+                  fileFormat === "xlsx" ? styles.activeFormat : ""
+                }`}
+                onClick={() => setFileFormat("xlsx")}
+                disabled={isLoading}
+              >
+                {fileFormat === "xlsx" ? (
+                  <strong>엑셀 (.xlsx)</strong>
+                ) : (
+                  <span className={styles.formatTitle}>엑셀 (.xlsx)</span>
+                )}
+                <span className={styles.subText}>신고 준비에 추천</span>
+              </button>
+
+              {/* CSV 카드 */}
+              <button
+                className={`${styles.formatCard} ${
+                  fileFormat === "csv" ? styles.activeFormat : ""
+                }`}
+                onClick={() => setFileFormat("csv")}
+                disabled={isLoading}
+              >
+                {fileFormat === "csv" ? (
+                  <strong>CSV (.csv)</strong>
+                ) : (
+                  <span className={styles.formatTitle}>CSV (.csv)</span>
+                )}
+                <span className={styles.subText}>범용 형식</span>
+              </button>
+            </div>
+          </section>
+          <p className={styles.footerNotice}>
+            파일은 미리보기와 같은 구성으로 저장돼요
+            <br />
+            홈택스 자동 제출은 제공하지 않아요
+          </p>
+        </main>
+      </Scrollbar>
+      
       {/* 하단 안내 및 다운로드 버튼 */}
       <footer className={styles.footer}>
         <Button text="파일 다운로드" onClick={handleDownload} />

@@ -1,0 +1,38 @@
+.wrapper {
+  position: relative;
+  flex: 1; 
+  min-height: 0;
+  width: 100%;
+  overflow: hidden;
+}
+.scrollContent {
+  width: 100%;
+  height: 100%;
+  overflow-y: auto;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.scrollContent::-webkit-scrollbar {
+  display: none;
+}
+.scrollTrack {
+  position: absolute;
+  top: 7%;
+  right: 4px;
+  height: 85%;
+  width: 5px;
+  background-color: #EBECEF;
+  border-radius: 999px;
+  z-index: 100;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+}
+.scrollTrack.visible {
+  opacity: 1;
+}
+.scrollThumb {
+  width: 100%;
+  background-color: #3559C7;
+  border-radius: 4px;
+}

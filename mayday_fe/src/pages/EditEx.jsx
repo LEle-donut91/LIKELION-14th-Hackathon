@@ -4,6 +4,8 @@ import styles from "./EditEx.module.css";
 import Header from "../components/Header";
 import Button from "../components/Button";
 import EditDropdown from "../components/EditDropdown";
+import Scrollbar from '../components/ScrollBar';
+
 import {
   getExpenseDetail,
   updateExpenseDetail,
@@ -366,158 +368,157 @@ function EditEx() {
           <img onClick={handleDelete} src={EditDeleteIcon} />
         </button>
       </div>
+      <Scrollbar>{/* 메인 컨텐츠 */}
+        <main className={styles.content}>
+          <p className={styles.guideText}>
+            <strong>모든 항목을 눌러 수정</strong>
+            <span>할 수 있어요.</span>
+          </p>
 
-      {/* 메인 컨텐츠 */}
-      <main className={styles.content}>
-        <p className={styles.guideText}>
-          <strong>모든 항목을 눌러 수정</strong>
-          <span>할 수 있어요.</span>
-        </p>
-
-        <div className={styles.formCard}>
-          {/* 상호명 */}
-          <div className={styles.inputGroup}>
-            <label className={styles.label}>상호명</label>
-            <div className={styles.inputBox}>
-              <input
-                type="text"
-                name="merchant"
-                className={styles.input}
-                value={isLoading ? "로딩중..." : formData.merchant}
-                placeholder={isLoading ? "로딩중..." : initialData.merchantName}
-                onChange={handleChange}
-                disabled={isLoading}
-              />
-            </div>
-          </div>
-
-          {/* 날짜 & 금액 */}
-          <div className={styles.rowGroup}>
-            <div className={styles.halfInputGroup}>
-              <label className={styles.label}>날짜</label>
+          <div className={styles.formCard}>
+            {/* 상호명 */}
+            <div className={styles.inputGroup}>
+              <label className={styles.label}>상호명</label>
               <div className={styles.inputBox}>
                 <input
                   type="text"
-                  name="date"
+                  name="merchant"
                   className={styles.input}
-                  maxLength={10}
-                  value={isLoading ? "로딩중..." : formData.date}
-                  placeholder={isLoading ? "로딩중..." : initialData.date}
+                  value={isLoading ? "로딩중..." : formData.merchant}
+                  placeholder={isLoading ? "로딩중..." : initialData.merchantName}
                   onChange={handleChange}
                   disabled={isLoading}
                 />
               </div>
             </div>
-            <div className={styles.halfInputGroup}>
-              <label className={styles.label}>금액</label>
+
+            {/* 날짜 & 금액 */}
+            <div className={styles.rowGroup}>
+              <div className={styles.halfInputGroup}>
+                <label className={styles.label}>날짜</label>
+                <div className={styles.inputBox}>
+                  <input
+                    type="text"
+                    name="date"
+                    className={styles.input}
+                    maxLength={10}
+                    value={isLoading ? "로딩중..." : formData.date}
+                    placeholder={isLoading ? "로딩중..." : initialData.date}
+                    onChange={handleChange}
+                    disabled={isLoading}
+                  />
+                </div>
+              </div>
+              <div className={styles.halfInputGroup}>
+                <label className={styles.label}>금액</label>
+                <div className={styles.inputBox}>
+                  <input
+                    type="text"
+                    name="amount"
+                    className={`${styles.input} ${styles.boldText}`}
+                    value={
+                      isLoading
+                        ? "로딩중..."
+                        : formData.amount !== "" &&
+                            formData.amount !== null &&
+                            formData.amount !== undefined
+                          ? `${Number(formData.amount).toLocaleString()}원`
+                          : "0원"
+                    }
+                    placeholder={
+                      isLoading
+                        ? "로딩중..."
+                        : `${Number(initialData.amount).toLocaleString()}원`
+                    }
+                    onChange={handleChange}
+                    onKeyDown={handleKeyDown}
+                    disabled={isLoading}
+                  />
+                </div>
+              </div>
+            </div>
+
+            {/* 품목 */}
+            <div className={styles.inputGroup}>
+              <label className={styles.label}>품목</label>
               <div className={styles.inputBox}>
                 <input
                   type="text"
-                  name="amount"
-                  className={`${styles.input} ${styles.boldText}`}
-                  value={
-                    isLoading
-                      ? "로딩중..."
-                      : formData.amount !== "" &&
-                          formData.amount !== null &&
-                          formData.amount !== undefined
-                        ? `${Number(formData.amount).toLocaleString()}원`
-                        : "0원"
-                  }
-                  placeholder={
-                    isLoading
-                      ? "로딩중..."
-                      : `${Number(initialData.amount).toLocaleString()}원`
-                  }
+                  name="item"
+                  className={styles.input}
+                  value={isLoading ? "로딩중..." : formData.item}
+                  placeholder={isLoading ? "로딩중..." : initialData.itemName}
                   onChange={handleChange}
-                  onKeyDown={handleKeyDown}
                   disabled={isLoading}
                 />
               </div>
             </div>
-          </div>
 
-          {/* 품목 */}
-          <div className={styles.inputGroup}>
-            <label className={styles.label}>품목</label>
-            <div className={styles.inputBox}>
-              <input
-                type="text"
-                name="item"
-                className={styles.input}
-                value={isLoading ? "로딩중..." : formData.item}
-                placeholder={isLoading ? "로딩중..." : initialData.itemName}
-                onChange={handleChange}
-                disabled={isLoading}
-              />
-            </div>
-          </div>
-
-          {/* 증빙 유형 */}
-          <div className={styles.inputGroup}>
-            <label className={styles.label}>증빙 유형</label>
-            <div className={styles.selectBox}>
-              <EditDropdown
-                items={evidenceItems}
-                selectedValue={isLoading ? "로딩중..." : formData.proofType}
-                onSelect={(val) => handleDropdownChange("proofType", val)}
-              />
-              <span className={styles.arrowIcon} />
-            </div>
-          </div>
-
-          {/* 경비 항목 */}
-          <div className={styles.inputGroup}>
-            <label className={styles.label}>경비 항목</label>
-            <div className={styles.selectBox}>
-              <EditDropdown
-                placeholder="경비 항목 선택"
-                items={categoryItems}
-                selectedValue={isLoading ? "로딩중..." : formData.category}
-                onSelect={(val) => handleDropdownChange("category", val)}
-              />
-              <span className={styles.arrowIcon} />
-            </div>
-          </div>
-
-          {/* 적격 여부 */}
-          <div className={styles.inputGroup}>
-            <label className={styles.label}>적격 여부</label>
-            <div className={styles.radioGroup}>
-              <label
-                className={`${styles.radioBtn} ${
-                  formData.qualifiedEvidence === true ? styles.selected : ""
-                }`}
-              >
-                <input
-                  type="radio"
-                  name="qualifiedEvidence"
-                  checked={formData.qualifiedEvidence === true}
-                  onChange={() => handleQualifiedChange(true)}
-                  className={styles.hiddenRadio}
+            {/* 증빙 유형 */}
+            <div className={styles.inputGroup}>
+              <label className={styles.label}>증빙 유형</label>
+              <div className={styles.selectBox}>
+                <EditDropdown
+                  items={evidenceItems}
+                  selectedValue={isLoading ? "로딩중..." : formData.proofType}
+                  onSelect={(val) => handleDropdownChange("proofType", val)}
                 />
-                <span>적격</span>
-              </label>
+                <span className={styles.arrowIcon} />
+              </div>
+            </div>
 
-              <label
-                className={`${styles.radioBtn} ${
-                  formData.qualifiedEvidence === false ? styles.selected : ""
-                }`}
-              >
-                <input
-                  type="radio"
-                  name="qualifiedEvidence"
-                  checked={formData.qualifiedEvidence === false}
-                  onChange={() => handleQualifiedChange(false)}
-                  className={styles.hiddenRadio}
+            {/* 경비 항목 */}
+            <div className={styles.inputGroup}>
+              <label className={styles.label}>경비 항목</label>
+              <div className={styles.selectBox}>
+                <EditDropdown
+                  placeholder="경비 항목 선택"
+                  items={categoryItems}
+                  selectedValue={isLoading ? "로딩중..." : formData.category}
+                  onSelect={(val) => handleDropdownChange("category", val)}
                 />
-                <span>부적격</span>
-              </label>
+                <span className={styles.arrowIcon} />
+              </div>
+            </div>
+
+            {/* 적격 여부 */}
+            <div className={styles.inputGroup}>
+              <label className={styles.label}>적격 여부</label>
+              <div className={styles.radioGroup}>
+                <label
+                  className={`${styles.radioBtn} ${
+                    formData.qualifiedEvidence === true ? styles.selected : ""
+                  }`}
+                >
+                  <input
+                    type="radio"
+                    name="qualifiedEvidence"
+                    checked={formData.qualifiedEvidence === true}
+                    onChange={() => handleQualifiedChange(true)}
+                    className={styles.hiddenRadio}
+                  />
+                  <span>적격</span>
+                </label>
+
+                <label
+                  className={`${styles.radioBtn} ${
+                    formData.qualifiedEvidence === false ? styles.selected : ""
+                  }`}
+                >
+                  <input
+                    type="radio"
+                    name="qualifiedEvidence"
+                    checked={formData.qualifiedEvidence === false}
+                    onChange={() => handleQualifiedChange(false)}
+                    className={styles.hiddenRadio}
+                  />
+                  <span>부적격</span>
+                </label>
+              </div>
             </div>
           </div>
-        </div>
-      </main>
-
+        </main>
+      </Scrollbar>
       {/* 버튼 영역 */}
       <div className={styles.btnGroup}>
         <div onClick={handleSave}>
