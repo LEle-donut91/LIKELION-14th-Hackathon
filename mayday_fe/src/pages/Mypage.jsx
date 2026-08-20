@@ -159,7 +159,7 @@ function Mypage() {
                 <div className={styles.menuTextBox}>
                   <strong className={styles.menuTitle}>내보내기</strong>
                   <span className={styles.menuSubTitle}>
-                    미리보기 · CSV · 엑셀
+                    직전 연도 · 미리보기 · CSV · 엑셀
                   </span>
                 </div>
                 <div className={styles.arrowIcon} />
