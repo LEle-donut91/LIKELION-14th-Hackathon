@@ -75,6 +75,14 @@ function Mypage() {
     });
   };
 
+  const handleWithdrawClick = () => {
+    if (summaryData?.email === "mayday@demo.local") {
+      alert("심사위원용 데모 계정은 회원 탈퇴가 불가능합니다.");
+      return;
+    }
+    setIsModalOpen(true);
+  };
+
   return (
     <div className={styles.myPage}>
       {/* 헤더 */}
@@ -174,7 +182,7 @@ function Mypage() {
               {/* 회원 탈퇴 버튼 클릭 시 모달 열기 */}
               <button
                 className={styles.menuItem}
-                onClick={() => setIsModalOpen(true)}
+                onClick={handleWithdrawClick}
               >
                 <img src={MyPageDeleteIcon} className={styles.menuIcon} alt="" />
                 <div className={styles.menuTextBox}>
