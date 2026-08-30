@@ -114,6 +114,4 @@ npm start
 
 프로젝트 루트에 `.env` 파일을 생성하고 아래 값을 입력하세요.
 
-`REACT_APP_API_BASE_URL=https://api.maydayapp.xyz`
-
-※ 백엔드 서버는 8월 28일 이후 닫힙니다.
+`REACT_APP_API_BASE_URL=your_backend_url`
